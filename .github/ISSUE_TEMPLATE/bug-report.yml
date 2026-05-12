@@ -1,0 +1,66 @@
+name: Bug report
+description: Report a crash, install problem, or unexpected driver behavior
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: input
+    id: build_commit
+    attributes:
+      label: Build / commit
+      placeholder: "example: main@abcdef1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      value: |
+        Hardware variant:
+        Windows version/build:
+        Driver settings:
+        Install method:
+        Display/monitor/cable:
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: false
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Attach log bundle, Event Viewer export, setupapi.dev.log, screenshots, or photos.
+    validations:
+      required: false

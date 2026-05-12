@@ -1,0 +1,147 @@
+name: Test result
+description: Report a reproducible BC-250 driver test result
+title: "[TEST] "
+labels: ["test-result"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing. Useful reports include exact build/settings/logs. Bad results are valuable if they are reproducible.
+
+  - type: input
+    id: tester
+    attributes:
+      label: Tester handle
+      placeholder: "GitHub username or preferred handle"
+    validations:
+      required: false
+
+  - type: input
+    id: build_commit
+    attributes:
+      label: Build / commit
+      description: Commit SHA, branch, release name, or local build identifier.
+      placeholder: "example: main@abcdef1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Test stage
+      options:
+        - T0 - inventory baseline
+        - T1 - install/build smoke test
+        - T2 - QuerySegment3 CommitLimit = Size
+        - T3 - strict child path
+        - T4-A - 512 MB VRAM
+        - T4-B - 1024 MB VRAM
+        - T4-C - 2048 MB VRAM optional
+        - T4-D - 8192 MB baseline comparison
+        - T5-A - 10 cold boots
+        - T5-B - idle stability
+        - T5-C - display behavior
+        - T5-D - memory pressure smoke test
+        - T6 - regression comparison
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: hardware
+    attributes:
+      label: Hardware
+      value: |
+        Hardware variant:
+        Board/vendor/revision:
+        BIOS/firmware notes:
+        RAM:
+        Storage:
+        Monitor:
+        Cable/adapter:
+    validations:
+      required: true
+
+  - type: textarea
+    id: windows
+    attributes:
+      label: Windows environment
+      value: |
+        Windows version/build:
+        Fresh install or existing install:
+        Secure Boot:
+        Test signing / boot options:
+        Install method:
+    validations:
+      required: true
+
+  - type: textarea
+    id: settings
+    attributes:
+      label: Driver settings
+      value: |
+        VRAM reported:
+        CommitLimit:
+        Segment Size:
+        Aperture / CPU-visible flags:
+        UMA flags:
+        GTT settings:
+        QueryChildRelations:
+        QueryChildStatus:
+        StatusConnection:
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: result_flags
+    attributes:
+      label: Result flags
+      options:
+        - label: Driver loads
+        - label: Device Manager OK
+        - label: Code 43
+        - label: Other Device Manager error
+        - label: Black screen
+        - label: BSOD
+        - label: Reboot loop
+        - label: Display output works
+        - label: Display detected but no output
+        - label: Resolution list available
+        - label: Safe Mode rollback required
+        - label: Full reinstall required
+
+  - type: textarea
+    id: result_details
+    attributes:
+      label: Result details
+      description: Describe exactly what happened after install/reboot.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / attachments
+      description: Attach the zip from collect-bc250-logs.ps1, Event Viewer exports, setupapi.dev.log, screenshots, or photos.
+      placeholder: "Drag files here or paste important log snippets."
+    validations:
+      required: false
+
+  - type: textarea
+    id: recovery
+    attributes:
+      label: Recovery outcome
+      value: |
+        Could enter Safe Mode:
+        Rollback method:
+        Rollback successful:
+        Data/logs recovered:
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Extra notes
+    validations:
+      required: false

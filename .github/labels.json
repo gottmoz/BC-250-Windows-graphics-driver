@@ -1,0 +1,79 @@
+{
+  "labels": [
+    {
+      "name": "test-result",
+      "color": "0E8A16",
+      "description": "Reproducible user test result"
+    },
+    {
+      "name": "bug",
+      "color": "D73A4A",
+      "description": "Bug or unexpected behavior"
+    },
+    {
+      "name": "crash",
+      "color": "B60205",
+      "description": "Crash or driver reset"
+    },
+    {
+      "name": "code-43",
+      "color": "E99695",
+      "description": "Device Manager Code 43"
+    },
+    {
+      "name": "black-screen",
+      "color": "5319E7",
+      "description": "Black screen or no visible output"
+    },
+    {
+      "name": "bsod",
+      "color": "B60205",
+      "description": "Blue screen / bugcheck"
+    },
+    {
+      "name": "display-child",
+      "color": "1D76DB",
+      "description": "Display child path / QueryChild* related"
+    },
+    {
+      "name": "memory-segment",
+      "color": "0052CC",
+      "description": "Segment, CommitLimit, VRAM, GTT related"
+    },
+    {
+      "name": "vram-512",
+      "color": "C2E0C6",
+      "description": "512 MB VRAM report test"
+    },
+    {
+      "name": "vram-1024",
+      "color": "C2E0C6",
+      "description": "1024 MB VRAM report test"
+    },
+    {
+      "name": "vram-8192",
+      "color": "C2E0C6",
+      "description": "8192 MB VRAM report comparison"
+    },
+    {
+      "name": "long-run",
+      "color": "FBCA04",
+      "description": "Long duration / repeated boot test"
+    },
+    {
+      "name": "needs-logs",
+      "color": "D4C5F9",
+      "description": "Needs logs before it can be triaged"
+    },
+    {
+      "name": "good-signal",
+      "color": "0E8A16",
+      "description": "High-quality result with actionable data"
+    },
+    {
+      "name": "regression",
+      "color": "D93F0B",
+      "description": "Behavior regressed from previous build"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Build output
+bin/
+obj/
+x64/
+Debug/
+Release/
+*.sys
+*.pdb
+*.obj
+*.ilk
+*.log
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Windows
+Thumbs.db
+Desktop.ini
