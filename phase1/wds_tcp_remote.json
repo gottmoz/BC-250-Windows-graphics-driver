@@ -1,0 +1,48 @@
+﻿[
+    {
+        "Name":  "InteractiveDelay",
+        "Value":  10
+    },
+    {
+        "Name":  "OutBufCount",
+        "Value":  6
+    },
+    {
+        "Name":  "OutBufDelay",
+        "Value":  100
+    },
+    {
+        "Name":  "OutBufLength",
+        "Value":  530
+    },
+    {
+        "Name":  "PdClass",
+        "Value":  2
+    },
+    {
+        "Name":  "PdDLL",
+        "Value":  "tdtcp"
+    },
+    {
+        "Name":  "PdFlag",
+        "Value":  78
+    },
+    {
+        "Name":  "PdName",
+        "Value":  "tcp"
+    },
+    {
+        "Name":  "PortNumber",
+        "Value":  3389
+    },
+    {
+        "Name":  "RequiredPds",
+        "Value":  [
+                      "tssecsrv"
+                  ]
+    },
+    {
+        "Name":  "ServiceName",
+        "Value":  "tcpip"
+    }
+]

@@ -1,0 +1,40 @@
+# Build outputs
+build/
+out/
+x64/
+Win32/
+
+# Driver binaries & debug symbols
+*.sys
+*.pdb
+*.obj
+*.ilk
+*.lib
+*.exp
+*.dll
+*.exe
+
+# Logs/traces/temp
+*.log
+*.tmp
+*.etl
+*.evtx
+*.dmp
+
+# IDE/cache
+.vs/
+*.VC.db
+*.opendb
+*.cache
+
+# Binary artifacts
+__pycache__/
+*.pyc
+*.bin
+*.sprx
+*.elf
+*.bls
+*.img
+*.system_b
+*.system_ex_b
+

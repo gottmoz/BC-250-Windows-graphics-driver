@@ -1,0 +1,415 @@
+﻿=== reboot_iter_batch tail (A8) ===
+[2026-05-07 16:27:59] ITER_END R14_NT01_pb64k_w0_u0
+[2026-05-07 16:30:25] ITER_START R14_NT02_pb128k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=131072 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:31:15] ITER_RESULT R14_NT02_pb128k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=131072 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:31:15] ITER_EVENT R14_NT02_pb128k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 16:31:18] ITER_BASELINE R14_NT02_pb128k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:31:18] ITER_END R14_NT02_pb128k_w0_u0
+[2026-05-07 16:33:44] ITER_START R14_NT03_pb256k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=262144 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:34:33] ITER_RESULT R14_NT03_pb256k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=262144 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:34:33] ITER_EVENT R14_NT03_pb256k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 16:34:36] ITER_BASELINE R14_NT03_pb256k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:34:36] ITER_END R14_NT03_pb256k_w0_u0
+[2026-05-07 16:37:04] ITER_START R14_NT04_pb64k_w13_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=13 umaFlagsProfile=0
+[2026-05-07 16:37:53] ITER_RESULT R14_NT04_pb64k_w13_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=13 umaFlagsProfile=0
+[2026-05-07 16:37:53] ITER_EVENT R14_NT04_pb64k_w13_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 16:37:56] ITER_BASELINE R14_NT04_pb64k_w13_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:37:56] ITER_END R14_NT04_pb64k_w13_u0
+[2026-05-07 16:40:22] ITER_START R14_NT05_pb64k_w20_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=20 umaFlagsProfile=0
+[2026-05-07 16:40:24] ITER_FAIL R14_NT05_pb64k_w20_u0 build_kmd code=1
+[2026-05-07 16:43:41] ITER_START R14_NT06_pb64k_w0_u1 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=1
+[2026-05-07 16:44:31] ITER_RESULT R14_NT06_pb64k_w0_u1 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=1
+[2026-05-07 16:44:31] ITER_EVENT R14_NT06_pb64k_w0_u1 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 16:44:34] ITER_BASELINE R14_NT06_pb64k_w0_u1 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:44:34] ITER_END R14_NT06_pb64k_w0_u1
+[2026-05-07 16:47:01] ITER_START R14_NT07_pb64k_w0_u2 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=2
+[2026-05-07 16:47:50] ITER_RESULT R14_NT07_pb64k_w0_u2 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=2
+[2026-05-07 16:47:50] ITER_EVENT R14_NT07_pb64k_w0_u2 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 16:47:53] ITER_BASELINE R14_NT07_pb64k_w0_u2 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:47:53] ITER_END R14_NT07_pb64k_w0_u2
+[2026-05-07 16:50:19] ITER_START R15_NT01_pb64k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:51:08] ITER_RESULT R15_NT01_pb64k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:51:08] ITER_EVENT R15_NT01_pb64k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 16:51:12] ITER_BASELINE R15_NT01_pb64k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:51:12] ITER_END R15_NT01_pb64k_w0_u0
+[2026-05-07 16:53:38] ITER_START R15_NT02_pb128k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=131072 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:54:28] ITER_RESULT R15_NT02_pb128k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=131072 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:54:28] ITER_EVENT R15_NT02_pb128k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 16:54:31] ITER_BASELINE R15_NT02_pb128k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:54:31] ITER_END R15_NT02_pb128k_w0_u0
+[2026-05-07 16:57:11] ITER_START R15_NT03_pb256k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=262144 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:58:00] ITER_RESULT R15_NT03_pb256k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=262144 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 16:58:00] ITER_EVENT R15_NT03_pb256k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 16:58:03] ITER_BASELINE R15_NT03_pb256k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 16:58:03] ITER_END R15_NT03_pb256k_w0_u0
+[2026-05-07 17:00:31] ITER_START R15_NT04_pb64k_w13_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=13 umaFlagsProfile=0
+[2026-05-07 17:01:20] ITER_RESULT R15_NT04_pb64k_w13_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=13 umaFlagsProfile=0
+[2026-05-07 17:01:20] ITER_EVENT R15_NT04_pb64k_w13_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 17:01:23] ITER_BASELINE R15_NT04_pb64k_w13_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 17:01:23] ITER_END R15_NT04_pb64k_w13_u0
+[2026-05-07 17:03:49] ITER_START R15_NT05_pb64k_w20_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=20 umaFlagsProfile=0
+[2026-05-07 17:03:51] ITER_FAIL R15_NT05_pb64k_w20_u0 build_kmd code=1
+[2026-05-07 17:07:09] ITER_START R15_NT06_pb64k_w0_u1 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=1
+[2026-05-07 17:07:58] ITER_RESULT R15_NT06_pb64k_w0_u1 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=1
+[2026-05-07 17:07:58] ITER_EVENT R15_NT06_pb64k_w0_u1 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 17:08:01] ITER_BASELINE R15_NT06_pb64k_w0_u1 status=OK problem=CM_PROB_NONE
+[2026-05-07 17:08:01] ITER_END R15_NT06_pb64k_w0_u1
+[2026-05-07 17:10:29] ITER_START R15_NT07_pb64k_w0_u2 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=2
+[2026-05-07 17:11:19] ITER_RESULT R15_NT07_pb64k_w0_u2 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=2
+[2026-05-07 17:11:19] ITER_EVENT R15_NT07_pb64k_w0_u2 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 17:11:22] ITER_BASELINE R15_NT07_pb64k_w0_u2 status=OK problem=CM_PROB_NONE
+[2026-05-07 17:11:22] ITER_END R15_NT07_pb64k_w0_u2
+[2026-05-07 17:13:48] ITER_START R16_NT01_pb64k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 17:14:37] ITER_RESULT R16_NT01_pb64k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 17:14:37] ITER_EVENT R16_NT01_pb64k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 17:14:41] ITER_BASELINE R16_NT01_pb64k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 17:14:41] ITER_END R16_NT01_pb64k_w0_u0
+[2026-05-07 17:17:07] ITER_START R16_NT02_pb128k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=131072 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 17:17:56] ITER_RESULT R16_NT02_pb128k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=131072 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 17:17:56] ITER_EVENT R16_NT02_pb128k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 17:18:00] ITER_BASELINE R16_NT02_pb128k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 17:18:00] ITER_END R16_NT02_pb128k_w0_u0
+[2026-05-07 17:20:27] ITER_START R16_NT03_pb256k_w0_u0 headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=262144 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 17:21:16] ITER_RESULT R16_NT03_pb256k_w0_u0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=262144 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 17:21:16] ITER_EVENT R16_NT03_pb256k_w0_u0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 17:21:19] ITER_BASELINE R16_NT03_pb256k_w0_u0 status=OK problem=CM_PROB_NONE
+[2026-05-07 17:21:19] ITER_END R16_NT03_pb256k_w0_u0
+[2026-05-07 21:24:44] ITER_START NT05_retest_after_fix headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=20 umaFlagsProfile=0
+[2026-05-07 21:25:33] ITER_RESULT NT05_retest_after_fix guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=65536 wddmCapsLevel=20 umaFlagsProfile=0
+[2026-05-07 21:25:33] ITER_EVENT NT05_retest_after_fix Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 21:25:36] ITER_BASELINE NT05_retest_after_fix status=OK problem=CM_PROB_NONE
+[2026-05-07 21:25:36] ITER_END NT05_retest_after_fix
+[2026-05-07 21:41:08] ITER_START FORENSIC_A1_INITCONTRACT headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:41:50] ITER_RESULT FORENSIC_A1_INITCONTRACT guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:41:50] ITER_EVENT FORENSIC_A1_INITCONTRACT Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 21:41:53] ITER_BASELINE FORENSIC_A1_INITCONTRACT status=OK problem=CM_PROB_NONE
+[2026-05-07 21:41:53] ITER_END FORENSIC_A1_INITCONTRACT
+[2026-05-07 21:44:38] ITER_START FORENSIC_A2_IFACEVER headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:45:20] ITER_RESULT FORENSIC_A2_IFACEVER guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:45:20] ITER_EVENT FORENSIC_A2_IFACEVER Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 21:45:23] ITER_BASELINE FORENSIC_A2_IFACEVER status=OK problem=CM_PROB_NONE
+[2026-05-07 21:45:23] ITER_END FORENSIC_A2_IFACEVER
+[2026-05-07 21:49:55] ITER_START FORENSIC_A3_STRICT_DXGK_RULE headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:50:39] ITER_RESULT FORENSIC_A3_STRICT_DXGK_RULE guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:50:39] ITER_EVENT FORENSIC_A3_STRICT_DXGK_RULE Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 21:50:42] ITER_BASELINE FORENSIC_A3_STRICT_DXGK_RULE status=OK problem=CM_PROB_NONE
+[2026-05-07 21:50:42] ITER_END FORENSIC_A3_STRICT_DXGK_RULE
+[2026-05-07 21:53:07] ITER_START FORENSIC_A4_MINCALLBACKS headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:53:49] ITER_RESULT FORENSIC_A4_MINCALLBACKS guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:53:49] ITER_EVENT FORENSIC_A4_MINCALLBACKS Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 21:53:52] ITER_BASELINE FORENSIC_A4_MINCALLBACKS status=OK problem=CM_PROB_NONE
+[2026-05-07 21:53:52] ITER_END FORENSIC_A4_MINCALLBACKS
+[2026-05-07 21:57:22] ITER_START FORENSIC_A5_USER_MINSET headless=1 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:58:04] ITER_RESULT FORENSIC_A5_USER_MINSET guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 21:58:04] ITER_EVENT FORENSIC_A5_USER_MINSET Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 21:58:07] ITER_BASELINE FORENSIC_A5_USER_MINSET status=OK problem=CM_PROB_NONE
+[2026-05-07 21:58:07] ITER_END FORENSIC_A5_USER_MINSET
+[2026-05-07 22:15:41] ITER_START FORENSIC_A6_CHILD_HEAD0 headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:16:23] ITER_RESULT FORENSIC_A6_CHILD_HEAD0 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:16:23] ITER_EVENT FORENSIC_A6_CHILD_HEAD0 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 22:16:26] ITER_BASELINE FORENSIC_A6_CHILD_HEAD0 status=OK problem=CM_PROB_NONE
+[2026-05-07 22:16:26] ITER_END FORENSIC_A6_CHILD_HEAD0
+[2026-05-07 22:17:31] ITER_START FORENSIC_A7_VIDPN_BASE headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:18:13] ITER_RESULT FORENSIC_A7_VIDPN_BASE guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:18:13] ITER_EVENT FORENSIC_A7_VIDPN_BASE Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 22:18:16] ITER_BASELINE FORENSIC_A7_VIDPN_BASE status=OK problem=CM_PROB_NONE
+[2026-05-07 22:18:16] ITER_END FORENSIC_A7_VIDPN_BASE
+[2026-05-07 22:21:34] ITER_START FORENSIC_A8_SCANOUT_VIS headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:22:16] ITER_RESULT FORENSIC_A8_SCANOUT_VIS guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:22:16] ITER_EVENT FORENSIC_A8_SCANOUT_VIS Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 22:22:20] ITER_BASELINE FORENSIC_A8_SCANOUT_VIS status=OK problem=CM_PROB_NONE
+[2026-05-07 22:22:20] ITER_END FORENSIC_A8_SCANOUT_VIS
+
+=== Kernel-PnP Configuration ID 411 (last 20m) ===
+
+
+TimeCreated  : 5/7/2026 10:22:17 PM
+Id           : 411
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+               
+               Driver Name: display.inf
+               Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+               Service: BasicDisplay
+               Lower Filters: 
+               Upper Filters: 
+               Problem: 0x15
+               Problem Status: 0x0
+
+TimeCreated  : 5/7/2026 10:21:50 PM
+Id           : 411
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+               
+               Driver Name: oem5.inf
+               Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+               Service: amdbc250kmd
+               Lower Filters: 
+               Upper Filters: 
+               Problem: 0x0
+               Problem Status: 0xC00000E5
+
+TimeCreated  : 5/7/2026 10:18:14 PM
+Id           : 411
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+               
+               Driver Name: display.inf
+               Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+               Service: BasicDisplay
+               Lower Filters: 
+               Upper Filters: 
+               Problem: 0x15
+               Problem Status: 0x0
+
+TimeCreated  : 5/7/2026 10:17:47 PM
+Id           : 411
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+               
+               Driver Name: oem5.inf
+               Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+               Service: amdbc250kmd
+               Lower Filters: 
+               Upper Filters: 
+               Problem: 0x0
+               Problem Status: 0xC00000E5
+
+TimeCreated  : 5/7/2026 10:16:24 PM
+Id           : 411
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+               
+               Driver Name: display.inf
+               Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+               Service: BasicDisplay
+               Lower Filters: 
+               Upper Filters: 
+               Problem: 0x15
+               Problem Status: 0x0
+
+TimeCreated  : 5/7/2026 10:15:56 PM
+Id           : 411
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+               
+               Driver Name: oem5.inf
+               Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+               Service: amdbc250kmd
+               Lower Filters: 
+               Upper Filters: 
+               Problem: 0x15
+               Problem Status: 0x0
+
+
+
+
+=== System providers (last 20m) ===
+
+
+TimeCreated      : 5/7/2026 10:21:52 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:21:52 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:21:52 PM
+Id               : 7000
+ProviderName     : Service Control Manager
+LevelDisplayName : Error
+Message          : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+                   Indicates two revision levels are incompatible.
+
+TimeCreated      : 5/7/2026 10:21:52 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:21:50 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:21:50 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:21:50 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:21:50 PM
+Id               : 7045
+ProviderName     : Service Control Manager
+LevelDisplayName : Information
+Message          : A service was installed in the system.
+                   
+                   Service Name:  AMD BC-250 Kernel Display Miniport
+                   Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+                   Service Type:  kernel mode driver
+                   Service Start Type:  demand start
+                   Service Account:  
+
+TimeCreated      : 5/7/2026 10:21:43 PM
+Id               : 7040
+ProviderName     : Service Control Manager
+LevelDisplayName : Information
+Message          : The start type of the AMD BC-250 Kernel Display Miniport service was changed from demand start to 
+                   disabled.
+
+TimeCreated      : 5/7/2026 10:17:49 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:17:49 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:17:49 PM
+Id               : 7000
+ProviderName     : Service Control Manager
+LevelDisplayName : Error
+Message          : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+                   Indicates two revision levels are incompatible.
+
+TimeCreated      : 5/7/2026 10:17:49 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:17:47 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:17:47 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:17:47 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:17:46 PM
+Id               : 7045
+ProviderName     : Service Control Manager
+LevelDisplayName : Information
+Message          : A service was installed in the system.
+                   
+                   Service Name:  AMD BC-250 Kernel Display Miniport
+                   Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+                   Service Type:  kernel mode driver
+                   Service Start Type:  demand start
+                   Service Account:  
+
+TimeCreated      : 5/7/2026 10:17:40 PM
+Id               : 7040
+ProviderName     : Service Control Manager
+LevelDisplayName : Information
+Message          : The start type of the AMD BC-250 Kernel Display Miniport service was changed from demand start to 
+                   disabled.
+
+TimeCreated      : 5/7/2026 10:15:59 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:15:59 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:15:59 PM
+Id               : 7000
+ProviderName     : Service Control Manager
+LevelDisplayName : Error
+Message          : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+                   Indicates two revision levels are incompatible.
+
+TimeCreated      : 5/7/2026 10:15:58 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:15:56 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:15:56 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:15:56 PM
+Id               : 219
+ProviderName     : Microsoft-Windows-Kernel-PnP
+LevelDisplayName : Warning
+Message          : The driver \Driver\amdbc250kmd failed to load for the device 
+                   PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated      : 5/7/2026 10:15:56 PM
+Id               : 7045
+ProviderName     : Service Control Manager
+LevelDisplayName : Information
+Message          : A service was installed in the system.
+                   
+                   Service Name:  AMD BC-250 Kernel Display Miniport
+                   Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+                   Service Type:  kernel mode driver
+                   Service Start Type:  demand start
+                   Service Account:  
+
+TimeCreated      : 5/7/2026 10:15:49 PM
+Id               : 7040
+ProviderName     : Service Control Manager
+LevelDisplayName : Information
+Message          : The start type of the AMD BC-250 Kernel Display Miniport service was changed from demand start to 
+                   disabled.
+
+
+

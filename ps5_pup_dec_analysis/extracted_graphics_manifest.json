@@ -1,0 +1,132 @@
+[
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceAgc.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 39,
+    "size": 75045,
+    "no_fat": true,
+    "image_offset": 2686976
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceAgcDriver.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 41,
+    "size": 39895,
+    "no_fat": true,
+    "image_offset": 2818048
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceAgcVsh.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 42,
+    "size": 61009,
+    "no_fat": true,
+    "image_offset": 2883584
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGnmDriver.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 214,
+    "size": 31515,
+    "no_fat": true,
+    "image_offset": 14155776
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGnmDriverCompat1.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 215,
+    "size": 32272,
+    "no_fat": true,
+    "image_offset": 14221312
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGnmDriverForNeoMode.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 216,
+    "size": 32231,
+    "no_fat": true,
+    "image_offset": 14286848
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoOut.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 611,
+    "size": 77766,
+    "no_fat": true,
+    "image_offset": 40173568
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoOutSecondary.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 613,
+    "size": 16296,
+    "no_fat": true,
+    "image_offset": 40304640
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/sys/AgcCompositor.elf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 2292,
+    "size": 530302,
+    "no_fat": true,
+    "image_offset": 150339584
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/sys/gpudump.elf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 2315,
+    "size": 54318,
+    "no_fat": true,
+    "image_offset": 151846912
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/libSceGLSlimClientVSH.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3767,
+    "size": 63496,
+    "no_fat": true,
+    "image_offset": 247136256
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/libSceGLSlimServerVSH.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3768,
+    "size": 456505,
+    "no_fat": true,
+    "image_offset": 247201792
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/libSceGLSlimVSH.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3775,
+    "size": 425074,
+    "no_fat": true,
+    "image_offset": 247660544
+  }
+]

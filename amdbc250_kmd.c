@@ -28,7 +28,590 @@ Environment:
 
 --*/
 
-#include "../../inc/amdbc250_kmd.h"
+#include "amdbc250_kmd.h"
+
+/* Reference driver currently supports one BC-250 adapter instance. */
+static PAMDBC250_DEVICE_EXTENSION g_Bc250PrimaryDevice = NULL;
+static volatile LONG g_Bc250DriverEntryFirstFailCaptured = 0;
+static volatile LONG g_Bc250DriverEntryFirstFailStatus = 0;
+static volatile LONG g_DeCalledDriverEntry = 0;
+static volatile LONG g_DeDxgkInitializeSuccess = 0;
+static volatile LONG g_DeAddDevice = 0;
+static volatile LONG g_DeStartDevice = 0;
+static volatile LONG g_DeQueryAdapterInfo = 0;
+static volatile LONG g_DeStopDevice = 0;
+static volatile LONG g_DeRemoveDevice = 0;
+static volatile LONG g_DeQaiSeqCounter = 0;
+#define BC250_QAI_HISTORY_DEPTH 20
+static volatile LONG g_DeQaiTypeHistory[BC250_QAI_HISTORY_DEPTH];
+static volatile LONG g_DeQaiOutHistory[BC250_QAI_HISTORY_DEPTH];
+static volatile LONG g_DeQaiStatusHistory[BC250_QAI_HISTORY_DEPTH];
+
+#define AMDBC250_HEADLESS_RENDER_ONLY 0
+#define AMDBC250_SKIP_HW_INIT 1
+#define AMDBC250_REPORTED_VRAM_MB_OVERRIDE 8192
+#define AMDBC250_QSEG3_PAGING_BUFFER_BYTES_OVERRIDE 0
+#define AMDBC250_FORCE_WDDM_CAPS_LEVEL 13
+#define AMDBC250_UMA_FLAGS_PROFILE 2
+#define AMDBC250_K0_STRICT_DRIVERENTRY 1
+#define AMDBC250_BUILD_MARKER "K0_STRICT_DRIVERENTRY_REVALIDATE_20260508_1648"
+#define AMDBC250_DRIVERENTRY_MINIMAL_CALLBACK_SET 1
+#define AMDBC250_A7_MICROSTEP 0
+#define AMDBC250_UPDATEPATH_PROBE_MODE 0
+#define AMDBC250_QAI_UNKNOWN_NOTSUPPORTED 1
+#define AMDBC250_SAFE_DISPLAY_PROFILE 1
+#define AMDBC250_SAFE_DISPLAY_INCLUDE_UPDATEPATH 1
+#define AMDBC250_SAFE_DISPLAY_ENABLE_CTRLINT 0
+#define AMDBC250_DUMP_QAI_ON_STOPREMOVE 1
+#define AMDBC250_QAI_SEGMENT_V1_ONLY 0
+#define AMDBC250_QSEG3_FORCE_ZERO_PAGING 0
+#define AMDBC250_QSEG_TWO_SEGMENTS 0
+#define AMDBC250_REPORTED_GTT_MB_OVERRIDE 4096
+#define AMDBC250_H_UPDATEPATH_MODE 2
+#define AMDBC250_H_SETSOURCEADDR_MODE 2
+#define AMDBC250_H_CHILDLESS_MODE 0
+#define AMDBC250_SAFE_MODE_WIDTH 1024
+#define AMDBC250_SAFE_MODE_HEIGHT 768
+#define AMDBC250_SAFE_MODE_STRIDE (AMDBC250_SAFE_MODE_WIDTH * 4)
+#define AMDBC250_SAFE_MODE_PIXEL_RATE 65000000ULL
+#define AMDBC250_DEFAULT_PAGING_BUFFER_BYTES (64 * 1024)
+
+static volatile LONG g_Bc250LastCommitSourceId = -1;
+static volatile LONG g_Bc250LastCommitFlags = 0;
+static volatile LONG g_Bc250LastCommitConnectivityChecks = 0;
+static volatile LONG g_Bc250LastCallbackId = 0;
+static volatile LONG g_Bc250LastCallbackStatus = 0;
+static volatile LONG g_Bc250LastQaiType = 0;
+static volatile LONG g_Bc250LastVidPnCallbackId = 0;
+
+const char g_Amdbc250BuildMarker[] =
+    "AMDBC250_BUILD_MARKER=K0_STRICT_DRIVERENTRY_REVALIDATE_20260508_1648";
+
+#define BC250_CB_DRIVERENTRY 1
+#define BC250_CB_ADDDEVICE 2
+#define BC250_CB_STARTDEVICE 3
+#define BC250_CB_QUERYADAPTERINFO 4
+#define BC250_CB_ISSUPPORTEDVIDPN 5
+#define BC250_CB_ENUMVIDPN 6
+#define BC250_CB_RECOMMENDFUNCVIDPN 7
+#define BC250_CB_COMMITVIDPN 8
+#define BC250_CB_UPDATEACTIVEPATH 9
+#define BC250_CB_SETVIDPNSOURCEADDR 10
+#define BC250_CB_STOPDEVICE 11
+#define BC250_CB_REMOVEDEVICE 12
+#define BC250_CB_UNLOAD 13
+
+static VOID
+Bc250MarkCallbackEnter(_In_ LONG CallbackId)
+{
+    InterlockedExchange(&g_Bc250LastCallbackId, CallbackId);
+    if (CallbackId >= BC250_CB_ISSUPPORTEDVIDPN && CallbackId <= BC250_CB_SETVIDPNSOURCEADDR) {
+        InterlockedExchange(&g_Bc250LastVidPnCallbackId, CallbackId);
+    }
+    KdPrint(("AMDBC250: CB enter id=%ld\n", CallbackId));
+}
+
+static VOID
+Bc250MarkCallbackExit(_In_ LONG CallbackId, _In_ NTSTATUS Status)
+{
+    InterlockedExchange(&g_Bc250LastCallbackId, CallbackId);
+    InterlockedExchange(&g_Bc250LastCallbackStatus, (LONG)Status);
+    KdPrint(("AMDBC250: CB exit id=%ld status=0x%08X lastVidPnCb=%ld lastQai=%ld\n",
+             CallbackId, (ULONG)Status, g_Bc250LastVidPnCallbackId, g_Bc250LastQaiType));
+}
+
+/* StartDevice stage breadcrumbs for post-failure triage. */
+#define BC250_START_STAGE_ENTRY                 1
+#define BC250_START_STAGE_VALIDATE_PARAMS       2
+#define BC250_START_STAGE_COPY_DXGK_INTERFACE   3
+#define BC250_START_STAGE_GET_DEVICE_INFO       4
+#define BC250_START_STAGE_PARSE_RESOURCES       5
+#define BC250_START_STAGE_MAP_MMIO              6
+#define BC250_START_STAGE_MAP_DOORBELL          7
+#define BC250_START_STAGE_HW_INIT               8
+#define BC250_START_STAGE_COMPAT_FALLBACK       9
+#define BC250_START_STAGE_SUCCESS               10
+#define BC250_FAIL_STAGE_QUERYADAPTERINFO       100
+
+/* DDI identifiers for first-failure telemetry. */
+#define BC250_DDI_ID_NONE                       0
+#define BC250_DDI_ID_DRIVERENTRY                1
+#define BC250_DDI_ID_STARTDEVICE                2
+#define BC250_DDI_ID_QUERYADAPTERINFO           3
+
+#define BC250_TRACE_START(_devext, _stage, _status, _msg)                             \
+    do {                                                                               \
+        (_devext)->DebugStartStage = (_stage);                                         \
+        (_devext)->DebugStartStatus = (_status);                                       \
+        KdPrint(("AMDBC250: STARTTRACE stage=%lu status=0x%08X %s\n",                 \
+                 (ULONG)(_stage),                                                      \
+                 (ULONG)(_status),                                                     \
+                 (_msg)));                                                             \
+    } while (0)
+
+#define BC250_SET_UMA_SEGMENT_FLAGS(_flags)                                            \
+    do {                                                                               \
+        (_flags).CpuVisible = 1;                                                       \
+        (_flags).Aperture = 0;                                                         \
+        (_flags).CacheCoherent = 0;                                                    \
+        (_flags).PopulatedFromSystemMemory = 1;                                        \
+        if (AMDBC250_UMA_FLAGS_PROFILE == 1) {                                         \
+            /* D1: aperture-forward probe */                                            \
+            (_flags).Aperture = 1;                                                     \
+        } else if (AMDBC250_UMA_FLAGS_PROFILE == 2) {                                  \
+            /* D2: UMA/aperture coherent profile */                                     \
+            (_flags).Aperture = 1;                                                     \
+            (_flags).CacheCoherent = 1;                                                \
+        } else if (AMDBC250_UMA_FLAGS_PROFILE == 3) {                                  \
+            /* Conservative local-ish profile */                                        \
+            (_flags).PopulatedFromSystemMemory = 0;                                    \
+        }                                                                              \
+    } while (0)
+
+static VOID
+Bc250CaptureFirstFailureEx(
+    _In_ PAMDBC250_DEVICE_EXTENSION DevExt,
+    _In_ ULONG Stage,
+    _In_ NTSTATUS Status,
+    _In_z_ PCSTR Reason,
+    _In_ ULONG DdiId,
+    _In_ ULONG QueryType,
+    _In_ SIZE_T OutputSize
+    );
+
+static VOID
+Bc250CaptureFirstFailure(
+    _In_ PAMDBC250_DEVICE_EXTENSION DevExt,
+    _In_ ULONG Stage,
+    _In_ NTSTATUS Status,
+    _In_z_ PCSTR Reason
+    )
+{
+    Bc250CaptureFirstFailureEx(DevExt,
+                               Stage,
+                               Status,
+                               Reason,
+                               BC250_DDI_ID_NONE,
+                               0,
+                               0);
+}
+
+static PCSTR
+Bc250GetDdiName(
+    _In_ ULONG DdiId
+    )
+{
+    switch (DdiId) {
+    case BC250_DDI_ID_DRIVERENTRY:
+        return "DriverEntry";
+    case BC250_DDI_ID_STARTDEVICE:
+        return "DxgkDdiStartDevice";
+    case BC250_DDI_ID_QUERYADAPTERINFO:
+        return "DxgkDdiQueryAdapterInfo";
+    default:
+        return "unknown";
+    }
+}
+
+static VOID
+Bc250CaptureFirstFailureEx(
+    _In_ PAMDBC250_DEVICE_EXTENSION DevExt,
+    _In_ ULONG Stage,
+    _In_ NTSTATUS Status,
+    _In_z_ PCSTR Reason,
+    _In_ ULONG DdiId,
+    _In_ ULONG QueryType,
+    _In_ SIZE_T OutputSize
+    )
+{
+    LONG captured;
+
+    if (DevExt == NULL) {
+        return;
+    }
+
+    captured = InterlockedCompareExchange(
+        (volatile LONG*)&DevExt->DebugFirstFailStage,
+        (LONG)Stage,
+        0);
+
+    if (captured == 0) {
+        DevExt->DebugFirstFailStatus = Status;
+        DevExt->DebugFirstFailDdiId = DdiId;
+        DevExt->DebugFirstFailQueryType = QueryType;
+        DevExt->DebugFirstFailOutSize = (ULONGLONG)OutputSize;
+    }
+
+    KdPrint(("AMDBC250: FAILTRACE stage=%lu status=0x%08X ddi=%lu(%s) qType=%lu out=%llu firstStage=%lu firstStatus=0x%08X firstDdi=%lu(%s) firstQType=%lu firstOut=%llu reason=%s\n",
+             Stage,
+             (ULONG)Status,
+             DdiId,
+             Bc250GetDdiName(DdiId),
+             QueryType,
+             (ULONGLONG)OutputSize,
+             DevExt->DebugFirstFailStage,
+             (ULONG)DevExt->DebugFirstFailStatus,
+             DevExt->DebugFirstFailDdiId,
+             Bc250GetDdiName(DevExt->DebugFirstFailDdiId),
+             DevExt->DebugFirstFailQueryType,
+             DevExt->DebugFirstFailOutSize,
+             Reason));
+}
+
+static VOID
+Bc250TraceQueryResult(
+    _In_ PAMDBC250_DEVICE_EXTENSION DevExt,
+    _In_ ULONG QueryType,
+    _In_ SIZE_T OutputSize,
+    _In_ NTSTATUS Status,
+    _In_ SIZE_T ReportedVramBytes,
+    _In_z_ PCSTR Note
+    )
+{
+    if (DevExt == NULL) {
+        return;
+    }
+
+    DevExt->DebugQueryCount += 1;
+    DevExt->DebugQueryLastType = QueryType;
+    DevExt->DebugQueryLastOutSize = (ULONGLONG)OutputSize;
+    DevExt->DebugQueryLastStatus = Status;
+    DevExt->DebugQueryLastVramBytes = (ULONGLONG)ReportedVramBytes;
+
+    KdPrint(("AMDBC250: QAITRACE count=%lu type=%lu out=%llu status=0x%08X vramMB=%llu note=%s\n",
+             DevExt->DebugQueryCount,
+             QueryType,
+             (ULONGLONG)OutputSize,
+             (ULONG)Status,
+             (ULONGLONG)(ReportedVramBytes / (1024ULL * 1024ULL)),
+             Note));
+}
+
+static PCSTR
+Bc250GetQaiTypeName(
+    _In_ ULONG QueryType
+    )
+{
+    switch (QueryType) {
+    case DXGKQAITYPE_UMDRIVERPRIVATE:
+        return "UMDRIVERPRIVATE";
+    case DXGKQAITYPE_DRIVERCAPS:
+        return "DRIVERCAPS";
+    case DXGKQAITYPE_QUERYSEGMENT:
+        return "QUERYSEGMENT";
+#if defined(DXGKQAITYPE_QUERYSEGMENT2)
+    case DXGKQAITYPE_QUERYSEGMENT2:
+        return "QUERYSEGMENT2";
+#endif
+#if defined(DXGKQAITYPE_QUERYSEGMENT3)
+    case DXGKQAITYPE_QUERYSEGMENT3:
+        return "QUERYSEGMENT3";
+#endif
+#if defined(DXGKQAITYPE_QUERYSEGMENTCOUNT)
+    case DXGKQAITYPE_QUERYSEGMENTCOUNT:
+        return "QUERYSEGMENTCOUNT";
+#endif
+#if defined(DXGKQAITYPE_WDDMDEVICECAPS)
+    case DXGKQAITYPE_WDDMDEVICECAPS:
+        return "WDDMDEVICECAPS";
+#endif
+#if defined(DXGKQAITYPE_GPUPCAPS)
+    case DXGKQAITYPE_GPUPCAPS:
+        return "GPUPCAPS";
+#endif
+#if defined(DXGKQAITYPE_DEVICE_TYPE_CAPS)
+    case DXGKQAITYPE_DEVICE_TYPE_CAPS:
+        return "DEVICE_TYPE_CAPS";
+#endif
+    default:
+        return "UNKNOWN";
+    }
+}
+
+static VOID
+Bc250RecordGlobalQai(
+    _In_ ULONG QueryType,
+    _In_ SIZE_T OutputSize,
+    _In_ NTSTATUS Status
+    )
+{
+    LONG seq = InterlockedIncrement(&g_DeQaiSeqCounter) - 1;
+    LONG slot = seq % BC250_QAI_HISTORY_DEPTH;
+    if (slot < 0) {
+        slot += BC250_QAI_HISTORY_DEPTH;
+    }
+
+    g_DeQaiTypeHistory[slot] = (LONG)QueryType;
+    g_DeQaiOutHistory[slot] = (LONG)((OutputSize > 0x7fffffffULL) ? 0x7fffffff : OutputSize);
+    g_DeQaiStatusHistory[slot] = (LONG)Status;
+}
+
+static VOID
+Bc250DumpGlobalQaiHistory(
+    _In_z_ PCSTR Reason
+    )
+{
+    LONG seq = g_DeQaiSeqCounter;
+    LONG begin = seq - BC250_QAI_HISTORY_DEPTH;
+    LONG i;
+
+    if (begin < 0) {
+        begin = 0;
+    }
+
+    KdPrint(("AMDBC250: QAIDUMP reason=%s total=%ld window=[%ld,%ld)\n",
+             Reason,
+             seq,
+             begin,
+             seq));
+
+    for (i = begin; i < seq; ++i) {
+        LONG slot = i % BC250_QAI_HISTORY_DEPTH;
+        if (slot < 0) {
+            slot += BC250_QAI_HISTORY_DEPTH;
+        }
+        KdPrint(("AMDBC250: QAIDUMP seq=%ld type=%lu(%s) out=%lu status=0x%08X\n",
+                 i,
+                 (ULONG)g_DeQaiTypeHistory[slot],
+                 Bc250GetQaiTypeName((ULONG)g_DeQaiTypeHistory[slot]),
+                 (ULONG)g_DeQaiOutHistory[slot],
+                 (ULONG)g_DeQaiStatusHistory[slot]));
+    }
+}
+
+static VOID
+Bc250LogGlobalCounters(
+    _In_z_ PCSTR Tag,
+    _In_ NTSTATUS Status
+    )
+{
+    KdPrint(("AMDBC250: GLOBALCTR tag=%s status=0x%08X de=%ld initOk=%ld add=%ld start=%ld qai=%ld stop=%ld remove=%ld qaiSeq=%ld\n",
+             Tag,
+             (ULONG)Status,
+             g_DeCalledDriverEntry,
+             g_DeDxgkInitializeSuccess,
+             g_DeAddDevice,
+             g_DeStartDevice,
+             g_DeQueryAdapterInfo,
+             g_DeStopDevice,
+             g_DeRemoveDevice,
+             g_DeQaiSeqCounter));
+}
+
+static VOID
+Bc250DumpLifecycleCounters(
+    _In_z_ PCSTR Where
+    )
+{
+    Bc250LogGlobalCounters(Where, STATUS_SUCCESS);
+}
+
+/*
+ * Compile-time ABI checks: force exact function-pointer type compatibility
+ * against WDK DDI typedefs. Any mismatch here should fail the build.
+ */
+static VOID
+Bc250AbiTypeChecks(VOID)
+{
+    PDXGKDDI_ADD_DEVICE            pAdd        = Bc250DdiAddDevice;
+    PDXGKDDI_START_DEVICE          pStart      = Bc250DdiStartDevice;
+    PDXGKDDI_STOP_DEVICE           pStop       = Bc250DdiStopDevice;
+    PDXGKDDI_REMOVE_DEVICE         pRemove     = Bc250DdiRemoveDevice;
+    PDXGKDDI_QUERYADAPTERINFO      pQai        = Bc250DdiQueryAdapterInfo;
+    PDXGKDDI_CREATEALLOCATION      pCreateAlloc = Bc250DdiCreateAllocation;
+    PDXGKDDI_DESTROYALLOCATION     pDestroyAlloc = Bc250DdiDestroyAllocation;
+    PDXGKDDI_BUILDPAGINGBUFFER     pBuildPb    = Bc250DdiBuildPagingBuffer;
+    PDXGKDDI_SUBMITCOMMAND         pSubmit     = Bc250DdiSubmitCommand;
+    PDXGKDDI_QUERYCURRENTFENCE     pFence      = Bc250DdiQueryCurrentFence;
+    PDXGKDDI_PRESENT               pPresent    = Bc250DdiPresent;
+    PDXGKDDI_RENDER                pRender     = Bc250DdiRender;
+
+    UNREFERENCED_PARAMETER(pAdd);
+    UNREFERENCED_PARAMETER(pStart);
+    UNREFERENCED_PARAMETER(pStop);
+    UNREFERENCED_PARAMETER(pRemove);
+    UNREFERENCED_PARAMETER(pQai);
+    UNREFERENCED_PARAMETER(pCreateAlloc);
+    UNREFERENCED_PARAMETER(pDestroyAlloc);
+    UNREFERENCED_PARAMETER(pBuildPb);
+    UNREFERENCED_PARAMETER(pSubmit);
+    UNREFERENCED_PARAMETER(pFence);
+    UNREFERENCED_PARAMETER(pPresent);
+    UNREFERENCED_PARAMETER(pRender);
+}
+
+static VOID
+Bc250TraceDriverInitContract(
+    _In_ const DRIVER_INITIALIZATION_DATA* DriverInitData
+    )
+{
+    ULONG nonNullCount = 0;
+
+#define BC250_COUNT_NON_NULL(_field) \
+    do { if ((DriverInitData->_field) != NULL) { nonNullCount += 1; } } while (0)
+
+    if (DriverInitData == NULL) {
+        return;
+    }
+
+    BC250_COUNT_NON_NULL(DxgkDdiAddDevice);
+    BC250_COUNT_NON_NULL(DxgkDdiStartDevice);
+    BC250_COUNT_NON_NULL(DxgkDdiStopDevice);
+    BC250_COUNT_NON_NULL(DxgkDdiRemoveDevice);
+    BC250_COUNT_NON_NULL(DxgkDdiDispatchIoRequest);
+    BC250_COUNT_NON_NULL(DxgkDdiResetDevice);
+    BC250_COUNT_NON_NULL(DxgkDdiUnload);
+    BC250_COUNT_NON_NULL(DxgkDdiSetPowerState);
+    BC250_COUNT_NON_NULL(DxgkDdiInterruptRoutine);
+    BC250_COUNT_NON_NULL(DxgkDdiDpcRoutine);
+    BC250_COUNT_NON_NULL(DxgkDdiQueryAdapterInfo);
+    BC250_COUNT_NON_NULL(DxgkDdiQueryInterface);
+    BC250_COUNT_NON_NULL(DxgkDdiCreateDevice);
+    BC250_COUNT_NON_NULL(DxgkDdiDestroyDevice);
+    BC250_COUNT_NON_NULL(DxgkDdiCreateContext);
+    BC250_COUNT_NON_NULL(DxgkDdiDestroyContext);
+    BC250_COUNT_NON_NULL(DxgkDdiCreateAllocation);
+    BC250_COUNT_NON_NULL(DxgkDdiDestroyAllocation);
+    BC250_COUNT_NON_NULL(DxgkDdiBuildPagingBuffer);
+    BC250_COUNT_NON_NULL(DxgkDdiPatch);
+    BC250_COUNT_NON_NULL(DxgkDdiSubmitCommand);
+    BC250_COUNT_NON_NULL(DxgkDdiQueryCurrentFence);
+    BC250_COUNT_NON_NULL(DxgkDdiPresent);
+    BC250_COUNT_NON_NULL(DxgkDdiRender);
+
+#if !AMDBC250_HEADLESS_RENDER_ONLY
+    BC250_COUNT_NON_NULL(DxgkDdiQueryChildRelations);
+    BC250_COUNT_NON_NULL(DxgkDdiQueryChildStatus);
+    BC250_COUNT_NON_NULL(DxgkDdiQueryDeviceDescriptor);
+    BC250_COUNT_NON_NULL(DxgkDdiSetPalette);
+    BC250_COUNT_NON_NULL(DxgkDdiSetPointerPosition);
+    BC250_COUNT_NON_NULL(DxgkDdiSetPointerShape);
+    BC250_COUNT_NON_NULL(DxgkDdiIsSupportedVidPn);
+    BC250_COUNT_NON_NULL(DxgkDdiSetVidPnSourceAddress);
+    BC250_COUNT_NON_NULL(DxgkDdiRecommendFunctionalVidPn);
+    BC250_COUNT_NON_NULL(DxgkDdiEnumVidPnCofuncModality);
+    BC250_COUNT_NON_NULL(DxgkDdiSetVidPnSourceVisibility);
+    BC250_COUNT_NON_NULL(DxgkDdiCommitVidPn);
+    BC250_COUNT_NON_NULL(DxgkDdiUpdateActiveVidPnPresentPath);
+    BC250_COUNT_NON_NULL(DxgkDdiRecommendMonitorModes);
+    BC250_COUNT_NON_NULL(DxgkDdiGetScanLine);
+    BC250_COUNT_NON_NULL(DxgkDdiQueryVidPnHWCapability);
+    BC250_COUNT_NON_NULL(DxgkDdiControlInterrupt);
+#endif
+
+    KdPrint(("AMDBC250: INITCONTRACT size=%llu version=0x%08X nonNullDdi=%lu headless=%d skipHw=%d vramOvMb=%d pageBufOv=%d wddmCaps=%d umaFlags=%d\n",
+             (ULONGLONG)sizeof(DRIVER_INITIALIZATION_DATA),
+             (ULONG)DriverInitData->Version,
+             nonNullCount,
+             AMDBC250_HEADLESS_RENDER_ONLY,
+             AMDBC250_SKIP_HW_INIT,
+             AMDBC250_REPORTED_VRAM_MB_OVERRIDE,
+             AMDBC250_QSEG3_PAGING_BUFFER_BYTES_OVERRIDE,
+             AMDBC250_FORCE_WDDM_CAPS_LEVEL,
+             AMDBC250_UMA_FLAGS_PROFILE));
+    KdPrint(("AMDBC250: INITPTR core add=%p start=%p stop=%p remove=%p dispatch=%p reset=%p unload=%p\n",
+             DriverInitData->DxgkDdiAddDevice,
+             DriverInitData->DxgkDdiStartDevice,
+             DriverInitData->DxgkDdiStopDevice,
+             DriverInitData->DxgkDdiRemoveDevice,
+             DriverInitData->DxgkDdiDispatchIoRequest,
+             DriverInitData->DxgkDdiResetDevice,
+             DriverInitData->DxgkDdiUnload));
+    KdPrint(("AMDBC250: INITPTR mem qry=%p qif=%p cdev=%p ddev=%p cctx=%p dctx=%p calloc=%p dalloc=%p bpb=%p patch=%p submit=%p fence=%p\n",
+             DriverInitData->DxgkDdiQueryAdapterInfo,
+             DriverInitData->DxgkDdiQueryInterface,
+             DriverInitData->DxgkDdiCreateDevice,
+             DriverInitData->DxgkDdiDestroyDevice,
+             DriverInitData->DxgkDdiCreateContext,
+             DriverInitData->DxgkDdiDestroyContext,
+             DriverInitData->DxgkDdiCreateAllocation,
+             DriverInitData->DxgkDdiDestroyAllocation,
+             DriverInitData->DxgkDdiBuildPagingBuffer,
+             DriverInitData->DxgkDdiPatch,
+             DriverInitData->DxgkDdiSubmitCommand,
+             DriverInitData->DxgkDdiQueryCurrentFence));
+    KdPrint(("AMDBC250: INITPTR render present=%p render=%p intr=%p dpc=%p power=%p\n",
+             DriverInitData->DxgkDdiPresent,
+             DriverInitData->DxgkDdiRender,
+             DriverInitData->DxgkDdiInterruptRoutine,
+             DriverInitData->DxgkDdiDpcRoutine,
+             DriverInitData->DxgkDdiSetPowerState));
+
+#undef BC250_COUNT_NON_NULL
+}
+
+/*
+ * Keep reported VRAM size consistent across QUERYSEGMENT variants.
+ * Some DXGK paths consume 32-bit sized fields; cap uniformly to avoid
+ * cross-query mismatches that can trigger post-start failures.
+ */
+static SIZE_T
+Bc250GetReportedVramSizeBytes(
+    _In_ const AMDBC250_DEVICE_EXTENSION* DevExt
+    )
+{
+    SIZE_T vramSize;
+
+#if (AMDBC250_REPORTED_VRAM_MB_OVERRIDE > 0)
+    vramSize = (SIZE_T)AMDBC250_REPORTED_VRAM_MB_OVERRIDE * 1024ULL * 1024ULL;
+#else
+    vramSize = (DevExt->TotalVramBytes != 0)
+        ? DevExt->TotalVramBytes
+        : ((SIZE_T)AMDBC250_DEFAULT_VRAM_MB * 1024 * 1024);
+#endif
+
+    if (vramSize > (SIZE_T)0xFFFFFFFFULL) {
+        vramSize = (SIZE_T)0xFFFFFFFFULL;
+    }
+    return vramSize;
+}
+
+static ULONG
+Bc250GetReportedPagingBufferSizeBytes(VOID)
+{
+    ULONG pagingBufferSize = AMDBC250_DEFAULT_PAGING_BUFFER_BYTES;
+
+#if AMDBC250_QSEG3_FORCE_ZERO_PAGING
+    return 0;
+#endif
+#if (AMDBC250_QSEG3_PAGING_BUFFER_BYTES_OVERRIDE > 0)
+    pagingBufferSize = (ULONG)AMDBC250_QSEG3_PAGING_BUFFER_BYTES_OVERRIDE;
+#endif
+    if (pagingBufferSize < (16 * 1024)) {
+        pagingBufferSize = 16 * 1024;
+    }
+    return pagingBufferSize;
+}
+
+static SIZE_T
+Bc250GetReportedGttSizeBytes(VOID)
+{
+#if (AMDBC250_REPORTED_GTT_MB_OVERRIDE > 0)
+    return (SIZE_T)AMDBC250_REPORTED_GTT_MB_OVERRIDE * 1024ULL * 1024ULL;
+#else
+    return 0;
+#endif
+}
+
+static UINT
+Bc250GetReportedWddmCapsVersion(VOID)
+{
+#if (AMDBC250_FORCE_WDDM_CAPS_LEVEL == 13)
+    return DXGKDDI_WDDMv1_3;
+#elif (AMDBC250_FORCE_WDDM_CAPS_LEVEL == 20)
+#if defined(DXGKDDI_WDDMv2_0)
+    return DXGKDDI_WDDMv2_0;
+#else
+    return DXGKDDI_WDDMv1_3;
+#endif
+#else
+#if defined(DXGKDDI_WDDMv2_0)
+    return DXGKDDI_WDDMv2_0;
+#else
+    return DXGKDDI_WDDMv1_3;
+#endif
+#endif
+}
 
 /*===========================================================================
   DriverEntry
@@ -42,84 +625,159 @@ DriverEntry(
     _In_ PUNICODE_STRING RegistryPath
     )
 {
-    DRIVER_INITIALIZATION_DATA DriverInitData = {0};
+    Bc250MarkCallbackEnter(BC250_CB_DRIVERENTRY);
+    DRIVER_INITIALIZATION_DATA DriverInitData;
     NTSTATUS Status;
 
-    UNREFERENCED_PARAMETER(RegistryPath);
+    InterlockedIncrement(&g_DeCalledDriverEntry);
+
+    RtlZeroMemory(&DriverInitData, sizeof(DriverInitData));
+    Bc250LogGlobalCounters("DriverEntry-enter", STATUS_SUCCESS);
 
     KdPrint(("AMDBC250: DriverEntry - AMD BC-250 WDDM Driver v%d.%d\n",
              AMDBC250_DRIVER_MAJOR_VERSION,
              AMDBC250_DRIVER_MINOR_VERSION));
 
     /*
-     * Fill in the WDDM DDI function table.
-     * The version field must match the WDDM version supported.
-     * We target WDDM 2.0 (Windows 10) for maximum compatibility.
+     * Driver initialization contract:
+     * DRIVER_INITIALIZATION_DATA::Version should follow the SDK baseline
+     * DXGKDDI_INTERFACE_VERSION for the active build headers.
      */
-    DriverInitData.Version = DXGKDDI_INTERFACE_VERSION_WIN10;
+    DriverInitData.Version = DXGKDDI_INTERFACE_VERSION;
 
-    /* Core device lifecycle callbacks */
+    KdPrint(("AMDBC250: DriverEntry interface-version selected=0x%08X\n",
+             (ULONG)DriverInitData.Version));
+    KdPrint(("AMDBC250: BUILD_MARKER %s\n", AMDBC250_BUILD_MARKER));
+
+    /* Core lifecycle only */
     DriverInitData.DxgkDdiAddDevice                 = Bc250DdiAddDevice;
     DriverInitData.DxgkDdiStartDevice               = Bc250DdiStartDevice;
     DriverInitData.DxgkDdiStopDevice                = Bc250DdiStopDevice;
-    DriverInitData.DxgkDdiRemoveDevice               = Bc250DdiRemoveDevice;
-    DriverInitData.DxgkDdiResetDevice                = Bc250DdiResetDevice;
+    DriverInitData.DxgkDdiRemoveDevice              = Bc250DdiRemoveDevice;
+    DriverInitData.DxgkDdiDispatchIoRequest         = Bc250DdiDispatchIoRequest;
+    DriverInitData.DxgkDdiSetPowerState              = Bc250DdiSetPowerState;
     DriverInitData.DxgkDdiUnload                     = Bc250DdiUnload;
 
-    /* Child device / display output enumeration */
+    /* Display/query essentials */
+    DriverInitData.DxgkDdiQueryAdapterInfo           = Bc250DdiQueryAdapterInfo;
+#if !AMDBC250_K0_STRICT_DRIVERENTRY
     DriverInitData.DxgkDdiQueryChildRelations        = Bc250DdiQueryChildRelations;
     DriverInitData.DxgkDdiQueryChildStatus           = Bc250DdiQueryChildStatus;
     DriverInitData.DxgkDdiQueryDeviceDescriptor      = Bc250DdiQueryDeviceDescriptor;
+#endif
 
-    /* Power management */
-    DriverInitData.DxgkDdiSetPowerState              = Bc250DdiSetPowerState;
-    DriverInitData.DxgkDdiNotifyAcpiEvent            = Bc250DdiNotifyAcpiEvent;
+    /* For first 0x0059 isolation, disable these */
+    DriverInitData.DxgkDdiQueryInterface             = NULL;
+    DriverInitData.DxgkDdiInterruptRoutine           = NULL;
+    DriverInitData.DxgkDdiDpcRoutine                 = NULL;
 
-    /* Interrupt handling */
-    DriverInitData.DxgkDdiInterruptRoutine           = Bc250DdiInterruptRoutine;
-    DriverInitData.DxgkDdiDpcRoutine                 = Bc250DdiDpcRoutine;
+    DriverInitData.DxgkDdiCreateDevice               = NULL;
+    DriverInitData.DxgkDdiDestroyDevice              = NULL;
+    DriverInitData.DxgkDdiCreateContext              = NULL;
+    DriverInitData.DxgkDdiDestroyContext             = NULL;
+    DriverInitData.DxgkDdiCreateAllocation           = NULL;
+    DriverInitData.DxgkDdiDestroyAllocation          = NULL;
+    DriverInitData.DxgkDdiOpenAllocation             = NULL;
+    DriverInitData.DxgkDdiCloseAllocation            = NULL;
 
-    /* Adapter / device queries */
-    DriverInitData.DxgkDdiQueryAdapterInfo           = Bc250DdiQueryAdapterInfo;
-    DriverInitData.DxgkDdiQueryInterface             = Bc250DdiQueryInterface;
+    DriverInitData.DxgkDdiIsSupportedVidPn             = NULL;
+    DriverInitData.DxgkDdiRecommendFunctionalVidPn     = NULL;
+    DriverInitData.DxgkDdiEnumVidPnCofuncModality      = NULL;
+    DriverInitData.DxgkDdiCommitVidPn                  = NULL;
+    DriverInitData.DxgkDdiUpdateActiveVidPnPresentPath = NULL;
+    DriverInitData.DxgkDdiRecommendMonitorModes        = NULL;
+    DriverInitData.DxgkDdiQueryVidPnHWCapability       = NULL;
+    DriverInitData.DxgkDdiSetVidPnSourceAddress        = NULL;
+    DriverInitData.DxgkDdiSetVidPnSourceVisibility     = NULL;
+    DriverInitData.DxgkDdiGetScanLine                  = NULL;
+    DriverInitData.DxgkDdiControlInterrupt             = NULL;
 
-    /* Device (per-process context) management */
-    DriverInitData.DxgkDdiCreateDevice               = Bc250DdiCreateDevice;
-    DriverInitData.DxgkDdiDestroyDevice              = Bc250DdiDestroyDevice;
-
-    /* GPU memory allocation */
-    DriverInitData.DxgkDdiCreateAllocation           = Bc250DdiCreateAllocation;
-    DriverInitData.DxgkDdiDestroyAllocation          = Bc250DdiDestroyAllocation;
-
-    /* Command submission */
-    DriverInitData.DxgkDdiBuildPagingBuffer          = Bc250DdiBuildPagingBuffer;
-    DriverInitData.DxgkDdiSubmitCommand              = Bc250DdiSubmitCommand;
-    DriverInitData.DxgkDdiPreemptCommand             = Bc250DdiPreemptCommand;
-    DriverInitData.DxgkDdiQueryCurrentFence          = Bc250DdiQueryCurrentFence;
-
-    /* Rendering */
-    DriverInitData.DxgkDdiPresent                    = Bc250DdiPresent;
-    DriverInitData.DxgkDdiRender                     = Bc250DdiRender;
-
-    /* Display / VidPN management */
-    DriverInitData.DxgkDdiSetVidPnSourceAddress      = Bc250DdiSetVidPnSourceAddress;
-    DriverInitData.DxgkDdiRecommendFunctionalVidPn   = Bc250DdiRecommendFunctionalVidPn;
+#if AMDBC250_K0_STRICT_DRIVERENTRY
+    /* K0: keep DriverEntry contract to the smallest useful WDDM surface. */
+#elif AMDBC250_SAFE_DISPLAY_PROFILE
+    DriverInitData.DxgkDdiIsSupportedVidPn           = Bc250DdiIsSupportedVidPn;
     DriverInitData.DxgkDdiEnumVidPnCofuncModality    = Bc250DdiEnumVidPnCofuncModality;
-    DriverInitData.DxgkDdiSetVidPnSourceVisibility   = Bc250DdiSetVidPnSourceVisibility;
     DriverInitData.DxgkDdiCommitVidPn                = Bc250DdiCommitVidPn;
-    DriverInitData.DxgkDdiUpdateActiveVidPnPresentPath = Bc250DdiUpdateActiveVidPnPresentPath;
     DriverInitData.DxgkDdiRecommendMonitorModes      = Bc250DdiRecommendMonitorModes;
+    DriverInitData.DxgkDdiRecommendFunctionalVidPn   = Bc250DdiRecommendFunctionalVidPn;
+    DriverInitData.DxgkDdiQueryVidPnHWCapability     = Bc250DdiQueryVidPnHwCapability;
+    DriverInitData.DxgkDdiSetVidPnSourceAddress      = Bc250DdiSetVidPnSourceAddress;
+    DriverInitData.DxgkDdiSetVidPnSourceVisibility   = Bc250DdiSetVidPnSourceVisibility;
     DriverInitData.DxgkDdiGetScanLine                = Bc250DdiGetScanLine;
+#if AMDBC250_SAFE_DISPLAY_INCLUDE_UPDATEPATH
+    DriverInitData.DxgkDdiUpdateActiveVidPnPresentPath = Bc250DdiUpdateActiveVidPnPresentPath;
+#endif
+#if AMDBC250_SAFE_DISPLAY_ENABLE_CTRLINT
     DriverInitData.DxgkDdiControlInterrupt           = Bc250DdiControlInterrupt;
+#endif
+#else
+#if (AMDBC250_A7_MICROSTEP >= 1)
+    DriverInitData.DxgkDdiIsSupportedVidPn           = Bc250DdiIsSupportedVidPn;        /* A7a */
+#endif
+#if (AMDBC250_A7_MICROSTEP >= 2)
+    DriverInitData.DxgkDdiEnumVidPnCofuncModality    = Bc250DdiEnumVidPnCofuncModality; /* A7b */
+#endif
+#if (AMDBC250_A7_MICROSTEP >= 3)
+    DriverInitData.DxgkDdiCommitVidPn                = Bc250DdiCommitVidPn;             /* A7c */
+#endif
+#if (AMDBC250_A7_MICROSTEP >= 4)
+    DriverInitData.DxgkDdiRecommendMonitorModes      = Bc250DdiRecommendMonitorModes;   /* A7d */
+#endif
+#if (AMDBC250_A7_MICROSTEP >= 5)
+    DriverInitData.DxgkDdiRecommendFunctionalVidPn   = Bc250DdiRecommendFunctionalVidPn;/* A7e */
+#endif
+#if (AMDBC250_A7_MICROSTEP >= 6)
+    DriverInitData.DxgkDdiUpdateActiveVidPnPresentPath = Bc250DdiUpdateActiveVidPnPresentPath; /* A7f */
+#endif
+#if (AMDBC250_A7_MICROSTEP >= 7)
+    DriverInitData.DxgkDdiQueryVidPnHWCapability     = Bc250DdiQueryVidPnHwCapability;  /* A7g */
+#endif
+#endif
+    DriverInitData.DxgkDdiBuildPagingBuffer          = NULL;
+    DriverInitData.DxgkDdiPatch                      = NULL;
+    DriverInitData.DxgkDdiSubmitCommand              = NULL;
+    DriverInitData.DxgkDdiQueryCurrentFence          = NULL;
+    DriverInitData.DxgkDdiPresent                    = NULL;
+    DriverInitData.DxgkDdiRender                     = NULL;
+    DriverInitData.DxgkDdiRenderKm                   = NULL;
+    DriverInitData.DxgkDdiPreemptCommand             = NULL;
 
-    /* Overlay support */
-    DriverInitData.DxgkDdiCreateOverlay              = Bc250DdiCreateOverlay;
-    DriverInitData.DxgkDdiDestroyOverlay             = Bc250DdiDestroyOverlay;
+    /*
+     * Keep registration to the baseline display stack first.
+     * Advanced 3D/overlay DDIs can be re-enabled once the miniport loads
+     * reliably on the target kernel.
+     */
+
+    Bc250AbiTypeChecks();
+    Bc250TraceDriverInitContract(&DriverInitData);
+
+    KdPrint(("AMDBC250: DriverEntry pre-DxgkInitialize version=0x%08X size=%llu\n",
+             (ULONG)DriverInitData.Version,
+             (ULONGLONG)sizeof(DriverInitData)));
 
     /* Register with Dxgkrnl */
     Status = DxgkInitialize(DriverObject, RegistryPath, &DriverInitData);
 
+    KdPrint(("AMDBC250: DriverEntry post-DxgkInitialize status=0x%08X\n", (ULONG)Status));
+    if (NT_SUCCESS(Status)) {
+        InterlockedIncrement(&g_DeDxgkInitializeSuccess);
+    }
+    Bc250LogGlobalCounters("DriverEntry-postDxgkInitialize", Status);
+    Bc250DumpLifecycleCounters("DriverEntry-post-DxgkInitialize");
+
     if (!NT_SUCCESS(Status)) {
+        /*
+         * Keep DriverEntry-stage failure isolated from later runtime failures
+         * (e.g., QueryAdapterInfo/start-device INTERNAL_ERROR class).
+         */
+        if (InterlockedCompareExchange(&g_Bc250DriverEntryFirstFailCaptured, 1, 0) == 0) {
+            g_Bc250DriverEntryFirstFailStatus = (LONG)Status;
+        }
+        KdPrint(("AMDBC250: DRIVERENTRY_FAIL status=0x%08X firstStatus=0x%08X ddi=%lu(%s)\n",
+                 (ULONG)Status,
+                 (ULONG)g_Bc250DriverEntryFirstFailStatus,
+                 (ULONG)BC250_DDI_ID_DRIVERENTRY,
+                 Bc250GetDdiName(BC250_DDI_ID_DRIVERENTRY)));
         KdPrint(("AMDBC250: DxgkInitialize failed with status 0x%08X\n", Status));
     } else {
         KdPrint(("AMDBC250: DriverEntry successful\n"));
@@ -141,9 +799,27 @@ Bc250DdiAddDevice(
     _Out_ PVOID                 *MiniportDeviceContext
     )
 {
+    Bc250MarkCallbackEnter(BC250_CB_ADDDEVICE);
     PAMDBC250_DEVICE_EXTENSION DevExt;
+    LONG AddCount = InterlockedIncrement(&g_DeAddDevice);
 
-    KdPrint(("AMDBC250: DxgkDdiAddDevice called\n"));
+    if (MiniportDeviceContext == NULL) {
+        KdPrint(("AMDBC250: AddDevice invalid MiniportDeviceContext (NULL)\n"));
+        Bc250LogGlobalCounters("AddDevice-invalid-parameter", STATUS_INVALID_PARAMETER);
+        Bc250MarkCallbackExit(BC250_CB_ADDDEVICE, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    KdPrint(("AMDBC250: DxgkDdiAddDevice called count=%ld PDO=%p CtxOut=%p\n",
+             AddCount,
+             PhysicalDeviceObject,
+             MiniportDeviceContext));
+
+    if (g_Bc250PrimaryDevice != NULL) {
+        KdPrint(("AMDBC250: Only one adapter instance is supported by this reference driver\n"));
+        Bc250MarkCallbackExit(BC250_CB_ADDDEVICE, STATUS_DEVICE_BUSY);
+        return STATUS_DEVICE_BUSY;
+    }
 
     /* Allocate the device extension from non-paged pool */
     DevExt = (PAMDBC250_DEVICE_EXTENSION)ExAllocatePoolWithTag(
@@ -154,6 +830,7 @@ Bc250DdiAddDevice(
 
     if (DevExt == NULL) {
         KdPrint(("AMDBC250: Failed to allocate device extension\n"));
+        Bc250MarkCallbackExit(BC250_CB_ADDDEVICE, STATUS_NO_MEMORY);
         return STATUS_NO_MEMORY;
     }
 
@@ -175,8 +852,12 @@ Bc250DdiAddDevice(
     UNREFERENCED_PARAMETER(PhysicalDeviceObject);
 
     *MiniportDeviceContext = DevExt;
+    g_Bc250PrimaryDevice = DevExt;
 
     KdPrint(("AMDBC250: Device extension allocated at %p\n", DevExt));
+    KdPrint(("AMDBC250: AddDevice returning STATUS_SUCCESS\n"));
+    Bc250LogGlobalCounters("AddDevice-success", STATUS_SUCCESS);
+    Bc250MarkCallbackExit(BC250_CB_ADDDEVICE, STATUS_SUCCESS);
     return STATUS_SUCCESS;
 }
 
@@ -196,43 +877,173 @@ Bc250DdiStartDevice(
     _Out_ PULONG                    NumberOfChildren
     )
 {
+    Bc250MarkCallbackEnter(BC250_CB_STARTDEVICE);
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)MiniportDeviceContext;
+    LONG StartCount = InterlockedIncrement(&g_DeStartDevice);
+#if !AMDBC250_SKIP_HW_INIT
     NTSTATUS Status;
     DXGK_DEVICE_INFO DeviceInfo;
+    PCM_PARTIAL_RESOURCE_LIST ResourceList;
+    ULONG DescriptorIndex;
+#endif
 
-    KdPrint(("AMDBC250: DxgkDdiStartDevice called\n"));
+    KdPrint(("AMDBC250: DxgkDdiStartDevice called count=%ld Ctx=%p StartInfo=%p Iface=%p SrcOut=%p ChildOut=%p\n",
+             StartCount,
+             MiniportDeviceContext,
+             DxgkStartInfo,
+             DxgkInterface,
+             NumberOfVideoPresentSources,
+             NumberOfChildren));
 
-    /* Save the DXGK interface for later callbacks */
-    RtlCopyMemory(&DevExt->DxgkInterface, DxgkInterface, sizeof(DXGKRNL_INTERFACE));
-    DevExt->DeviceHandle = DxgkStartInfo->DeviceHandle;
+    if (DevExt == NULL || DxgkStartInfo == NULL || DxgkInterface == NULL ||
+        NumberOfVideoPresentSources == NULL || NumberOfChildren == NULL) {
+        if (DevExt != NULL) {
+            Bc250CaptureFirstFailureEx(DevExt,
+                                       BC250_START_STAGE_VALIDATE_PARAMS,
+                                       STATUS_INVALID_PARAMETER,
+                                       "start-invalid-parameter",
+                                       BC250_DDI_ID_STARTDEVICE,
+                                       0,
+                                       0);
+        }
+        KdPrint(("AMDBC250: StartDevice invalid parameter\n"));
+        Bc250LogGlobalCounters("StartDevice-invalid-parameter", STATUS_INVALID_PARAMETER);
+        Bc250MarkCallbackExit(BC250_CB_STARTDEVICE, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_ENTRY, STATUS_SUCCESS, "entry");
+    Bc250DumpLifecycleCounters("StartDevice-entry");
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_VALIDATE_PARAMS, STATUS_SUCCESS, "validated-params");
 
+    /*
+     * Try full hardware initialization first. If bring-up fails on this
+     * platform, gracefully fall back to compatibility mode so the adapter
+     * remains bound and testable without reboot loops.
+     */
+    /*
+     * Copy only the interface bytes provided by dxgkrnl. The struct grows
+     * across WDDM revisions, so blindly copying sizeof(DXGKRNL_INTERFACE)
+     * can read beyond the caller-provided buffer on older kernels.
+     */
+    RtlZeroMemory(&DevExt->DxgkInterface, sizeof(DXGKRNL_INTERFACE));
+    {
+        SIZE_T cbIface = DxgkInterface->Size;
+        if (cbIface > sizeof(DXGKRNL_INTERFACE)) {
+            cbIface = sizeof(DXGKRNL_INTERFACE);
+        }
+        RtlCopyMemory(&DevExt->DxgkInterface, DxgkInterface, cbIface);
+    }
+    DevExt->DeviceHandle = DxgkInterface->DeviceHandle;
+    DevExt->VendorId = AMD_VENDOR_ID;
+    DevExt->DeviceId = AMDBC250_DEVICE_ID_PRIMARY;
+    DevExt->PowerState = PowerDeviceD0;
+    DevExt->CurrentMode.Width = AMDBC250_SAFE_MODE_WIDTH;
+    DevExt->CurrentMode.Height = AMDBC250_SAFE_MODE_HEIGHT;
+    DevExt->CurrentMode.RefreshRate = 60;
+    DevExt->CurrentMode.BitsPerPixel = 32;
+    DevExt->CurrentMode.PixelClock = (ULONG)(AMDBC250_SAFE_MODE_PIXEL_RATE / 1000);
+    DevExt->CurrentMode.Format = D3DDDIFMT_A8R8G8B8;
+    DevExt->CurrentMode.IsInterlaced = FALSE;
+    DevExt->NumSupportedModes = 1;
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_COPY_DXGK_INTERFACE, STATUS_SUCCESS, "copied-dxgk-interface");
+
+#if AMDBC250_SKIP_HW_INIT
+    KdPrint(("AMDBC250: Skipping MMIO/hardware init for compatibility-start isolation test\n"));
+    if (DevExt->TotalVramBytes == 0) {
+        DevExt->TotalVramBytes = (SIZE_T)AMDBC250_TOTAL_MEMORY_MB * 1024ULL * 1024ULL;
+    }
+
+    DevExt->HardwareInitialized = TRUE;
+    DevExt->PowerState = PowerDeviceD0;
+    *NumberOfVideoPresentSources = AMDBC250_HEADLESS_RENDER_ONLY ? 0 : 1;
+    *NumberOfChildren = AMDBC250_HEADLESS_RENDER_ONLY ? 0 : (AMDBC250_H_CHILDLESS_MODE ? 0 : 1);
+    KdPrint(("AMDBC250: StartDevice using compatibility fallback path\n"));
+    KdPrint(("AMDBC250: StartDevice return STATUS_SUCCESS Sources=%lu Children=%lu\n",
+             *NumberOfVideoPresentSources,
+             *NumberOfChildren));
+    Bc250DumpLifecycleCounters("StartDevice-success-skiphw");
+    Bc250LogGlobalCounters("StartDevice-success-skiphw", STATUS_SUCCESS);
+    return STATUS_SUCCESS;
+#else
     /* Query device information (PCI BARs, interrupt resources) */
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_GET_DEVICE_INFO, STATUS_SUCCESS, "query-device-info");
     RtlZeroMemory(&DeviceInfo, sizeof(DeviceInfo));
     Status = DxgkInterface->DxgkCbGetDeviceInformation(
-        DxgkStartInfo->DeviceHandle,
+        DevExt->DeviceHandle,
         &DeviceInfo
         );
 
     if (!NT_SUCCESS(Status)) {
+        DevExt->DebugStartStatus = Status;
+        Bc250CaptureFirstFailureEx(DevExt,
+                                   BC250_START_STAGE_GET_DEVICE_INFO,
+                                   Status,
+                                   "get-device-info-failed",
+                                   BC250_DDI_ID_STARTDEVICE,
+                                   0,
+                                   0);
+        KdPrint(("AMDBC250: STARTTRACE fail stage=GET_DEVICE_INFO status=0x%08X\n", Status));
         KdPrint(("AMDBC250: DxgkCbGetDeviceInformation failed: 0x%08X\n", Status));
-        return Status;
+        goto CompatibilityStart;
     }
 
-    /* Store PCI identifiers */
-    DevExt->VendorId = DeviceInfo.VendorId;
-    DevExt->DeviceId = DeviceInfo.DeviceId;
+    if (DeviceInfo.TranslatedResourceList == NULL ||
+        DeviceInfo.TranslatedResourceList->Count == 0) {
+        DevExt->DebugStartStatus = STATUS_NOT_FOUND;
+        Bc250CaptureFirstFailureEx(DevExt,
+                                   BC250_START_STAGE_GET_DEVICE_INFO,
+                                   STATUS_NOT_FOUND,
+                                   "resource-list-empty",
+                                   BC250_DDI_ID_STARTDEVICE,
+                                   0,
+                                   0);
+        KdPrint(("AMDBC250: STARTTRACE fail stage=GET_DEVICE_INFO status=STATUS_NOT_FOUND resource-list-empty\n"));
+        KdPrint(("AMDBC250: No translated resources reported by dxgk\n"));
+        goto CompatibilityStart;
+    }
 
-    KdPrint(("AMDBC250: PCI Device %04X:%04X detected\n",
-             DevExt->VendorId, DevExt->DeviceId));
+    /*
+     * DXGK_DEVICE_INFO no longer exposes PCI vendor/device IDs directly in
+     * recent WDK headers. Keep known BC-250 identifiers for diagnostics.
+     */
+    DevExt->VendorId = AMD_VENDOR_ID;
+    DevExt->DeviceId = AMDBC250_DEVICE_ID_PRIMARY;
 
-    /* Map MMIO BAR (BAR 0) */
-    DevExt->MmioPhysicalBase = DeviceInfo.TranslatedResourceList->List[0]
-                                .PartialResourceList.PartialDescriptors[0]
-                                .u.Memory.Start;
-    DevExt->MmioSize = DeviceInfo.TranslatedResourceList->List[0]
-                        .PartialResourceList.PartialDescriptors[0]
-                        .u.Memory.Length;
+    /* Parse translated resources and map memory regions */
+    ResourceList = &DeviceInfo.TranslatedResourceList->List[0].PartialResourceList;
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_PARSE_RESOURCES, STATUS_SUCCESS, "parse-resources");
+    for (DescriptorIndex = 0; DescriptorIndex < ResourceList->Count; DescriptorIndex++) {
+        PCM_PARTIAL_RESOURCE_DESCRIPTOR Descriptor;
+        Descriptor = &ResourceList->PartialDescriptors[DescriptorIndex];
 
+        if (Descriptor->Type != CmResourceTypeMemory) {
+            continue;
+        }
+
+        if (DevExt->MmioSize == 0) {
+            DevExt->MmioPhysicalBase = Descriptor->u.Memory.Start;
+            DevExt->MmioSize = Descriptor->u.Memory.Length;
+        } else if (DevExt->DoorbellSize == 0) {
+            DevExt->DoorbellPhysicalBase = Descriptor->u.Memory.Start;
+            DevExt->DoorbellSize = Descriptor->u.Memory.Length;
+        }
+    }
+
+    if (DevExt->MmioSize == 0) {
+        DevExt->DebugStartStatus = STATUS_DEVICE_CONFIGURATION_ERROR;
+        Bc250CaptureFirstFailureEx(DevExt,
+                                   BC250_START_STAGE_PARSE_RESOURCES,
+                                   STATUS_DEVICE_CONFIGURATION_ERROR,
+                                   "no-mmio-resource",
+                                   BC250_DDI_ID_STARTDEVICE,
+                                   0,
+                                   0);
+        KdPrint(("AMDBC250: STARTTRACE fail stage=PARSE_RESOURCES no-mmio\n"));
+        KdPrint(("AMDBC250: No MMIO resource found\n"));
+        goto CompatibilityStart;
+    }
+
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_MAP_MMIO, STATUS_SUCCESS, "map-mmio");
     DevExt->MmioVirtualBase = MmMapIoSpace(
         DevExt->MmioPhysicalBase,
         DevExt->MmioSize,
@@ -240,8 +1051,17 @@ Bc250DdiStartDevice(
         );
 
     if (DevExt->MmioVirtualBase == NULL) {
+        DevExt->DebugStartStatus = STATUS_INSUFFICIENT_RESOURCES;
+        Bc250CaptureFirstFailureEx(DevExt,
+                                   BC250_START_STAGE_MAP_MMIO,
+                                   STATUS_INSUFFICIENT_RESOURCES,
+                                   "mmio-map-failed",
+                                   BC250_DDI_ID_STARTDEVICE,
+                                   0,
+                                   0);
+        KdPrint(("AMDBC250: STARTTRACE fail stage=MAP_MMIO MmMapIoSpace-null\n"));
         KdPrint(("AMDBC250: Failed to map MMIO BAR\n"));
-        return STATUS_INSUFFICIENT_RESOURCES;
+        goto CompatibilityStart;
     }
 
     KdPrint(("AMDBC250: MMIO mapped at VA=%p, PA=0x%llX, size=0x%llX\n",
@@ -249,26 +1069,105 @@ Bc250DdiStartDevice(
              DevExt->MmioPhysicalBase.QuadPart,
              (ULONGLONG)DevExt->MmioSize));
 
-    /* Initialize hardware */
-    Status = Bc250HwInitialize(DevExt);
-    if (!NT_SUCCESS(Status)) {
-        KdPrint(("AMDBC250: Hardware initialization failed: 0x%08X\n", Status));
-        MmUnmapIoSpace(DevExt->MmioVirtualBase, DevExt->MmioSize);
-        DevExt->MmioVirtualBase = NULL;
-        return Status;
+    if (DevExt->DoorbellSize != 0) {
+        BC250_TRACE_START(DevExt, BC250_START_STAGE_MAP_DOORBELL, STATUS_SUCCESS, "map-doorbell");
+        DevExt->DoorbellVirtualBase = MmMapIoSpace(
+            DevExt->DoorbellPhysicalBase,
+            DevExt->DoorbellSize,
+            MmNonCached
+            );
+
+        if (DevExt->DoorbellVirtualBase == NULL) {
+            KdPrint(("AMDBC250: Failed to map doorbell BAR, using MMIO fallback\n"));
+            DevExt->DoorbellSize = 0;
+        }
     }
 
-    /*
-     * Report display topology:
-     * The BC-250 has a single DisplayPort output (1 VidPN source, 1 child)
-     */
-    *NumberOfVideoPresentSources = 1;
-    *NumberOfChildren = 1;
+    /* Initialize hardware */
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_HW_INIT, STATUS_SUCCESS, "enter-hw-init");
+    Status = Bc250HwInitialize(DevExt);
+    if (!NT_SUCCESS(Status)) {
+        DevExt->DebugStartStatus = Status;
+        Bc250CaptureFirstFailureEx(DevExt,
+                                   BC250_START_STAGE_HW_INIT,
+                                   Status,
+                                   "hw-init-failed",
+                                   BC250_DDI_ID_STARTDEVICE,
+                                   0,
+                                   0);
+        KdPrint(("AMDBC250: STARTTRACE fail stage=HW_INIT status=0x%08X\n", Status));
+        KdPrint(("AMDBC250: Hardware initialization failed: 0x%08X\n", Status));
+        if (DevExt->DoorbellVirtualBase != NULL) {
+            MmUnmapIoSpace(DevExt->DoorbellVirtualBase, DevExt->DoorbellSize);
+            DevExt->DoorbellVirtualBase = NULL;
+        }
+        MmUnmapIoSpace(DevExt->MmioVirtualBase, DevExt->MmioSize);
+        DevExt->MmioVirtualBase = NULL;
+        goto CompatibilityStart;
+    }
+
+    *NumberOfVideoPresentSources = AMDBC250_HEADLESS_RENDER_ONLY ? 0 : 1;
+    *NumberOfChildren = AMDBC250_HEADLESS_RENDER_ONLY ? 0 : (AMDBC250_H_CHILDLESS_MODE ? 0 : 1);
 
     DevExt->HardwareInitialized = TRUE;
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_SUCCESS, STATUS_SUCCESS, "full-hw-init-success");
 
-    KdPrint(("AMDBC250: StartDevice completed successfully\n"));
+    KdPrint(("AMDBC250: StartDevice completed with full hardware initialization\n"));
+    KdPrint(("AMDBC250: StartDevice breadcrumbs Stage=%lu Status=0x%08X HwStage=%lu HwStatus=0x%08X\n",
+             DevExt->DebugStartStage,
+             DevExt->DebugStartStatus,
+             DevExt->DebugHwInitStage,
+             DevExt->DebugHwInitStatus));
+    KdPrint(("AMDBC250: StartDevice failmap firstStage=%lu firstStatus=0x%08X firstDdi=%lu(%s) firstQType=%lu firstOut=%llu qaiCount=%lu qaiLastType=%lu qaiLastStatus=0x%08X qaiLastVramMB=%llu\n",
+             DevExt->DebugFirstFailStage,
+             (ULONG)DevExt->DebugFirstFailStatus,
+             DevExt->DebugFirstFailDdiId,
+             Bc250GetDdiName(DevExt->DebugFirstFailDdiId),
+             DevExt->DebugFirstFailQueryType,
+             DevExt->DebugFirstFailOutSize,
+             DevExt->DebugQueryCount,
+             DevExt->DebugQueryLastType,
+             (ULONG)DevExt->DebugQueryLastStatus,
+             (ULONGLONG)(DevExt->DebugQueryLastVramBytes / (1024ULL * 1024ULL))));
+    KdPrint(("AMDBC250: StartDevice return STATUS_SUCCESS Sources=%lu Children=%lu\n",
+             *NumberOfVideoPresentSources,
+             *NumberOfChildren));
+    Bc250LogGlobalCounters("StartDevice-success-fullhw", STATUS_SUCCESS);
     return STATUS_SUCCESS;
+
+CompatibilityStart:
+    BC250_TRACE_START(DevExt, BC250_START_STAGE_COMPAT_FALLBACK, DevExt->DebugStartStatus, "compat-fallback");
+    if (DevExt->TotalVramBytes == 0) {
+        DevExt->TotalVramBytes = (SIZE_T)AMDBC250_DEFAULT_VRAM_MB * 1024 * 1024;
+        DevExt->UsedVramBytes = 0;
+    }
+    DevExt->HardwareInitialized = TRUE;
+    DevExt->PowerState = PowerDeviceD0;
+    *NumberOfVideoPresentSources = AMDBC250_HEADLESS_RENDER_ONLY ? 0 : 1;
+    *NumberOfChildren = AMDBC250_HEADLESS_RENDER_ONLY ? 0 : (AMDBC250_H_CHILDLESS_MODE ? 0 : 1);
+    KdPrint(("AMDBC250: StartDevice using compatibility fallback path\n"));
+    KdPrint(("AMDBC250: StartDevice breadcrumbs Stage=%lu Status=0x%08X HwStage=%lu HwStatus=0x%08X\n",
+             DevExt->DebugStartStage,
+             DevExt->DebugStartStatus,
+             DevExt->DebugHwInitStage,
+             DevExt->DebugHwInitStatus));
+    KdPrint(("AMDBC250: StartDevice failmap firstStage=%lu firstStatus=0x%08X firstDdi=%lu(%s) firstQType=%lu firstOut=%llu qaiCount=%lu qaiLastType=%lu qaiLastStatus=0x%08X qaiLastVramMB=%llu\n",
+             DevExt->DebugFirstFailStage,
+             (ULONG)DevExt->DebugFirstFailStatus,
+             DevExt->DebugFirstFailDdiId,
+             Bc250GetDdiName(DevExt->DebugFirstFailDdiId),
+             DevExt->DebugFirstFailQueryType,
+             DevExt->DebugFirstFailOutSize,
+             DevExt->DebugQueryCount,
+             DevExt->DebugQueryLastType,
+             (ULONG)DevExt->DebugQueryLastStatus,
+             (ULONGLONG)(DevExt->DebugQueryLastVramBytes / (1024ULL * 1024ULL))));
+    KdPrint(("AMDBC250: StartDevice return STATUS_SUCCESS Sources=%lu Children=%lu\n",
+             *NumberOfVideoPresentSources,
+             *NumberOfChildren));
+    Bc250LogGlobalCounters("StartDevice-success-compat", STATUS_SUCCESS);
+    return STATUS_SUCCESS;
+#endif
 }
 
 /*===========================================================================
@@ -283,14 +1182,37 @@ Bc250DdiStopDevice(
     _In_ PVOID MiniportDeviceContext
     )
 {
+    Bc250MarkCallbackEnter(BC250_CB_STOPDEVICE);
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)MiniportDeviceContext;
+    ULONG ContextIndex;
+    KIRQL OldIrql;
+    LONG StopCount = InterlockedIncrement(&g_DeStopDevice);
 
-    KdPrint(("AMDBC250: DxgkDdiStopDevice called\n"));
+    if (DevExt == NULL) {
+        Bc250LogGlobalCounters("StopDevice-invalid-parameter", STATUS_INVALID_PARAMETER);
+        Bc250MarkCallbackExit(BC250_CB_STOPDEVICE, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    KdPrint(("AMDBC250: DxgkDdiStopDevice called count=%ld lastCb=%ld lastStatus=0x%08X lastVidPnCb=%ld lastQai=%ld\n",
+             StopCount, g_Bc250LastCallbackId, (ULONG)g_Bc250LastCallbackStatus, g_Bc250LastVidPnCallbackId, g_Bc250LastQaiType));
 
     if (DevExt->HardwareInitialized) {
         Bc250HwShutdown(DevExt);
         DevExt->HardwareInitialized = FALSE;
     }
+
+    KeAcquireSpinLock(&DevExt->ContextListLock, &OldIrql);
+    for (ContextIndex = 0; ContextIndex < RTL_NUMBER_OF(DevExt->Contexts); ContextIndex++) {
+        PAMDBC250_GPU_CONTEXT Context = DevExt->Contexts[ContextIndex];
+        if (Context != NULL) {
+            Context->IsValid = FALSE;
+            DevExt->Contexts[ContextIndex] = NULL;
+            ExFreePoolWithTag(Context, AMDBC250_TAG_CONTEXT);
+        }
+    }
+    DevExt->NumContexts = 0;
+    KeReleaseSpinLock(&DevExt->ContextListLock, OldIrql);
 
     /* Unmap MMIO */
     if (DevExt->MmioVirtualBase != NULL) {
@@ -305,6 +1227,11 @@ Bc250DdiStopDevice(
     }
 
     KdPrint(("AMDBC250: StopDevice completed\n"));
+#if AMDBC250_DUMP_QAI_ON_STOPREMOVE
+    Bc250DumpGlobalQaiHistory("StopDevice");
+#endif
+    Bc250LogGlobalCounters("StopDevice-success", STATUS_SUCCESS);
+    Bc250MarkCallbackExit(BC250_CB_STOPDEVICE, STATUS_SUCCESS);
     return STATUS_SUCCESS;
 }
 
@@ -319,14 +1246,62 @@ Bc250DdiRemoveDevice(
     _In_ PVOID MiniportDeviceContext
     )
 {
+    Bc250MarkCallbackEnter(BC250_CB_REMOVEDEVICE);
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)MiniportDeviceContext;
+    LONG RemoveCount = InterlockedIncrement(&g_DeRemoveDevice);
 
-    KdPrint(("AMDBC250: DxgkDdiRemoveDevice called\n"));
+    KdPrint(("AMDBC250: DxgkDdiRemoveDevice called count=%ld lastCb=%ld lastStatus=0x%08X lastVidPnCb=%ld lastQai=%ld\n",
+             RemoveCount, g_Bc250LastCallbackId, (ULONG)g_Bc250LastCallbackStatus, g_Bc250LastVidPnCallbackId, g_Bc250LastQaiType));
 
     if (DevExt != NULL) {
+        while (!IsListEmpty(&DevExt->AllocationList)) {
+            PLIST_ENTRY Entry = RemoveHeadList(&DevExt->AllocationList);
+            PAMDBC250_ALLOCATION Alloc = CONTAINING_RECORD(Entry, AMDBC250_ALLOCATION, ListEntry);
+            ExFreePoolWithTag(Alloc, AMDBC250_TAG_ALLOCATION);
+        }
+
+        if (DevExt->HardwareInitialized) {
+            Bc250HwShutdown(DevExt);
+            DevExt->HardwareInitialized = FALSE;
+        }
+        if (DevExt->MmioVirtualBase != NULL) {
+            MmUnmapIoSpace(DevExt->MmioVirtualBase, DevExt->MmioSize);
+            DevExt->MmioVirtualBase = NULL;
+        }
+        if (DevExt->DoorbellVirtualBase != NULL) {
+            MmUnmapIoSpace(DevExt->DoorbellVirtualBase, DevExt->DoorbellSize);
+            DevExt->DoorbellVirtualBase = NULL;
+        }
+        if (g_Bc250PrimaryDevice == DevExt) {
+            g_Bc250PrimaryDevice = NULL;
+        }
         ExFreePoolWithTag(DevExt, AMDBC250_TAG_DEVICE_EXT);
     }
 
+#if AMDBC250_DUMP_QAI_ON_STOPREMOVE
+    Bc250DumpGlobalQaiHistory("RemoveDevice");
+#endif
+    Bc250LogGlobalCounters("RemoveDevice-success", STATUS_SUCCESS);
+    Bc250MarkCallbackExit(BC250_CB_REMOVEDEVICE, STATUS_SUCCESS);
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiDispatchIoRequest(
+    _In_ CONST PVOID MiniportDeviceContext,
+    _In_ ULONG VidPnSourceId,
+    _In_ PVIDEO_REQUEST_PACKET VideoRequestPacket
+    )
+{
+    UNREFERENCED_PARAMETER(MiniportDeviceContext);
+    KdPrint(("AMDBC250: DispatchIoRequest VidPnSourceId=%lu Vrq=%p\n",
+             VidPnSourceId,
+             VideoRequestPacket));
+    if (VideoRequestPacket != NULL && VideoRequestPacket->StatusBlock != NULL) {
+        VideoRequestPacket->StatusBlock->Status = 1;
+        VideoRequestPacket->StatusBlock->Information = 0;
+    }
     return STATUS_SUCCESS;
 }
 
@@ -343,6 +1318,10 @@ Bc250DdiResetDevice(
     )
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)MiniportDeviceContext;
+
+    if (DevExt == NULL) {
+        return;
+    }
 
     KdPrint(("AMDBC250: DxgkDdiResetDevice called (TDR)\n"));
 
@@ -368,7 +1347,9 @@ Bc250DdiUnload(
     VOID
     )
 {
+    Bc250MarkCallbackEnter(BC250_CB_UNLOAD);
     KdPrint(("AMDBC250: DxgkDdiUnload called\n"));
+    Bc250MarkCallbackExit(BC250_CB_UNLOAD, STATUS_SUCCESS);
 }
 
 /*===========================================================================
@@ -385,22 +1366,32 @@ Bc250DdiInterruptRoutine(
     )
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)MiniportDeviceContext;
-    ULONG IhStatus;
+    ULONG WPtr;
     BOOLEAN OurInterrupt = FALSE;
 
     UNREFERENCED_PARAMETER(MessageNumber);
 
-    /* Read IH ring write pointer to check for new entries */
-    IhStatus = Bc250ReadMmio(DevExt, AMDBC250_REG_IH_RB_WPTR);
+    if (DevExt == NULL ||
+        !DevExt->HardwareInitialized ||
+        DevExt->IhRing.VirtualAddress == NULL ||
+        DevExt->IhRing.SizeInBytes == 0) {
+        return FALSE;
+    }
 
-    if (IhStatus != DevExt->IhRing.ReadPointer) {
+    /* Read IH ring write pointer to check for new entries */
+    WPtr = Bc250ReadMmio(DevExt, AMDBC250_REG_IH_RB_WPTR);
+    WPtr &= (ULONG)(DevExt->IhRing.SizeInBytes - 1);
+
+    if (WPtr != DevExt->IhRing.ReadPointer) {
         /* New interrupt entries in the IH ring */
-        DevExt->LastInterruptStatus = IhStatus;
+        DevExt->LastInterruptStatus = WPtr;
         DevExt->InterruptCount++;
         OurInterrupt = TRUE;
 
         /* Schedule DPC for deferred processing */
-        DevExt->DxgkInterface.DxgkCbQueueDpc(DevExt->DeviceHandle);
+        if (DevExt->DxgkInterface.DxgkCbQueueDpc != NULL) {
+            DevExt->DxgkInterface.DxgkCbQueueDpc(DevExt->DeviceHandle);
+        }
     }
 
     return OurInterrupt;
@@ -421,19 +1412,27 @@ Bc250DdiDpcRoutine(
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)MiniportDeviceContext;
     PULONG IhBase;
     ULONG WPtr, RPtr;
+    ULONG MaxEntries;
+    ULONG ProcessedEntries;
     ULONG ClientId, SrcId;
     ULONG Entry[4];
 
-    if (!DevExt->HardwareInitialized || DevExt->IhRing.VirtualAddress == NULL) {
+    if (DevExt == NULL ||
+        !DevExt->HardwareInitialized ||
+        DevExt->IhRing.VirtualAddress == NULL ||
+        DevExt->IhRing.SizeInBytes == 0) {
         return;
     }
 
     IhBase = (PULONG)DevExt->IhRing.VirtualAddress;
-    WPtr = DevExt->LastInterruptStatus & 0x0001FFFF;
+    WPtr = Bc250ReadMmio(DevExt, AMDBC250_REG_IH_RB_WPTR) &
+           (ULONG)(DevExt->IhRing.SizeInBytes - 1);
     RPtr = DevExt->IhRing.ReadPointer;
+    MaxEntries = (ULONG)(DevExt->IhRing.SizeInBytes / AMDBC250_IH_RING_ENTRY_SIZE);
+    ProcessedEntries = 0;
 
     /* Process all pending IH ring entries */
-    while (RPtr != WPtr) {
+    while (RPtr != WPtr && ProcessedEntries < MaxEntries) {
         ULONG EntryOffset = (RPtr / AMDBC250_IH_RING_ENTRY_SIZE) * 4;
 
         /* Read 4-DWORD IH entry */
@@ -451,12 +1450,21 @@ Bc250DdiDpcRoutine(
             if (SrcId == 0xE0) {
                 /* EOP (End of Pipe) event - fence signaled */
                 DXGKARGCB_NOTIFY_INTERRUPT_DATA NotifyData = {0};
+                ULONG FenceValue = Entry[2];
+
+                DevExt->GlobalFence.LastSignaledValue = FenceValue;
+                if (DevExt->GlobalFence.VirtualAddress != NULL) {
+                    *DevExt->GlobalFence.VirtualAddress = FenceValue;
+                }
+
                 NotifyData.InterruptType = DXGK_INTERRUPT_DMA_COMPLETED;
-                NotifyData.DmaCompleted.SubmissionFenceId = Entry[2];
-                DevExt->DxgkInterface.DxgkCbNotifyInterrupt(
-                    DevExt->DeviceHandle,
-                    &NotifyData
-                    );
+                NotifyData.DmaCompleted.SubmissionFenceId = FenceValue;
+                if (DevExt->DxgkInterface.DxgkCbNotifyInterrupt != NULL) {
+                    DevExt->DxgkInterface.DxgkCbNotifyInterrupt(
+                        DevExt->DeviceHandle,
+                        &NotifyData
+                        );
+                }
             }
             break;
 
@@ -466,10 +1474,12 @@ Bc250DdiDpcRoutine(
                 DXGKARGCB_NOTIFY_INTERRUPT_DATA NotifyData = {0};
                 NotifyData.InterruptType = DXGK_INTERRUPT_CRTC_VSYNC;
                 NotifyData.CrtcVsync.VidPnTargetId = 0;
-                DevExt->DxgkInterface.DxgkCbNotifyInterrupt(
-                    DevExt->DeviceHandle,
-                    &NotifyData
-                    );
+                if (DevExt->DxgkInterface.DxgkCbNotifyInterrupt != NULL) {
+                    DevExt->DxgkInterface.DxgkCbNotifyInterrupt(
+                        DevExt->DeviceHandle,
+                        &NotifyData
+                        );
+                }
             }
             break;
 
@@ -482,6 +1492,11 @@ Bc250DdiDpcRoutine(
         if (RPtr >= (ULONG)DevExt->IhRing.SizeInBytes) {
             RPtr = 0;
         }
+        ProcessedEntries++;
+    }
+
+    if (ProcessedEntries == MaxEntries && RPtr != WPtr) {
+        KdPrint(("AMDBC250: IH ring processing hit safety limit; forcing RPTR sync\n"));
     }
 
     /* Update IH ring read pointer */
@@ -489,7 +1504,9 @@ Bc250DdiDpcRoutine(
     Bc250WriteMmio(DevExt, AMDBC250_REG_IH_RB_RPTR, RPtr);
 
     /* Notify WDDM that DPC processing is complete */
-    DevExt->DxgkInterface.DxgkCbNotifyDpc(DevExt->DeviceHandle);
+    if (DevExt->DxgkInterface.DxgkCbNotifyDpc != NULL) {
+        DevExt->DxgkInterface.DxgkCbNotifyDpc(DevExt->DeviceHandle);
+    }
 }
 
 /*===========================================================================
@@ -504,12 +1521,76 @@ Bc250DdiQueryAdapterInfo(
     _In_ CONST DXGKARG_QUERYADAPTERINFO *pQueryAdapterInfo
     )
 {
+    Bc250MarkCallbackEnter(BC250_CB_QUERYADAPTERINFO);
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
+    SIZE_T ReportedVramBytes = 0;
+    LONG QueryCount = InterlockedIncrement(&g_DeQueryAdapterInfo);
+
+#define BC250_QAI_RETURN(_status, _vramBytes, _note)                                    \
+    do {                                                                                 \
+        Bc250RecordGlobalQai(                                                            \
+            (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->Type : 0,                  \
+            (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->OutputDataSize : 0,        \
+            (_status));                                                                  \
+        Bc250TraceQueryResult(DevExt,                                                    \
+                               (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->Type : 0, \
+                               (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->OutputDataSize : 0, \
+                               (_status),                                                 \
+                              (_vramBytes),                                              \
+                              (_note));                                                  \
+        if (!NT_SUCCESS(_status)) {                                                      \
+            Bc250CaptureFirstFailureEx(DevExt,                                           \
+                                       BC250_FAIL_STAGE_QUERYADAPTERINFO,                \
+                                       (_status),                                         \
+                                       (_note),                                           \
+                                       BC250_DDI_ID_QUERYADAPTERINFO,                    \
+                                       (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->Type : 0, \
+                                       (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->OutputDataSize : 0); \
+        }                                                                                \
+        InterlockedExchange(&g_Bc250LastQaiType, (LONG)((pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->Type : 0)); \
+        Bc250MarkCallbackExit(BC250_CB_QUERYADAPTERINFO, (_status));                    \
+        Bc250LogGlobalCounters("QueryAdapterInfo-return", (_status));                   \
+        return (_status);                                                                \
+    } while (0)
+
+    if (DevExt == NULL || pQueryAdapterInfo == NULL || pQueryAdapterInfo->pOutputData == NULL) {
+        if (DevExt != NULL) {
+            Bc250CaptureFirstFailureEx(DevExt,
+                                       BC250_FAIL_STAGE_QUERYADAPTERINFO,
+                                       STATUS_INVALID_PARAMETER,
+                                       "query-invalid-parameter",
+                                       BC250_DDI_ID_QUERYADAPTERINFO,
+                                       (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->Type : 0,
+                                       (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->OutputDataSize : 0);
+        }
+        Bc250RecordGlobalQai((pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->Type : 0,
+                             (pQueryAdapterInfo != NULL) ? pQueryAdapterInfo->OutputDataSize : 0,
+                             STATUS_INVALID_PARAMETER);
+        Bc250LogGlobalCounters("QueryAdapterInfo-invalid-parameter", STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    KdPrint(("AMDBC250: QueryAdapterInfo enter count=%ld Type=%u(%s) OutSize=%llu\n",
+             QueryCount,
+             pQueryAdapterInfo->Type,
+             Bc250GetQaiTypeName(pQueryAdapterInfo->Type),
+             (ULONGLONG)pQueryAdapterInfo->OutputDataSize));
+    Bc250DumpLifecycleCounters("QAI-enter");
 
     switch (pQueryAdapterInfo->Type) {
 
+    case DXGKQAITYPE_UMDRIVERPRIVATE:
+        if (pQueryAdapterInfo->OutputDataSize != 0) {
+            RtlZeroMemory(pQueryAdapterInfo->pOutputData, pQueryAdapterInfo->OutputDataSize);
+        }
+        KdPrint(("AMDBC250: QueryAdapterInfo - UMDRIVERPRIVATE zeroed\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, 0, "umdriverprivate-zeroed");
+
     case DXGKQAITYPE_DRIVERCAPS: {
         DXGK_DRIVERCAPS *pCaps = (DXGK_DRIVERCAPS *)pQueryAdapterInfo->pOutputData;
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_DRIVERCAPS)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "drivercaps-buffer-too-small");
+        }
         RtlZeroMemory(pCaps, sizeof(DXGK_DRIVERCAPS));
 
         /* Present capabilities */
@@ -517,57 +1598,346 @@ Bc250DdiQueryAdapterInfo(
         pCaps->PresentationCaps.SupportSoftwareDeviceBitmaps   = TRUE;
 
         /* Scheduler capabilities */
-        pCaps->SchedulingCaps.MultiEngineAware = TRUE;
+        pCaps->SchedulingCaps.MultiEngineAware = FALSE;
 
         /* Memory management capabilities */
         pCaps->MemoryManagementCaps.PagingNode = 0;
 
+        /* Keep reported WDDM caps consistent and configurable per test track. */
+        pCaps->WDDMVersion = Bc250GetReportedWddmCapsVersion();
+        pCaps->PreemptionCaps.GraphicsPreemptionGranularity =
+            D3DKMDT_GRAPHICS_PREEMPTION_DMA_BUFFER_BOUNDARY;
+        pCaps->PreemptionCaps.ComputePreemptionGranularity =
+            D3DKMDT_COMPUTE_PREEMPTION_DMA_BUFFER_BOUNDARY;
+        pCaps->SupportNonVGA = FALSE;
+        pCaps->SupportPerEngineTDR = FALSE;
+
         /* GPU engine capabilities */
-        pCaps->GpuEngineTopology.NbAsyncEngineCount = 1;
+        pCaps->GpuEngineTopology.NbAsymetricProcessingNodes = 0;
 
         /* Maximum number of flip queues */
-        pCaps->FlipCaps.FlipOnVSyncMmIo = TRUE;
+        pCaps->FlipCaps.FlipOnVSyncMmIo = FALSE;
 
         KdPrint(("AMDBC250: QueryAdapterInfo - DRIVERCAPS reported\n"));
-        return STATUS_SUCCESS;
+        BC250_QAI_RETURN(STATUS_SUCCESS, 0, "drivercaps");
     }
 
     case DXGKQAITYPE_QUERYSEGMENT: {
         DXGK_QUERYSEGMENTOUT *pSegOut = (DXGK_QUERYSEGMENTOUT *)pQueryAdapterInfo->pOutputData;
 
-        if (pQueryAdapterInfo->pInputData == NULL) {
-            /* First call: report number of segments */
-            pSegOut->NbSegment = 2;  /* Segment 0: VRAM, Segment 1: System */
-            return STATUS_SUCCESS;
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_QUERYSEGMENTOUT)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "querysegment-buffer-too-small");
+        }
+
+        if (pSegOut->pSegmentDescriptor == NULL) {
+            pSegOut->NbSegment = AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1;
+            BC250_QAI_RETURN(STATUS_SUCCESS, 0, "querysegment-count-only");
         }
 
         /* Second call: report segment details */
-        pSegOut->NbSegment = 2;
+        ReportedVramBytes = Bc250GetReportedVramSizeBytes(DevExt);
+        KdPrint(("AMDBC250: QUERYSEGMENT mem total=%lluMB used=%lluMB reported=%lluMB\n",
+                 (ULONGLONG)(DevExt->TotalVramBytes / (1024ULL * 1024ULL)),
+                 (ULONGLONG)(DevExt->UsedVramBytes / (1024ULL * 1024ULL)),
+                 (ULONGLONG)(ReportedVramBytes / (1024ULL * 1024ULL))));
 
-        /* Segment 0: GPU-accessible VRAM (aperture) */
+        pSegOut->NbSegment = AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1;
+
+        /* Segment 0: UMA local segment (CPU-visible and cache coherent). */
         pSegOut->pSegmentDescriptor[0].BaseAddress.QuadPart = 0;
-        pSegOut->pSegmentDescriptor[0].Size = DevExt->TotalVramBytes;
-        pSegOut->pSegmentDescriptor[0].CommitLimit = DevExt->TotalVramBytes;
-        pSegOut->pSegmentDescriptor[0].Flags.CpuVisible = TRUE;
-        pSegOut->pSegmentDescriptor[0].Flags.CacheCoherent = FALSE;
-
-        /* Segment 1: System memory (AGP-style aperture) */
-        pSegOut->pSegmentDescriptor[1].BaseAddress.QuadPart = 0;
-        pSegOut->pSegmentDescriptor[1].Size = 0x100000000ULL;  /* 4 GB */
-        pSegOut->pSegmentDescriptor[1].CommitLimit = 0x100000000ULL;
-        pSegOut->pSegmentDescriptor[1].Flags.Aperture = TRUE;
-        pSegOut->pSegmentDescriptor[1].Flags.CpuVisible = TRUE;
-        pSegOut->pSegmentDescriptor[1].Flags.CacheCoherent = TRUE;
+        pSegOut->pSegmentDescriptor[0].Size = ReportedVramBytes;
+        pSegOut->pSegmentDescriptor[0].CommitLimit = ReportedVramBytes;
+        BC250_SET_UMA_SEGMENT_FLAGS(pSegOut->pSegmentDescriptor[0].Flags);
+        if (AMDBC250_QSEG_TWO_SEGMENTS) {
+            SIZE_T GttBytes = Bc250GetReportedGttSizeBytes();
+            pSegOut->pSegmentDescriptor[1].BaseAddress.QuadPart = 0;
+            pSegOut->pSegmentDescriptor[1].Size = GttBytes;
+            pSegOut->pSegmentDescriptor[1].CommitLimit = GttBytes;
+            BC250_SET_UMA_SEGMENT_FLAGS(pSegOut->pSegmentDescriptor[1].Flags);
+        }
 
         KdPrint(("AMDBC250: QueryAdapterInfo - QUERYSEGMENT reported\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, ReportedVramBytes, "querysegment");
+    }
+
+#if defined(DXGKQAITYPE_QUERYSEGMENT2)
+    case DXGKQAITYPE_QUERYSEGMENT2: {
+#if AMDBC250_QAI_SEGMENT_V1_ONLY
+        BC250_QAI_RETURN(STATUS_NOT_SUPPORTED, 0, "querysegment2-disabled-v1-only");
+#else
+        DXGK_QUERYSEGMENTOUT2 *pSegOut2 = (DXGK_QUERYSEGMENTOUT2 *)pQueryAdapterInfo->pOutputData;
+
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_QUERYSEGMENTOUT2)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "querysegment2-buffer-too-small");
+        }
+
+        if (pSegOut2->pSegmentDescriptor == NULL) {
+            pSegOut2->SegmentCount = AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1;
+            BC250_QAI_RETURN(STATUS_SUCCESS, 0, "querysegment2-count-only");
+        }
+
+        ReportedVramBytes = Bc250GetReportedVramSizeBytes(DevExt);
+        KdPrint(("AMDBC250: QUERYSEGMENT2 mem reported=%lluMB segCount=%lu\n",
+                 (ULONGLONG)(ReportedVramBytes / (1024ULL * 1024ULL)),
+                 (ULONG)(AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1)));
+
+        pSegOut2->SegmentCount = AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1;
+        RtlZeroMemory(pSegOut2->pSegmentDescriptor, sizeof(DXGK_SEGMENTDESCRIPTOR2) * pSegOut2->SegmentCount);
+
+        pSegOut2->pSegmentDescriptor[0].Size = ReportedVramBytes;
+        BC250_SET_UMA_SEGMENT_FLAGS(pSegOut2->pSegmentDescriptor[0].Flags);
+        if (AMDBC250_QSEG_TWO_SEGMENTS) {
+            SIZE_T GttBytes = Bc250GetReportedGttSizeBytes();
+            pSegOut2->pSegmentDescriptor[1].Size = GttBytes;
+            BC250_SET_UMA_SEGMENT_FLAGS(pSegOut2->pSegmentDescriptor[1].Flags);
+        }
+
+        KdPrint(("AMDBC250: QueryAdapterInfo - QUERYSEGMENT2 reported\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, ReportedVramBytes, "querysegment2");
+#endif
+    }
+#endif
+
+#if defined(DXGKQAITYPE_QUERYSEGMENT3)
+    case DXGKQAITYPE_QUERYSEGMENT3: {
+#if AMDBC250_QAI_SEGMENT_V1_ONLY
+        BC250_QAI_RETURN(STATUS_NOT_SUPPORTED, 0, "querysegment3-disabled-v1-only");
+#else
+        DXGK_QUERYSEGMENTOUT3 *pSegOut3 = (DXGK_QUERYSEGMENTOUT3 *)pQueryAdapterInfo->pOutputData;
+
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_QUERYSEGMENTOUT3)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "querysegment3-buffer-too-small");
+        }
+
+        if (pSegOut3->pSegmentDescriptor == NULL) {
+            pSegOut3->NbSegment = AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1;
+            pSegOut3->PagingBufferSegmentId = 0;
+            pSegOut3->PagingBufferSize = Bc250GetReportedPagingBufferSizeBytes();
+            pSegOut3->PagingBufferPrivateDataSize = 0;
+            BC250_QAI_RETURN(STATUS_SUCCESS, 0, "querysegment3-count-only");
+        }
+
+        ReportedVramBytes = Bc250GetReportedVramSizeBytes(DevExt);
+        KdPrint(("AMDBC250: QUERYSEGMENT3 mem reported=%lluMB pagingSeg=%lu pagingBuf=%lu\n",
+                 (ULONGLONG)(ReportedVramBytes / (1024ULL * 1024ULL)),
+                 (ULONG)pSegOut3->PagingBufferSegmentId,
+                 (ULONG)pSegOut3->PagingBufferSize));
+
+        pSegOut3->NbSegment = AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1;
+        pSegOut3->PagingBufferSegmentId = 0;
+        pSegOut3->PagingBufferSize = Bc250GetReportedPagingBufferSizeBytes();
+        pSegOut3->PagingBufferPrivateDataSize = 0;
+        RtlZeroMemory(pSegOut3->pSegmentDescriptor, sizeof(DXGK_SEGMENTDESCRIPTOR3) * pSegOut3->NbSegment);
+
+        pSegOut3->pSegmentDescriptor[0].Size = ReportedVramBytes;
+        pSegOut3->pSegmentDescriptor[0].CommitLimit = ReportedVramBytes;
+        BC250_SET_UMA_SEGMENT_FLAGS(pSegOut3->pSegmentDescriptor[0].Flags);
+        if (AMDBC250_QSEG_TWO_SEGMENTS) {
+            SIZE_T GttBytes = Bc250GetReportedGttSizeBytes();
+            pSegOut3->pSegmentDescriptor[1].Size = GttBytes;
+            pSegOut3->pSegmentDescriptor[1].CommitLimit = GttBytes;
+            BC250_SET_UMA_SEGMENT_FLAGS(pSegOut3->pSegmentDescriptor[1].Flags);
+        }
+
+        KdPrint(("AMDBC250: QueryAdapterInfo - QUERYSEGMENT3 reported\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, ReportedVramBytes, "querysegment3");
+#endif
+    }
+#endif
+
+#if defined(DXGKQAITYPE_WDDMDEVICECAPS)
+    case DXGKQAITYPE_WDDMDEVICECAPS: {
+        DXGK_WDDMDEVICECAPS *pWddmCaps = (DXGK_WDDMDEVICECAPS *)pQueryAdapterInfo->pOutputData;
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_WDDMDEVICECAPS)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "wddmdevicecaps-buffer-too-small");
+        }
+        RtlZeroMemory(pWddmCaps, sizeof(*pWddmCaps));
+        pWddmCaps->WDDMVersion = Bc250GetReportedWddmCapsVersion();
+        KdPrint(("AMDBC250: QueryAdapterInfo - WDDMDEVICECAPS reported\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, 0, "wddmdevicecaps");
+    }
+#endif
+
+#if defined(DXGKQAITYPE_GPUPCAPS)
+    case DXGKQAITYPE_GPUPCAPS: {
+        DXGK_GPUPCAPS *pGpuPCaps = (DXGK_GPUPCAPS *)pQueryAdapterInfo->pOutputData;
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_GPUPCAPS)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "gpupcaps-buffer-too-small");
+        }
+        RtlZeroMemory(pGpuPCaps, sizeof(*pGpuPCaps));
+        KdPrint(("AMDBC250: QueryAdapterInfo - GPUPCAPS reported\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, 0, "gpupcaps");
+    }
+#endif
+
+#if defined(DXGKQAITYPE_DEVICE_TYPE_CAPS)
+    case DXGKQAITYPE_DEVICE_TYPE_CAPS: {
+        DXGK_DEVICE_TYPE_CAPS *pDevTypeCaps = (DXGK_DEVICE_TYPE_CAPS *)pQueryAdapterInfo->pOutputData;
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_DEVICE_TYPE_CAPS)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "device-type-caps-buffer-too-small");
+        }
+        RtlZeroMemory(pDevTypeCaps, sizeof(*pDevTypeCaps));
+        pDevTypeCaps->Discrete = 0;
+        pDevTypeCaps->Detachable = 0;
+        KdPrint(("AMDBC250: QueryAdapterInfo - DEVICE_TYPE_CAPS reported\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, 0, "device-type-caps");
+    }
+#endif
+
+#if defined(DXGKQAITYPE_QUERYSEGMENTCOUNT)
+    case DXGKQAITYPE_QUERYSEGMENTCOUNT: {
+        DXGK_QUERYSEGMENTCOUNTOUT *pSegCountOut = (DXGK_QUERYSEGMENTCOUNTOUT *)pQueryAdapterInfo->pOutputData;
+        if (pQueryAdapterInfo->OutputDataSize < sizeof(DXGK_QUERYSEGMENTCOUNTOUT)) {
+            BC250_QAI_RETURN(STATUS_BUFFER_TOO_SMALL, 0, "querysegmentcount-buffer-too-small");
+        }
+        RtlZeroMemory(pSegCountOut, sizeof(*pSegCountOut));
+        pSegCountOut->SegmentCount = AMDBC250_QSEG_TWO_SEGMENTS ? 2 : 1;
+        KdPrint(("AMDBC250: QueryAdapterInfo - QUERYSEGMENTCOUNT reported\n"));
+        BC250_QAI_RETURN(STATUS_SUCCESS, 0, "querysegmentcount");
+    }
+#endif
+
+    default:
+        KdPrint(("AMDBC250: QueryAdapterInfo unsupported type %u out=%llu\n",
+                 pQueryAdapterInfo->Type,
+                 (ULONGLONG)pQueryAdapterInfo->OutputDataSize));
+#if AMDBC250_QAI_UNKNOWN_NOTSUPPORTED
+        BC250_QAI_RETURN(STATUS_NOT_SUPPORTED, 0, "unknown-not-supported");
+#else
+        if (pQueryAdapterInfo->OutputDataSize != 0) {
+            RtlZeroMemory(pQueryAdapterInfo->pOutputData, pQueryAdapterInfo->OutputDataSize);
+        }
+        BC250_QAI_RETURN(STATUS_SUCCESS, 0, "unknown-zero-success");
+#endif
+    }
+
+#undef BC250_QAI_RETURN
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiSetPalette(
+    _In_ CONST HANDLE hAdapter,
+    _In_ CONST DXGKARG_SETPALETTE *pSetPalette
+    )
+{
+    UNREFERENCED_PARAMETER(hAdapter);
+    if (pSetPalette == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiSetPointerPosition(
+    _In_ CONST HANDLE hAdapter,
+    _In_ CONST DXGKARG_SETPOINTERPOSITION *pSetPointerPosition
+    )
+{
+    UNREFERENCED_PARAMETER(hAdapter);
+    if (pSetPointerPosition == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiSetPointerShape(
+    _In_ CONST HANDLE hAdapter,
+    _In_ CONST DXGKARG_SETPOINTERSHAPE *pSetPointerShape
+    )
+{
+    UNREFERENCED_PARAMETER(hAdapter);
+    if (pSetPointerShape == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiIsSupportedVidPn(
+    _In_ CONST HANDLE hAdapter,
+    _Inout_ DXGKARG_ISSUPPORTEDVIDPN *pIsSupportedVidPn
+    )
+{
+    Bc250MarkCallbackEnter(BC250_CB_ISSUPPORTEDVIDPN);
+    PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
+    const DXGK_VIDPN_INTERFACE *VidPnInterface;
+    D3DKMDT_HVIDPNTOPOLOGY Topology;
+    const DXGK_VIDPNTOPOLOGY_INTERFACE *TopologyInterface;
+    const D3DKMDT_VIDPN_PRESENT_PATH *Path;
+    SIZE_T NumPaths;
+    NTSTATUS Status;
+
+    if (pIsSupportedVidPn == NULL) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    pIsSupportedVidPn->IsVidPnSupported = FALSE;
+
+    if (AMDBC250_HEADLESS_RENDER_ONLY) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, STATUS_SUCCESS);
         return STATUS_SUCCESS;
     }
 
-    default:
-        KdPrint(("AMDBC250: QueryAdapterInfo - unhandled type %d\n",
-                 pQueryAdapterInfo->Type));
-        return STATUS_NOT_SUPPORTED;
+    if (DevExt == NULL) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
     }
+
+    if (pIsSupportedVidPn->hDesiredVidPn == 0) {
+        pIsSupportedVidPn->IsVidPnSupported = TRUE;
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, STATUS_SUCCESS);
+        return STATUS_SUCCESS;
+    }
+
+    Status = DevExt->DxgkInterface.DxgkCbQueryVidPnInterface(
+        pIsSupportedVidPn->hDesiredVidPn,
+        DXGK_VIDPN_INTERFACE_VERSION_V1,
+        &VidPnInterface);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, Status);
+        return Status;
+    }
+
+    Status = VidPnInterface->pfnGetTopology(
+        pIsSupportedVidPn->hDesiredVidPn,
+        &Topology,
+        &TopologyInterface);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, Status);
+        return Status;
+    }
+
+    Status = TopologyInterface->pfnGetNumPaths(Topology, &NumPaths);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, Status);
+        return Status;
+    }
+
+    if (NumPaths != 1) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, STATUS_SUCCESS);
+        return STATUS_SUCCESS;
+    }
+
+    Status = TopologyInterface->pfnAcquireFirstPathInfo(Topology, &Path);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, Status);
+        return Status;
+    }
+
+    if (Path->VidPnSourceId == 0 && Path->VidPnTargetId == 0) {
+        pIsSupportedVidPn->IsVidPnSupported = TRUE;
+    }
+
+    (VOID)TopologyInterface->pfnReleasePathInfo(Topology, Path);
+
+    Bc250MarkCallbackExit(BC250_CB_ISSUPPORTEDVIDPN, STATUS_SUCCESS);
+    return STATUS_SUCCESS;
 }
 
 /*===========================================================================
@@ -584,8 +1954,12 @@ Bc250DdiCreateDevice(
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
     PAMDBC250_GPU_CONTEXT Context;
+    KIRQL OldIrql;
+    ULONG Slot;
 
-    UNREFERENCED_PARAMETER(DevExt);
+    if (DevExt == NULL || pCreateDevice == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
 
     KdPrint(("AMDBC250: DxgkDdiCreateDevice called\n"));
 
@@ -603,6 +1977,24 @@ Bc250DdiCreateDevice(
     KeInitializeSpinLock(&Context->ContextLock);
     InitializeListHead(&Context->AllocationList);
     Context->IsValid = TRUE;
+    Context->ContextId = 0;
+
+    /* Track context in adapter state for diagnostics and teardown safety. */
+    KeAcquireSpinLock(&DevExt->ContextListLock, &OldIrql);
+    for (Slot = 0; Slot < RTL_NUMBER_OF(DevExt->Contexts); Slot++) {
+        if (DevExt->Contexts[Slot] == NULL) {
+            DevExt->Contexts[Slot] = Context;
+            DevExt->NumContexts++;
+            Context->ContextId = Slot + 1;
+            break;
+        }
+    }
+    KeReleaseSpinLock(&DevExt->ContextListLock, OldIrql);
+
+    if (Context->ContextId == 0) {
+        ExFreePoolWithTag(Context, AMDBC250_TAG_CONTEXT);
+        return STATUS_INSUFFICIENT_RESOURCES;
+    }
 
     pCreateDevice->hDevice = (HANDLE)Context;
 
@@ -621,15 +2013,101 @@ Bc250DdiDestroyDevice(
     )
 {
     PAMDBC250_GPU_CONTEXT Context = (PAMDBC250_GPU_CONTEXT)hDevice;
+    PAMDBC250_DEVICE_EXTENSION DevExt = g_Bc250PrimaryDevice;
+    KIRQL OldIrql;
+    ULONG Slot;
 
     KdPrint(("AMDBC250: DxgkDdiDestroyDevice called\n"));
 
     if (Context != NULL) {
+        if (DevExt != NULL && Context->ContextId != 0) {
+            KeAcquireSpinLock(&DevExt->ContextListLock, &OldIrql);
+            for (Slot = 0; Slot < RTL_NUMBER_OF(DevExt->Contexts); Slot++) {
+                if (DevExt->Contexts[Slot] == Context) {
+                    DevExt->Contexts[Slot] = NULL;
+                    if (DevExt->NumContexts > 0) {
+                        DevExt->NumContexts--;
+                    }
+                    break;
+                }
+            }
+            KeReleaseSpinLock(&DevExt->ContextListLock, OldIrql);
+        }
+
         Context->IsValid = FALSE;
         ExFreePoolWithTag(Context, AMDBC250_TAG_CONTEXT);
     }
 
     return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiCreateContext(
+    _In_    CONST HANDLE           hDevice,
+    _Inout_ DXGKARG_CREATECONTEXT *pCreateContext
+    )
+{
+    PAMDBC250_DEVICE_EXTENSION DevExt = g_Bc250PrimaryDevice;
+    PAMDBC250_GPU_CONTEXT Context;
+    KIRQL OldIrql;
+    ULONG Slot;
+
+    UNREFERENCED_PARAMETER(hDevice);
+
+    if (DevExt == NULL || pCreateContext == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    Context = (PAMDBC250_GPU_CONTEXT)ExAllocatePoolWithTag(
+        NonPagedPoolNx,
+        sizeof(AMDBC250_GPU_CONTEXT),
+        AMDBC250_TAG_CONTEXT);
+    if (Context == NULL) {
+        return STATUS_NO_MEMORY;
+    }
+
+    RtlZeroMemory(Context, sizeof(AMDBC250_GPU_CONTEXT));
+    KeInitializeSpinLock(&Context->ContextLock);
+    InitializeListHead(&Context->AllocationList);
+    Context->IsValid = TRUE;
+
+    KeAcquireSpinLock(&DevExt->ContextListLock, &OldIrql);
+    for (Slot = 0; Slot < RTL_NUMBER_OF(DevExt->Contexts); Slot++) {
+        if (DevExt->Contexts[Slot] == NULL) {
+            DevExt->Contexts[Slot] = Context;
+            DevExt->NumContexts++;
+            Context->ContextId = Slot + 1;
+            break;
+        }
+    }
+    KeReleaseSpinLock(&DevExt->ContextListLock, OldIrql);
+
+    if (Context->ContextId == 0) {
+        ExFreePoolWithTag(Context, AMDBC250_TAG_CONTEXT);
+        return STATUS_INSUFFICIENT_RESOURCES;
+    }
+
+    pCreateContext->hContext = (HANDLE)Context;
+    pCreateContext->ContextInfo.DmaBufferSize = 64 * 1024;
+    pCreateContext->ContextInfo.DmaBufferSegmentSet = 1;
+    pCreateContext->ContextInfo.AllocationListSize = 64;
+    pCreateContext->ContextInfo.PatchLocationListSize = 64;
+#if (DXGKDDI_INTERFACE_VERSION >= DXGKDDI_INTERFACE_VERSION_WDDM2_0)
+    pCreateContext->ContextInfo.Caps.NoPatchingRequired = 1;
+    pCreateContext->ContextInfo.PagingCompanionNodeId = 0;
+#endif
+
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiDestroyContext(
+    _In_ CONST HANDLE hContext
+    )
+{
+    return Bc250DdiDestroyDevice(hContext);
 }
 
 /*===========================================================================
@@ -646,8 +2124,14 @@ Bc250DdiCreateAllocation(
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
     ULONG i;
+    ULONG j;
+    KIRQL OldIrql;
 
-    UNREFERENCED_PARAMETER(DevExt);
+    if (DevExt == NULL || pCreateAllocation == NULL ||
+        pCreateAllocation->pAllocationInfo == NULL ||
+        pCreateAllocation->NumAllocations == 0) {
+        return STATUS_INVALID_PARAMETER;
+    }
 
     KdPrint(("AMDBC250: DxgkDdiCreateAllocation - %d allocations\n",
              pCreateAllocation->NumAllocations));
@@ -663,17 +2147,37 @@ Bc250DdiCreateAllocation(
             );
 
         if (Alloc == NULL) {
+            for (j = 0; j < i; j++) {
+                PAMDBC250_ALLOCATION RollbackAlloc;
+                RollbackAlloc = (PAMDBC250_ALLOCATION)pCreateAllocation->pAllocationInfo[j].hAllocation;
+                if (RollbackAlloc != NULL) {
+                    KeAcquireSpinLock(&DevExt->AllocationListLock, &OldIrql);
+                    if (RollbackAlloc->ListEntry.Flink != NULL && RollbackAlloc->ListEntry.Blink != NULL) {
+                        RemoveEntryList(&RollbackAlloc->ListEntry);
+                        RollbackAlloc->ListEntry.Flink = NULL;
+                        RollbackAlloc->ListEntry.Blink = NULL;
+                    }
+                    if (RollbackAlloc->AllocationType == AllocTypeFrameBuffer &&
+                        DevExt->UsedVramBytes >= RollbackAlloc->SizeInBytes) {
+                        DevExt->UsedVramBytes -= RollbackAlloc->SizeInBytes;
+                    }
+                    KeReleaseSpinLock(&DevExt->AllocationListLock, OldIrql);
+                    ExFreePoolWithTag(RollbackAlloc, AMDBC250_TAG_ALLOCATION);
+                    pCreateAllocation->pAllocationInfo[j].hAllocation = NULL;
+                }
+            }
             return STATUS_NO_MEMORY;
         }
 
         RtlZeroMemory(Alloc, sizeof(AMDBC250_ALLOCATION));
-        Alloc->SizeInBytes = pAllocInfo->Size;
+        Alloc->SizeInBytes = (pAllocInfo->Size == 0) ? PAGE_SIZE : pAllocInfo->Size;
         Alloc->Alignment   = 4096;  /* 4 KB default alignment */
+        InitializeListHead(&Alloc->ListEntry);
 
         /* Place in VRAM segment (segment 0) by default */
         pAllocInfo->Alignment         = 4096;
-        pAllocInfo->Size              = pAllocInfo->Size;
-        pAllocInfo->PitchAlignedSize  = pAllocInfo->Size;
+        pAllocInfo->Size              = (ULONG)Alloc->SizeInBytes;
+        pAllocInfo->PitchAlignedSize  = (ULONG)Alloc->SizeInBytes;
         pAllocInfo->HintedBank.Value  = 0;
         pAllocInfo->PreferredSegment.Value = 0;
         pAllocInfo->SupportedReadSegmentSet  = 1;  /* Segment 0 */
@@ -683,6 +2187,21 @@ Bc250DdiCreateAllocation(
         pAllocInfo->hAllocation       = (HANDLE)Alloc;
         pAllocInfo->Flags.Value       = 0;
         pAllocInfo->pAllocationUsageHint = NULL;
+
+        KeAcquireSpinLock(&DevExt->AllocationListLock, &OldIrql);
+        InsertTailList(&DevExt->AllocationList, &Alloc->ListEntry);
+        if (DevExt->UsedVramBytes < DevExt->TotalVramBytes &&
+            Alloc->SizeInBytes <= (DevExt->TotalVramBytes - DevExt->UsedVramBytes)) {
+            Alloc->AllocationType = AllocTypeFrameBuffer;
+            DevExt->UsedVramBytes += Alloc->SizeInBytes;
+        } else {
+            Alloc->AllocationType = AllocTypeSystemMemory;
+            pAllocInfo->PreferredSegment.Value = 1;
+            pAllocInfo->SupportedReadSegmentSet  = 2;
+            pAllocInfo->SupportedWriteSegmentSet = 2;
+            pAllocInfo->EvictionSegmentSet       = 1;
+        }
+        KeReleaseSpinLock(&DevExt->AllocationListLock, OldIrql);
     }
 
     return STATUS_SUCCESS;
@@ -700,19 +2219,83 @@ Bc250DdiDestroyAllocation(
     _In_ CONST DXGKARG_DESTROYALLOCATION *pDestroyAllocation
     )
 {
+    PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
     ULONG i;
+    KIRQL OldIrql;
 
-    UNREFERENCED_PARAMETER(hAdapter);
+    if (DevExt == NULL || pDestroyAllocation == NULL || pDestroyAllocation->pAllocationList == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
 
     for (i = 0; i < pDestroyAllocation->NumAllocations; i++) {
         PAMDBC250_ALLOCATION Alloc =
             (PAMDBC250_ALLOCATION)pDestroyAllocation->pAllocationList[i];
 
         if (Alloc != NULL) {
+            KeAcquireSpinLock(&DevExt->AllocationListLock, &OldIrql);
+            if (Alloc->ListEntry.Flink != NULL && Alloc->ListEntry.Blink != NULL) {
+                RemoveEntryList(&Alloc->ListEntry);
+                Alloc->ListEntry.Flink = NULL;
+                Alloc->ListEntry.Blink = NULL;
+            }
+            if (Alloc->AllocationType == AllocTypeFrameBuffer &&
+                DevExt->UsedVramBytes >= Alloc->SizeInBytes) {
+                DevExt->UsedVramBytes -= Alloc->SizeInBytes;
+            }
+            KeReleaseSpinLock(&DevExt->AllocationListLock, OldIrql);
+
             ExFreePoolWithTag(Alloc, AMDBC250_TAG_ALLOCATION);
         }
     }
 
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiOpenAllocation(
+    _In_ CONST HANDLE                 hDevice,
+    _In_ CONST DXGKARG_OPENALLOCATION *pOpenAllocation
+    )
+{
+    UINT i;
+
+    UNREFERENCED_PARAMETER(hDevice);
+
+    if (pOpenAllocation == NULL || pOpenAllocation->pOpenAllocation == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    for (i = 0; i < pOpenAllocation->NumAllocations; i++) {
+        DXGK_OPENALLOCATIONINFO *Info = &pOpenAllocation->pOpenAllocation[i];
+        Info->hDeviceSpecificAllocation =
+            (Info->hAllocation != 0) ? (HANDLE)(ULONG_PTR)Info->hAllocation : Info->pPrivateDriverData;
+    }
+
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiCloseAllocation(
+    _In_ CONST HANDLE                  hDevice,
+    _In_ CONST DXGKARG_CLOSEALLOCATION *pCloseAllocation
+    )
+{
+    UNREFERENCED_PARAMETER(hDevice);
+    UNREFERENCED_PARAMETER(pCloseAllocation);
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS
+APIENTRY
+Bc250DdiPatch(
+    _In_ CONST HANDLE         hAdapter,
+    _In_ CONST DXGKARG_PATCH *pPatch
+    )
+{
+    UNREFERENCED_PARAMETER(hAdapter);
+    UNREFERENCED_PARAMETER(pPatch);
     return STATUS_SUCCESS;
 }
 
@@ -731,11 +2314,42 @@ Bc250DdiSubmitCommand(
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
     ULONG WPtr;
+    ULONG RPtr;
+    ULONG RingSize;
+    ULONG FreeBytes;
+    ULONG RingDwords;
+    ULONG WDwords;
+    ULONG NeededBytes;
     KIRQL OldIrql;
+
+    if (DevExt == NULL || pSubmitCommand == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    if (!DevExt->HardwareInitialized || !DevExt->GfxRing.Initialized ||
+        DevExt->GfxRing.VirtualAddress == NULL || DevExt->GfxRing.SizeInBytes == 0) {
+        return STATUS_DEVICE_NOT_READY;
+    }
+    if (pSubmitCommand->DmaBufferSize == 0) {
+        return STATUS_INVALID_PARAMETER;
+    }
 
     KeAcquireSpinLock(&DevExt->GfxRing.Lock, &OldIrql);
 
     WPtr = DevExt->GfxRing.WritePointer;
+    RPtr = Bc250ReadMmio(DevExt, AMDBC250_REG_CP_RB0_RPTR);
+    RingSize = (ULONG)DevExt->GfxRing.SizeInBytes;
+    NeededBytes = 4 * sizeof(ULONG);
+
+    if (RPtr <= WPtr) {
+        FreeBytes = RingSize - (WPtr - RPtr);
+    } else {
+        FreeBytes = RPtr - WPtr;
+    }
+
+    if (FreeBytes <= NeededBytes) {
+        KeReleaseSpinLock(&DevExt->GfxRing.Lock, OldIrql);
+        return STATUS_BUFFER_TOO_SMALL;
+    }
 
     /*
      * In a full implementation, the command buffer would be written into
@@ -747,28 +2361,26 @@ Bc250DdiSubmitCommand(
      */
 
     /* Write IB (Indirect Buffer) packet to ring */
-    if (DevExt->GfxRing.VirtualAddress != NULL) {
+    {
         PULONG RingBase = (PULONG)DevExt->GfxRing.VirtualAddress;
-        ULONG RingDwords = (ULONG)(DevExt->GfxRing.SizeInBytes / sizeof(ULONG));
-        ULONG WDwords = WPtr / sizeof(ULONG);
+        RingDwords = (ULONG)(DevExt->GfxRing.SizeInBytes / sizeof(ULONG));
+        WDwords = WPtr / sizeof(ULONG);
 
         /* PM4 INDIRECT_BUFFER packet (type 3, opcode 0x3F) */
-        if (WDwords + 4 < RingDwords) {
-            RingBase[WDwords + 0] = PM4_TYPE3_HDR(PM4_IT_INDIRECT_BUFFER, 4);
-            RingBase[WDwords + 1] = (ULONG)(pSubmitCommand->DmaBufferPhysicalAddress.LowPart);
-            RingBase[WDwords + 2] = (ULONG)(pSubmitCommand->DmaBufferPhysicalAddress.HighPart);
-            RingBase[WDwords + 3] = pSubmitCommand->DmaBufferSize / sizeof(ULONG);
+        RingBase[(WDwords + 0) % RingDwords] = (ULONG)PM4_TYPE3_HDR(PM4_IT_INDIRECT_BUFFER, 4);
+        RingBase[(WDwords + 1) % RingDwords] = (ULONG)(pSubmitCommand->DmaBufferPhysicalAddress.LowPart);
+        RingBase[(WDwords + 2) % RingDwords] = (ULONG)(pSubmitCommand->DmaBufferPhysicalAddress.HighPart);
+        RingBase[(WDwords + 3) % RingDwords] = pSubmitCommand->DmaBufferSize / sizeof(ULONG);
 
-            WPtr += 4 * sizeof(ULONG);
-            if (WPtr >= (ULONG)DevExt->GfxRing.SizeInBytes) {
-                WPtr = 0;
-            }
-        }
+        WDwords = (WDwords + 4) % RingDwords;
+        WPtr = WDwords * sizeof(ULONG);
     }
 
     DevExt->GfxRing.WritePointer = WPtr;
+    DevExt->GlobalFence.LastSubmittedValue = (ULONG)pSubmitCommand->SubmissionFenceId;
 
     /* Ring the doorbell to notify GPU of new work */
+    KeMemoryBarrier();
     if (DevExt->DoorbellVirtualBase != NULL) {
         PULONG Doorbell = (PULONG)DevExt->DoorbellVirtualBase;
         Doorbell[DevExt->GfxRing.DoorBellOffset / sizeof(ULONG)] = WPtr;
@@ -801,6 +2413,10 @@ Bc250DdiPreemptCommand(
 
     UNREFERENCED_PARAMETER(pPreemptCommand);
 
+    if (DevExt == NULL || !DevExt->HardwareInitialized || DevExt->MmioVirtualBase == NULL) {
+        return STATUS_DEVICE_NOT_READY;
+    }
+
     KdPrint(("AMDBC250: PreemptCommand called\n"));
 
     /*
@@ -827,11 +2443,15 @@ Bc250DdiQueryCurrentFence(
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
 
+    if (DevExt == NULL || pCurrentFence == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
     /* Read the fence value written by GPU into the fence memory */
     if (DevExt->GlobalFence.VirtualAddress != NULL) {
         pCurrentFence->CurrentFence = *DevExt->GlobalFence.VirtualAddress;
     } else {
-        pCurrentFence->CurrentFence = 0;
+        pCurrentFence->CurrentFence = DevExt->GlobalFence.LastSignaledValue;
     }
 
     return STATUS_SUCCESS;
@@ -851,9 +2471,13 @@ Bc250DdiBuildPagingBuffer(
 {
     UNREFERENCED_PARAMETER(hAdapter);
 
+    if (pBuildPagingBuffer == NULL || pBuildPagingBuffer->pDmaBuffer == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
     switch (pBuildPagingBuffer->Operation) {
 
-    case DXGK_BUILDPAGINGBUFFER_OPERATION_TRANSFER: {
+    case DXGK_OPERATION_TRANSFER: {
         /*
          * Build a DMA copy command to transfer allocation between
          * VRAM and system memory during eviction/restore.
@@ -861,6 +2485,10 @@ Bc250DdiBuildPagingBuffer(
          */
         PULONG DmaBuffer = (PULONG)pBuildPagingBuffer->pDmaBuffer;
         ULONG DmaOffset = 0;
+
+        if (pBuildPagingBuffer->Transfer.TransferSize == 0) {
+            return STATUS_INVALID_PARAMETER;
+        }
 
         /* SDMA COPY LINEAR packet */
         DmaBuffer[DmaOffset++] = (SDMA_OP_COPY << 8) | 0x00000000;
@@ -876,10 +2504,14 @@ Bc250DdiBuildPagingBuffer(
         break;
     }
 
-    case DXGK_BUILDPAGINGBUFFER_OPERATION_FILL: {
+    case DXGK_OPERATION_FILL: {
         /* Fill memory region with a constant value */
         PULONG DmaBuffer = (PULONG)pBuildPagingBuffer->pDmaBuffer;
         ULONG DmaOffset = 0;
+
+        if (pBuildPagingBuffer->Fill.FillSize == 0) {
+            return STATUS_INVALID_PARAMETER;
+        }
 
         DmaBuffer[DmaOffset++] = (SDMA_OP_WRITE << 8) | 0x00000000;
         DmaBuffer[DmaOffset++] = pBuildPagingBuffer->Fill.Destination.SegmentAddress.LowPart;
@@ -914,7 +2546,21 @@ Bc250DdiQueryChildRelations(
     )
 {
     UNREFERENCED_PARAMETER(MiniportDeviceContext);
-    UNREFERENCED_PARAMETER(ChildRelationsSize);
+
+    if (ChildRelations == NULL ||
+        ChildRelationsSize < sizeof(DXGK_CHILD_DESCRIPTOR)) {
+        return STATUS_BUFFER_TOO_SMALL;
+    }
+
+    RtlZeroMemory(ChildRelations, ChildRelationsSize);
+    if (AMDBC250_HEADLESS_RENDER_ONLY) {
+        KdPrint(("AMDBC250: QueryChildRelations - headless render-only mode\n"));
+        return STATUS_SUCCESS;
+    }
+    if (AMDBC250_H_CHILDLESS_MODE) {
+        KdPrint(("AMDBC250: QueryChildRelations - childless mode\n"));
+        return STATUS_SUCCESS;
+    }
 
     /* Child 0: DisplayPort output */
     ChildRelations[0].ChildDeviceType = TypeVideoOutput;
@@ -923,7 +2569,7 @@ Bc250DdiQueryChildRelations(
     ChildRelations[0].ChildCapabilities.Type.VideoOutput.MonitorOrientationAwareness =
         D3DKMDT_MOA_NONE;
     ChildRelations[0].ChildCapabilities.Type.VideoOutput.SupportsSdtvModes = FALSE;
-    ChildRelations[0].ChildCapabilities.HpdAwareness = HpdAwarenessInterruptible;
+    ChildRelations[0].ChildCapabilities.HpdAwareness = HpdAwarenessAlwaysConnected;
     ChildRelations[0].AcpiUid = 0;
     ChildRelations[0].ChildUid = 0;
 
@@ -946,6 +2592,13 @@ Bc250DdiQueryChildStatus(
 {
     UNREFERENCED_PARAMETER(MiniportDeviceContext);
     UNREFERENCED_PARAMETER(NonDestructiveOnly);
+
+    if (ChildStatus == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    if (AMDBC250_HEADLESS_RENDER_ONLY) {
+        return STATUS_NOT_SUPPORTED;
+    }
 
     if (ChildStatus->Type == StatusConnection) {
         /*
@@ -973,14 +2626,20 @@ Bc250DdiQueryDeviceDescriptor(
     )
 {
     UNREFERENCED_PARAMETER(MiniportDeviceContext);
-    UNREFERENCED_PARAMETER(ChildUid);
 
-    /*
-     * Return STATUS_MONITOR_NO_DESCRIPTOR to let Windows use
-     * the EDID read from the monitor via DDC/I2C over DisplayPort AUX.
-     */
+    if (DeviceDescriptor == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    if (AMDBC250_HEADLESS_RENDER_ONLY) {
+        DeviceDescriptor->DescriptorLength = 0;
+        return STATUS_GRAPHICS_CHILD_DESCRIPTOR_NOT_SUPPORTED;
+    }
+    if (ChildUid != 0) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
     DeviceDescriptor->DescriptorLength = 0;
-    return STATUS_MONITOR_NO_DESCRIPTOR;
+    return STATUS_GRAPHICS_CHILD_DESCRIPTOR_NOT_SUPPORTED;
 }
 
 /*===========================================================================
@@ -1002,6 +2661,10 @@ Bc250DdiSetPowerState(
     UNREFERENCED_PARAMETER(DeviceUid);
     UNREFERENCED_PARAMETER(ActionType);
 
+    if (DevExt == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
     KdPrint(("AMDBC250: SetPowerState - state=%d\n", DevicePowerState));
 
     DevExt->PowerState = (ULONG)DevicePowerState;
@@ -1009,7 +2672,7 @@ Bc250DdiSetPowerState(
     switch (DevicePowerState) {
     case PowerDeviceD0:
         /* Full power - resume GPU if needed */
-        if (DevExt->HardwareInitialized) {
+        if (DevExt->HardwareInitialized && DevExt->MmioVirtualBase != NULL) {
             /* Re-enable clocks, restore GPU state */
             Bc250WriteMmio(DevExt, AMDBC250_REG_MP1_SMN_C2PMSG_66, 0x00000001);
         }
@@ -1017,7 +2680,7 @@ Bc250DdiSetPowerState(
 
     case PowerDeviceD3:
         /* Lowest power state - save GPU state, power down */
-        if (DevExt->HardwareInitialized) {
+        if (DevExt->HardwareInitialized && DevExt->MmioVirtualBase != NULL) {
             Bc250WriteMmio(DevExt, AMDBC250_REG_MP1_SMN_C2PMSG_66, 0x00000000);
         }
         break;
@@ -1049,6 +2712,10 @@ Bc250DdiNotifyAcpiEvent(
     UNREFERENCED_PARAMETER(EventCode);
     UNREFERENCED_PARAMETER(Argument);
 
+    if (AcpiFlags == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
     *AcpiFlags = 0;
     return STATUS_SUCCESS;
 }
@@ -1066,7 +2733,10 @@ Bc250DdiQueryInterface(
     )
 {
     UNREFERENCED_PARAMETER(MiniportDeviceContext);
-    UNREFERENCED_PARAMETER(QueryInterface);
+
+    if (QueryInterface == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
 
     return STATUS_NOT_SUPPORTED;
 }
@@ -1076,32 +2746,269 @@ Bc250DdiQueryInterface(
   Full VidPN management implementation (mode setting, scan-out, etc.)
 ===========================================================================*/
 
+static VOID
+Bc250FillSafeSignalInfo(
+    _Out_ D3DKMDT_VIDEO_SIGNAL_INFO *SignalInfo
+    )
+{
+    RtlZeroMemory(SignalInfo, sizeof(*SignalInfo));
+    SignalInfo->VideoStandard = D3DKMDT_VSS_OTHER;
+    SignalInfo->TotalSize.cx = AMDBC250_SAFE_MODE_WIDTH;
+    SignalInfo->TotalSize.cy = AMDBC250_SAFE_MODE_HEIGHT;
+    SignalInfo->ActiveSize.cx = AMDBC250_SAFE_MODE_WIDTH;
+    SignalInfo->ActiveSize.cy = AMDBC250_SAFE_MODE_HEIGHT;
+    SignalInfo->VSyncFreq.Numerator = 60;
+    SignalInfo->VSyncFreq.Denominator = 1;
+    SignalInfo->HSyncFreq.Numerator = 48000;
+    SignalInfo->HSyncFreq.Denominator = 1;
+    SignalInfo->PixelRate = AMDBC250_SAFE_MODE_PIXEL_RATE;
+    SignalInfo->ScanLineOrdering = D3DDDI_VSSLO_PROGRESSIVE;
+}
+
+static NTSTATUS
+Bc250EnsureSourceModeSet(
+    _In_ D3DKMDT_HVIDPN VidPn,
+    _In_ const DXGK_VIDPN_INTERFACE *VidPnInterface,
+    _In_ D3DDDI_VIDEO_PRESENT_SOURCE_ID SourceId
+    )
+{
+    D3DKMDT_HVIDPNSOURCEMODESET ModeSet;
+    const DXGK_VIDPNSOURCEMODESET_INTERFACE *ModeSetInterface;
+    D3DKMDT_VIDPN_SOURCE_MODE *ModeInfo;
+    NTSTATUS Status;
+
+    Status = VidPnInterface->pfnAcquireSourceModeSet(
+        VidPn,
+        SourceId,
+        &ModeSet,
+        &ModeSetInterface);
+    if (NT_SUCCESS(Status)) {
+        (VOID)VidPnInterface->pfnReleaseSourceModeSet(VidPn, ModeSet);
+        return STATUS_SUCCESS;
+    }
+
+    Status = VidPnInterface->pfnCreateNewSourceModeSet(
+        VidPn,
+        SourceId,
+        &ModeSet,
+        &ModeSetInterface);
+    if (!NT_SUCCESS(Status)) {
+        return Status;
+    }
+
+    Status = ModeSetInterface->pfnCreateNewModeInfo(ModeSet, &ModeInfo);
+    if (!NT_SUCCESS(Status)) {
+        (VOID)VidPnInterface->pfnReleaseSourceModeSet(VidPn, ModeSet);
+        return Status;
+    }
+
+    RtlZeroMemory(ModeInfo, sizeof(*ModeInfo));
+    ModeInfo->Type = D3DKMDT_RMT_GRAPHICS;
+    ModeInfo->Format.Graphics.PrimSurfSize.cx = AMDBC250_SAFE_MODE_WIDTH;
+    ModeInfo->Format.Graphics.PrimSurfSize.cy = AMDBC250_SAFE_MODE_HEIGHT;
+    ModeInfo->Format.Graphics.VisibleRegionSize.cx = AMDBC250_SAFE_MODE_WIDTH;
+    ModeInfo->Format.Graphics.VisibleRegionSize.cy = AMDBC250_SAFE_MODE_HEIGHT;
+    ModeInfo->Format.Graphics.Stride = AMDBC250_SAFE_MODE_STRIDE;
+    ModeInfo->Format.Graphics.PixelFormat = D3DDDIFMT_A8R8G8B8;
+    ModeInfo->Format.Graphics.ColorBasis = D3DKMDT_CB_SRGB;
+    ModeInfo->Format.Graphics.PixelValueAccessMode = D3DKMDT_PVAM_DIRECT;
+
+    Status = ModeSetInterface->pfnAddMode(ModeSet, ModeInfo);
+    if (!NT_SUCCESS(Status)) {
+        (VOID)ModeSetInterface->pfnReleaseModeInfo(ModeSet, ModeInfo);
+        (VOID)VidPnInterface->pfnReleaseSourceModeSet(VidPn, ModeSet);
+        return Status;
+    }
+
+    Status = VidPnInterface->pfnAssignSourceModeSet(VidPn, SourceId, ModeSet);
+    if (!NT_SUCCESS(Status)) {
+        (VOID)VidPnInterface->pfnReleaseSourceModeSet(VidPn, ModeSet);
+        return Status;
+    }
+
+    return STATUS_SUCCESS;
+}
+
+static NTSTATUS
+Bc250EnsureTargetModeSet(
+    _In_ D3DKMDT_HVIDPN VidPn,
+    _In_ const DXGK_VIDPN_INTERFACE *VidPnInterface,
+    _In_ D3DDDI_VIDEO_PRESENT_TARGET_ID TargetId
+    )
+{
+    D3DKMDT_HVIDPNTARGETMODESET ModeSet;
+    const DXGK_VIDPNTARGETMODESET_INTERFACE *ModeSetInterface;
+    D3DKMDT_VIDPN_TARGET_MODE *ModeInfo;
+    NTSTATUS Status;
+
+    Status = VidPnInterface->pfnAcquireTargetModeSet(
+        VidPn,
+        TargetId,
+        &ModeSet,
+        &ModeSetInterface);
+    if (NT_SUCCESS(Status)) {
+        (VOID)VidPnInterface->pfnReleaseTargetModeSet(VidPn, ModeSet);
+        return STATUS_SUCCESS;
+    }
+
+    Status = VidPnInterface->pfnCreateNewTargetModeSet(
+        VidPn,
+        TargetId,
+        &ModeSet,
+        &ModeSetInterface);
+    if (!NT_SUCCESS(Status)) {
+        return Status;
+    }
+
+    Status = ModeSetInterface->pfnCreateNewModeInfo(ModeSet, &ModeInfo);
+    if (!NT_SUCCESS(Status)) {
+        (VOID)VidPnInterface->pfnReleaseTargetModeSet(VidPn, ModeSet);
+        return Status;
+    }
+
+    RtlZeroMemory(ModeInfo, sizeof(*ModeInfo));
+    Bc250FillSafeSignalInfo(&ModeInfo->VideoSignalInfo);
+    ModeInfo->Preference = D3DKMDT_MP_PREFERRED;
+
+    Status = ModeSetInterface->pfnAddMode(ModeSet, ModeInfo);
+    if (!NT_SUCCESS(Status)) {
+        (VOID)ModeSetInterface->pfnReleaseModeInfo(ModeSet, ModeInfo);
+        (VOID)VidPnInterface->pfnReleaseTargetModeSet(VidPn, ModeSet);
+        return Status;
+    }
+
+    Status = VidPnInterface->pfnAssignTargetModeSet(VidPn, TargetId, ModeSet);
+    if (!NT_SUCCESS(Status)) {
+        (VOID)VidPnInterface->pfnReleaseTargetModeSet(VidPn, ModeSet);
+        return Status;
+    }
+
+    return STATUS_SUCCESS;
+}
+
 NTSTATUS APIENTRY Bc250DdiSetVidPnSourceAddress(
     _In_ CONST HANDLE hAdapter,
     _In_ CONST DXGKARG_SETVIDPNSOURCEADDRESS *pSetVidPnSourceAddress)
 {
+    Bc250MarkCallbackEnter(BC250_CB_SETVIDPNSOURCEADDR);
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
-    UNREFERENCED_PARAMETER(pSetVidPnSourceAddress);
-    /* Program CRTC scan-out base address register */
-    KdPrint(("AMDBC250: SetVidPnSourceAddress\n"));
+    if (DevExt == NULL || pSetVidPnSourceAddress == NULL) {
+        Bc250MarkCallbackExit(BC250_CB_SETVIDPNSOURCEADDR, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+    /*
+     * Compatibility mode: accept scan-out programming requests even when
+     * MMIO resources are intentionally not mapped yet.
+     */
+    KdPrint(("AMDBC250: SetVidPnSourceAddress src=%u seg=%u addr=0x%08X%08X\n",
+             (ULONG)pSetVidPnSourceAddress->VidPnSourceId,
+             (ULONG)pSetVidPnSourceAddress->PrimarySegment,
+             (ULONG)pSetVidPnSourceAddress->PrimaryAddress.HighPart,
+             (ULONG)pSetVidPnSourceAddress->PrimaryAddress.LowPart));
+
+#if (AMDBC250_H_SETSOURCEADDR_MODE == 0)
+    Bc250MarkCallbackExit(BC250_CB_SETVIDPNSOURCEADDR, STATUS_NOT_SUPPORTED);
+    return STATUS_NOT_SUPPORTED;
+#else
+    Bc250MarkCallbackExit(BC250_CB_SETVIDPNSOURCEADDR, STATUS_SUCCESS);
     return STATUS_SUCCESS;
+#endif
 }
 
 NTSTATUS APIENTRY Bc250DdiRecommendFunctionalVidPn(
     _In_ CONST HANDLE hAdapter,
     _In_ CONST DXGKARG_RECOMMENDFUNCTIONALVIDPN *pRecommendFunctionalVidPn)
 {
-    UNREFERENCED_PARAMETER(hAdapter);
-    UNREFERENCED_PARAMETER(pRecommendFunctionalVidPn);
-    return STATUS_GRAPHICS_NO_RECOMMENDED_FUNCTIONAL_VIDPN;
+    Bc250MarkCallbackEnter(BC250_CB_RECOMMENDFUNCVIDPN);
+    PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
+    const DXGK_VIDPN_INTERFACE *VidPnInterface;
+    NTSTATUS Status;
+
+    if (DevExt == NULL || pRecommendFunctionalVidPn == NULL) {
+        Bc250MarkCallbackExit(BC250_CB_RECOMMENDFUNCVIDPN, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+    if (AMDBC250_HEADLESS_RENDER_ONLY || pRecommendFunctionalVidPn->hRecommendedFunctionalVidPn == 0) {
+        Bc250MarkCallbackExit(BC250_CB_RECOMMENDFUNCVIDPN, STATUS_SUCCESS);
+        return STATUS_SUCCESS;
+    }
+
+    Status = DevExt->DxgkInterface.DxgkCbQueryVidPnInterface(
+        pRecommendFunctionalVidPn->hRecommendedFunctionalVidPn,
+        DXGK_VIDPN_INTERFACE_VERSION_V1,
+        &VidPnInterface);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_RECOMMENDFUNCVIDPN, Status);
+        return Status;
+    }
+
+    Status = Bc250EnsureSourceModeSet(
+        pRecommendFunctionalVidPn->hRecommendedFunctionalVidPn,
+        VidPnInterface,
+        0);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_RECOMMENDFUNCVIDPN, Status);
+        return Status;
+    }
+
+    Status = Bc250EnsureTargetModeSet(
+        pRecommendFunctionalVidPn->hRecommendedFunctionalVidPn,
+        VidPnInterface,
+        0);
+    Bc250MarkCallbackExit(BC250_CB_RECOMMENDFUNCVIDPN, Status);
+    Bc250MarkCallbackExit(BC250_CB_DRIVERENTRY, Status);
+    return Status;
 }
 
 NTSTATUS APIENTRY Bc250DdiEnumVidPnCofuncModality(
     _In_ CONST HANDLE hAdapter,
     _In_ CONST DXGKARG_ENUMVIDPNCOFUNCMODALITY *pEnumCofuncModality)
 {
-    UNREFERENCED_PARAMETER(hAdapter);
-    UNREFERENCED_PARAMETER(pEnumCofuncModality);
+    Bc250MarkCallbackEnter(BC250_CB_ENUMVIDPN);
+    PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
+    const DXGK_VIDPN_INTERFACE *VidPnInterface;
+    D3DDDI_VIDEO_PRESENT_SOURCE_ID SourceId = 0;
+    D3DDDI_VIDEO_PRESENT_TARGET_ID TargetId = 0;
+    NTSTATUS Status;
+
+    if (DevExt == NULL || pEnumCofuncModality == NULL) {
+        Bc250MarkCallbackExit(BC250_CB_ENUMVIDPN, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+    if (AMDBC250_HEADLESS_RENDER_ONLY || pEnumCofuncModality->hConstrainingVidPn == 0) {
+        Bc250MarkCallbackExit(BC250_CB_ENUMVIDPN, STATUS_SUCCESS);
+        return STATUS_SUCCESS;
+    }
+
+    if (pEnumCofuncModality->EnumPivotType == D3DKMDT_EPT_VIDPNSOURCE) {
+        SourceId = pEnumCofuncModality->EnumPivot.VidPnSourceId;
+    } else if (pEnumCofuncModality->EnumPivotType == D3DKMDT_EPT_VIDPNTARGET) {
+        TargetId = pEnumCofuncModality->EnumPivot.VidPnTargetId;
+    }
+
+    Status = DevExt->DxgkInterface.DxgkCbQueryVidPnInterface(
+        pEnumCofuncModality->hConstrainingVidPn,
+        DXGK_VIDPN_INTERFACE_VERSION_V1,
+        &VidPnInterface);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_ENUMVIDPN, Status);
+        return Status;
+    }
+
+    Status = Bc250EnsureSourceModeSet(pEnumCofuncModality->hConstrainingVidPn, VidPnInterface, SourceId);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_ENUMVIDPN, Status);
+        return Status;
+    }
+
+    Status = Bc250EnsureTargetModeSet(pEnumCofuncModality->hConstrainingVidPn, VidPnInterface, TargetId);
+    if (!NT_SUCCESS(Status)) {
+        Bc250MarkCallbackExit(BC250_CB_ENUMVIDPN, Status);
+        return Status;
+    }
+
+    KdPrint(("AMDBC250: EnumVidPnCofuncModality populated src=%u tgt=%u\n", (ULONG)SourceId, (ULONG)TargetId));
+    Bc250MarkCallbackExit(BC250_CB_ENUMVIDPN, STATUS_SUCCESS);
     return STATUS_SUCCESS;
 }
 
@@ -1109,8 +3016,9 @@ NTSTATUS APIENTRY Bc250DdiSetVidPnSourceVisibility(
     _In_ CONST HANDLE hAdapter,
     _In_ CONST DXGKARG_SETVIDPNSOURCEVISIBILITY *pSetVidPnSourceVisibility)
 {
-    UNREFERENCED_PARAMETER(hAdapter);
-    UNREFERENCED_PARAMETER(pSetVidPnSourceVisibility);
+    if (hAdapter == NULL || pSetVidPnSourceVisibility == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
     return STATUS_SUCCESS;
 }
 
@@ -1118,8 +3026,23 @@ NTSTATUS APIENTRY Bc250DdiCommitVidPn(
     _In_ CONST HANDLE hAdapter,
     _In_ CONST DXGKARG_COMMITVIDPN *pCommitVidPn)
 {
-    UNREFERENCED_PARAMETER(hAdapter);
-    UNREFERENCED_PARAMETER(pCommitVidPn);
+    Bc250MarkCallbackEnter(BC250_CB_COMMITVIDPN);
+    PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
+    if (DevExt == NULL || pCommitVidPn == NULL) {
+        Bc250MarkCallbackExit(BC250_CB_COMMITVIDPN, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+    InterlockedExchange(&g_Bc250LastCommitSourceId, (LONG)pCommitVidPn->AffectedVidPnSourceId);
+    InterlockedExchange(&g_Bc250LastCommitFlags, (LONG)(pCommitVidPn->Flags.PathPowerTransition | (pCommitVidPn->Flags.PathPoweredOff << 1)));
+    InterlockedExchange(&g_Bc250LastCommitConnectivityChecks, (LONG)pCommitVidPn->MonitorConnectivityChecks);
+    KdPrint(("AMDBC250: CommitVidPn vidpn=0x%p source=%u checks=%u flags(pt=%u,poff=%u) primary=0x%p\n",
+             pCommitVidPn->hFunctionalVidPn,
+             (ULONG)pCommitVidPn->AffectedVidPnSourceId,
+             (ULONG)pCommitVidPn->MonitorConnectivityChecks,
+             (ULONG)pCommitVidPn->Flags.PathPowerTransition,
+             (ULONG)pCommitVidPn->Flags.PathPoweredOff,
+             pCommitVidPn->hPrimaryAllocation));
+    Bc250MarkCallbackExit(BC250_CB_COMMITVIDPN, STATUS_SUCCESS);
     return STATUS_SUCCESS;
 }
 
@@ -1127,17 +3050,97 @@ NTSTATUS APIENTRY Bc250DdiUpdateActiveVidPnPresentPath(
     _In_ CONST HANDLE hAdapter,
     _In_ CONST DXGKARG_UPDATEACTIVEVIDPNPRESENTPATH *pUpdateActiveVidPnPresentPath)
 {
-    UNREFERENCED_PARAMETER(hAdapter);
-    UNREFERENCED_PARAMETER(pUpdateActiveVidPnPresentPath);
+    Bc250MarkCallbackEnter(BC250_CB_UPDATEACTIVEPATH);
+    if (hAdapter == NULL || pUpdateActiveVidPnPresentPath == NULL) {
+        KdPrint(("AMDBC250: UpdateActivePath invalid hAdapter=%p p=%p\n",
+                 hAdapter,
+                 pUpdateActiveVidPnPresentPath));
+        Bc250MarkCallbackExit(BC250_CB_UPDATEACTIVEPATH, STATUS_INVALID_PARAMETER);
+        return STATUS_INVALID_PARAMETER;
+    }
+
+#if (AMDBC250_H_UPDATEPATH_MODE == 0)
+    Bc250MarkCallbackExit(BC250_CB_UPDATEACTIVEPATH, STATUS_NOT_SUPPORTED);
+    return STATUS_NOT_SUPPORTED;
+#elif (AMDBC250_H_UPDATEPATH_MODE == 1)
+    KdPrint(("AMDBC250: UpdateActivePath NOT_SUPPORTED probe src=%u tgt=%u\n",
+             (ULONG)pUpdateActiveVidPnPresentPath->VidPnPresentPathInfo.VidPnSourceId,
+             (ULONG)pUpdateActiveVidPnPresentPath->VidPnPresentPathInfo.VidPnTargetId));
+    Bc250MarkCallbackExit(BC250_CB_UPDATEACTIVEPATH, STATUS_NOT_SUPPORTED);
+    return STATUS_NOT_SUPPORTED;
+#elif (AMDBC250_H_UPDATEPATH_MODE == 2)
+    {
+        const D3DKMDT_VIDPN_PRESENT_PATH *Path =
+            &pUpdateActiveVidPnPresentPath->VidPnPresentPathInfo;
+        KdPrint(("AMDBC250: UpdateActivePath SUCCESS probe src=%u tgt=%u imp=%u scale=%u rot=%u content=%u color=%u\n",
+                 (ULONG)Path->VidPnSourceId,
+                 (ULONG)Path->VidPnTargetId,
+                 (ULONG)Path->ImportanceOrdinal,
+                 (ULONG)Path->ContentTransformation.Scaling,
+                 (ULONG)Path->ContentTransformation.Rotation,
+                 (ULONG)Path->Content,
+                 (ULONG)Path->VidPnTargetColorBasis));
+        KdPrint(("AMDBC250: UpdateActivePath offsets TL=(%ld,%ld) BR=(%ld,%ld) cpType=%u\n",
+                 (LONG)Path->VisibleFromActiveTLOffset.cx,
+                 (LONG)Path->VisibleFromActiveTLOffset.cy,
+                 (LONG)Path->VisibleFromActiveBROffset.cx,
+                 (LONG)Path->VisibleFromActiveBROffset.cy,
+                 (ULONG)Path->CopyProtection.CopyProtectionType));
+    }
+    Bc250MarkCallbackExit(BC250_CB_UPDATEACTIVEPATH, STATUS_SUCCESS);
     return STATUS_SUCCESS;
+#else
+    Bc250MarkCallbackExit(BC250_CB_UPDATEACTIVEPATH, STATUS_SUCCESS);
+    return STATUS_SUCCESS;
+#endif
 }
 
 NTSTATUS APIENTRY Bc250DdiRecommendMonitorModes(
     _In_ CONST HANDLE hAdapter,
     _In_ CONST DXGKARG_RECOMMENDMONITORMODES *pRecommendMonitorModes)
 {
-    UNREFERENCED_PARAMETER(hAdapter);
-    UNREFERENCED_PARAMETER(pRecommendMonitorModes);
+    D3DKMDT_MONITOR_SOURCE_MODE *ModeInfo;
+    NTSTATUS Status;
+
+    if (hAdapter == NULL || pRecommendMonitorModes == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    if (pRecommendMonitorModes->VideoPresentTargetId != 0 ||
+        pRecommendMonitorModes->pMonitorSourceModeSetInterface == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    Status = pRecommendMonitorModes->pMonitorSourceModeSetInterface->pfnCreateNewModeInfo(
+        pRecommendMonitorModes->hMonitorSourceModeSet,
+        &ModeInfo);
+    if (!NT_SUCCESS(Status)) {
+        return Status;
+    }
+
+    RtlZeroMemory(ModeInfo, sizeof(*ModeInfo));
+    Bc250FillSafeSignalInfo(&ModeInfo->VideoSignalInfo);
+    ModeInfo->ColorBasis = D3DKMDT_CB_SRGB;
+    ModeInfo->ColorCoeffDynamicRanges.FirstChannel = 8;
+    ModeInfo->ColorCoeffDynamicRanges.SecondChannel = 8;
+    ModeInfo->ColorCoeffDynamicRanges.ThirdChannel = 8;
+    ModeInfo->ColorCoeffDynamicRanges.FourthChannel = 8;
+    ModeInfo->Origin = D3DKMDT_MCO_DRIVER;
+    ModeInfo->Preference = D3DKMDT_MP_PREFERRED;
+
+    Status = pRecommendMonitorModes->pMonitorSourceModeSetInterface->pfnAddMode(
+        pRecommendMonitorModes->hMonitorSourceModeSet,
+        ModeInfo);
+    if (Status == STATUS_GRAPHICS_MODE_ALREADY_IN_MODESET) {
+        return STATUS_SUCCESS;
+    }
+    if (!NT_SUCCESS(Status)) {
+        (VOID)pRecommendMonitorModes->pMonitorSourceModeSetInterface->pfnReleaseModeInfo(
+            pRecommendMonitorModes->hMonitorSourceModeSet,
+            ModeInfo);
+        return Status;
+    }
+
     return STATUS_SUCCESS;
 }
 
@@ -1146,9 +3149,29 @@ NTSTATUS APIENTRY Bc250DdiGetScanLine(
     _Inout_ DXGKARG_GETSCANLINE *pGetScanLine)
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
+    if (DevExt == NULL || pGetScanLine == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    if (!DevExt->HardwareInitialized || DevExt->MmioVirtualBase == NULL) {
+        pGetScanLine->ScanLine = 0;
+        pGetScanLine->InVerticalBlank = FALSE;
+        return STATUS_SUCCESS;
+    }
     ULONG CrtcStatus = Bc250ReadMmio(DevExt, AMDBC250_REG_CRTC0_STATUS);
     pGetScanLine->ScanLine = CrtcStatus & 0x0000FFFF;
     pGetScanLine->InVerticalBlank = (CrtcStatus & 0x00010000) ? TRUE : FALSE;
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS APIENTRY Bc250DdiQueryVidPnHwCapability(
+    _In_ CONST HANDLE hAdapter,
+    _Inout_ DXGKARG_QUERYVIDPNHWCAPABILITY *pVidPnHWCaps)
+{
+    UNREFERENCED_PARAMETER(hAdapter);
+    if (pVidPnHWCaps == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    RtlZeroMemory(&pVidPnHWCaps->VidPnHWCaps, sizeof(pVidPnHWCaps->VidPnHWCaps));
     return STATUS_SUCCESS;
 }
 
@@ -1158,6 +3181,14 @@ NTSTATUS APIENTRY Bc250DdiControlInterrupt(
     _In_ BOOLEAN EnableInterrupt)
 {
     PAMDBC250_DEVICE_EXTENSION DevExt = (PAMDBC250_DEVICE_EXTENSION)hAdapter;
+    if (DevExt == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+    if (DevExt->MmioVirtualBase == NULL) {
+        UNREFERENCED_PARAMETER(InterruptType);
+        UNREFERENCED_PARAMETER(EnableInterrupt);
+        return STATUS_SUCCESS;
+    }
     ULONG IhCntl = Bc250ReadMmio(DevExt, AMDBC250_REG_IH_CNTL);
 
     if (EnableInterrupt) {
@@ -1191,8 +3222,9 @@ NTSTATUS APIENTRY Bc250DdiPresent(
     _In_    CONST HANDLE hContext,
     _Inout_ DXGKARG_PRESENT *pPresent)
 {
-    UNREFERENCED_PARAMETER(hContext);
-    UNREFERENCED_PARAMETER(pPresent);
+    if (hContext == NULL || pPresent == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
     return STATUS_SUCCESS;
 }
 
@@ -1200,7 +3232,41 @@ NTSTATUS APIENTRY Bc250DdiRender(
     _In_    CONST HANDLE hContext,
     _Inout_ DXGKARG_RENDER *pRender)
 {
-    UNREFERENCED_PARAMETER(hContext);
-    UNREFERENCED_PARAMETER(pRender);
+    if (hContext == NULL || pRender == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
     return STATUS_SUCCESS;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1 @@
+Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -match 'Terminal|Remote|RDP|Hyper-V|Microsoft-Hyper-V' } | Select-Object FeatureName,State | Sort-Object FeatureName | Format-Table -Auto

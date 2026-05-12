@@ -1,4 +1,4 @@
-/*++
+﻿/*++
 
 Copyright (c) 2026 AMD BC-250 Driver Project
 
@@ -25,12 +25,30 @@ Environment:
 
 --*/
 
-#include "../../inc/amdbc250_kmd.h"
+#include "amdbc250_kmd.h"
+
+/* HwInitialize stage breadcrumbs for failure isolation. */
+#define BC250_HWINIT_STAGE_ENTRY                1
+#define BC250_HWINIT_STAGE_PRE_CLEANUP          2
+#define BC250_HWINIT_STAGE_SMU                  3
+#define BC250_HWINIT_STAGE_MEMCTRL              4
+#define BC250_HWINIT_STAGE_IH_RING              5
+#define BC250_HWINIT_STAGE_GFX_RING             6
+#define BC250_HWINIT_STAGE_SDMA_RING            7
+#define BC250_HWINIT_STAGE_DISPLAY              8
+#define BC250_HWINIT_STAGE_COMPLETE             9
+/*
+ * Minimal phase gate for controlled bring-up.
+ * The init function returns success after completing this stage.
+ * Advance gradually to isolate the first failing phase.
+ */
+#define AMDBC250_HW_INIT_MAX_STAGE              BC250_HWINIT_STAGE_SDMA_RING
 
 /* Forward declarations of static helper functions */
 static NTSTATUS Bc250InitCommandProcessor(_In_ PAMDBC250_DEVICE_EXTENSION DevExt);
 static NTSTATUS Bc250InitMemoryController(_In_ PAMDBC250_DEVICE_EXTENSION DevExt);
 static NTSTATUS Bc250InitSmu(_In_ PAMDBC250_DEVICE_EXTENSION DevExt);
+static ULONG Bc250GetRingBufferSizeField(_In_ ULONG RingSizeInBytes);
 static NTSTATUS Bc250WaitForRegister(
     _In_ PAMDBC250_DEVICE_EXTENSION DevExt,
     _In_ ULONG RegisterOffset,
@@ -64,46 +82,109 @@ Bc250HwInitialize(
 
     KdPrint(("AMDBC250: HwInitialize - starting GPU initialization\n"));
 
+    if (DevExt == NULL || DevExt->MmioVirtualBase == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_ENTRY;
+    DevExt->DebugHwInitStatus = STATUS_SUCCESS;
+
+    /*
+     * If a previous init/reset attempt left partially initialized state,
+     * force a clean shutdown first so ring and fence allocations do not leak.
+     */
+    if (DevExt->GfxRing.Initialized ||
+        DevExt->SdmaRing.Initialized ||
+        DevExt->IhRing.Initialized) {
+        DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_PRE_CLEANUP;
+        Bc250HwShutdown(DevExt);
+    }
+
     /* Step 1: Initialize SMU (System Management Unit) for power control */
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_SMU;
     Status = Bc250InitSmu(DevExt);
     if (!NT_SUCCESS(Status)) {
+        DevExt->DebugHwInitStatus = Status;
         KdPrint(("AMDBC250: SMU initialization failed: 0x%08X\n", Status));
         return Status;
     }
+    if (AMDBC250_HW_INIT_MAX_STAGE == BC250_HWINIT_STAGE_SMU) {
+        DevExt->DebugHwInitStatus = STATUS_SUCCESS;
+        KdPrint(("AMDBC250: HwInitialize gate-stop at stage SMU\n"));
+        return STATUS_SUCCESS;
+    }
 
     /* Step 2: Initialize memory controller */
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_MEMCTRL;
     Status = Bc250InitMemoryController(DevExt);
     if (!NT_SUCCESS(Status)) {
+        DevExt->DebugHwInitStatus = Status;
         KdPrint(("AMDBC250: Memory controller initialization failed: 0x%08X\n", Status));
         return Status;
     }
+    if (AMDBC250_HW_INIT_MAX_STAGE == BC250_HWINIT_STAGE_MEMCTRL) {
+        DevExt->DebugHwInitStatus = STATUS_SUCCESS;
+        KdPrint(("AMDBC250: HwInitialize gate-stop at stage MEMCTRL\n"));
+        return STATUS_SUCCESS;
+    }
 
     /* Step 3: Set up IH (Interrupt Handler) ring */
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_IH_RING;
     Status = Bc250HwInitIhRing(DevExt);
     if (!NT_SUCCESS(Status)) {
+        DevExt->DebugHwInitStatus = Status;
         KdPrint(("AMDBC250: IH ring initialization failed: 0x%08X\n", Status));
+        Bc250HwShutdown(DevExt);
         return Status;
+    }
+    if (AMDBC250_HW_INIT_MAX_STAGE == BC250_HWINIT_STAGE_IH_RING) {
+        DevExt->DebugHwInitStatus = STATUS_SUCCESS;
+        KdPrint(("AMDBC250: HwInitialize gate-stop at stage IH_RING\n"));
+        return STATUS_SUCCESS;
     }
 
     /* Step 4: Initialize GFX command processor and ring */
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_GFX_RING;
     Status = Bc250HwInitGfxRing(DevExt);
     if (!NT_SUCCESS(Status)) {
+        DevExt->DebugHwInitStatus = Status;
         KdPrint(("AMDBC250: GFX ring initialization failed: 0x%08X\n", Status));
+        Bc250HwShutdown(DevExt);
         return Status;
+    }
+    if (AMDBC250_HW_INIT_MAX_STAGE == BC250_HWINIT_STAGE_GFX_RING) {
+        DevExt->DebugHwInitStatus = STATUS_SUCCESS;
+        KdPrint(("AMDBC250: HwInitialize gate-stop at stage GFX_RING\n"));
+        return STATUS_SUCCESS;
     }
 
     /* Step 5: Initialize SDMA engine */
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_SDMA_RING;
     Status = Bc250HwInitSdmaRing(DevExt);
     if (!NT_SUCCESS(Status)) {
+        DevExt->DebugHwInitStatus = Status;
         KdPrint(("AMDBC250: SDMA ring initialization failed: 0x%08X\n", Status));
+        Bc250HwShutdown(DevExt);
         return Status;
+    }
+    if (AMDBC250_HW_INIT_MAX_STAGE == BC250_HWINIT_STAGE_SDMA_RING) {
+        DevExt->DebugHwInitStatus = STATUS_SUCCESS;
+        KdPrint(("AMDBC250: HwInitialize gate-stop at stage SDMA_RING\n"));
+        return STATUS_SUCCESS;
     }
 
     /* Step 6: Initialize display engine */
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_DISPLAY;
     Status = Bc250HwInitDisplay(DevExt);
     if (!NT_SUCCESS(Status)) {
+        DevExt->DebugHwInitStatus = Status;
         KdPrint(("AMDBC250: Display initialization failed: 0x%08X\n", Status));
         /* Non-fatal: GPU can operate without display */
+    }
+    if (AMDBC250_HW_INIT_MAX_STAGE == BC250_HWINIT_STAGE_DISPLAY) {
+        DevExt->DebugHwInitStatus = STATUS_SUCCESS;
+        KdPrint(("AMDBC250: HwInitialize gate-stop at stage DISPLAY\n"));
+        return STATUS_SUCCESS;
     }
 
     /* Set VRAM size from hardware configuration */
@@ -113,6 +194,8 @@ Bc250HwInitialize(
     /* Set default clock speeds */
     DevExt->GpuClockMhz    = AMDBC250_BASE_CLOCK_MHZ;
     DevExt->MemoryClockMhz = AMDBC250_MEMORY_CLOCK_MHZ;
+    DevExt->DebugHwInitStage = BC250_HWINIT_STAGE_COMPLETE;
+    DevExt->DebugHwInitStatus = STATUS_SUCCESS;
 
     KdPrint(("AMDBC250: HwInitialize - GPU initialization complete\n"));
     KdPrint(("AMDBC250:   VRAM: %llu MB\n", (ULONGLONG)(DevExt->TotalVramBytes / (1024*1024))));
@@ -137,6 +220,10 @@ Bc250HwReset(
 
     KdPrint(("AMDBC250: HwReset - initiating GPU reset\n"));
 
+    if (DevExt == NULL || DevExt->MmioVirtualBase == NULL) {
+        return STATUS_INVALID_PARAMETER;
+    }
+
     /* Halt the command processor */
     ResetVal = Bc250ReadMmio(DevExt, AMDBC250_REG_CP_ME_CNTL);
     ResetVal |= (CP_ME_CNTL__ME_HALT_MASK |
@@ -152,12 +239,8 @@ Bc250HwReset(
                    Bc250ReadMmio(DevExt, AMDBC250_REG_IH_CNTL) &
                    ~IH_CNTL__ENABLE_INTR_MASK);
 
-    /* Reset ring pointers */
-    DevExt->GfxRing.ReadPointer  = 0;
-    DevExt->GfxRing.WritePointer = 0;
-    DevExt->SdmaRing.ReadPointer = 0;
-    DevExt->SdmaRing.WritePointer = 0;
-    DevExt->IhRing.ReadPointer   = 0;
+    /* Ensure all previous ring/fence allocations are released before re-init */
+    Bc250HwShutdown(DevExt);
 
     /* Re-initialize hardware */
     Status = Bc250HwInitialize(DevExt);
@@ -183,17 +266,23 @@ Bc250HwShutdown(
 {
     KdPrint(("AMDBC250: HwShutdown - shutting down GPU\n"));
 
-    /* Disable interrupts */
-    Bc250WriteMmio(DevExt, AMDBC250_REG_IH_CNTL, 0);
+    if (DevExt == NULL) {
+        return;
+    }
 
-    /* Halt command processor */
-    Bc250WriteMmio(DevExt, AMDBC250_REG_CP_ME_CNTL,
-                   CP_ME_CNTL__ME_HALT_MASK |
-                   CP_ME_CNTL__PFP_HALT_MASK |
-                   CP_ME_CNTL__CE_HALT_MASK);
+    if (DevExt->MmioVirtualBase != NULL) {
+        /* Disable interrupts */
+        Bc250WriteMmio(DevExt, AMDBC250_REG_IH_CNTL, 0);
 
-    /* Halt SDMA */
-    Bc250WriteMmio(DevExt, AMDBC250_REG_SDMA0_F32_CNTL, 0x00000001);
+        /* Halt command processor */
+        Bc250WriteMmio(DevExt, AMDBC250_REG_CP_ME_CNTL,
+                       CP_ME_CNTL__ME_HALT_MASK |
+                       CP_ME_CNTL__PFP_HALT_MASK |
+                       CP_ME_CNTL__CE_HALT_MASK);
+
+        /* Halt SDMA */
+        Bc250WriteMmio(DevExt, AMDBC250_REG_SDMA0_F32_CNTL, 0x00000001);
+    }
 
     /* Free ring buffers */
     if (DevExt->GfxRing.VirtualAddress != NULL) {
@@ -201,24 +290,38 @@ Bc250HwShutdown(
                                    DevExt->GfxRing.SizeInBytes);
         DevExt->GfxRing.VirtualAddress = NULL;
     }
+    DevExt->GfxRing.SizeInBytes = 0;
+    DevExt->GfxRing.ReadPointer = 0;
+    DevExt->GfxRing.WritePointer = 0;
+    DevExt->GfxRing.Initialized = FALSE;
 
     if (DevExt->SdmaRing.VirtualAddress != NULL) {
         Bc250FreeContiguousMemory(DevExt->SdmaRing.VirtualAddress,
                                    DevExt->SdmaRing.SizeInBytes);
         DevExt->SdmaRing.VirtualAddress = NULL;
     }
+    DevExt->SdmaRing.SizeInBytes = 0;
+    DevExt->SdmaRing.ReadPointer = 0;
+    DevExt->SdmaRing.WritePointer = 0;
+    DevExt->SdmaRing.Initialized = FALSE;
 
     if (DevExt->IhRing.VirtualAddress != NULL) {
         Bc250FreeContiguousMemory(DevExt->IhRing.VirtualAddress,
                                    DevExt->IhRing.SizeInBytes);
         DevExt->IhRing.VirtualAddress = NULL;
     }
+    DevExt->IhRing.SizeInBytes = 0;
+    DevExt->IhRing.ReadPointer = 0;
+    DevExt->IhRing.WritePointer = 0;
+    DevExt->IhRing.Initialized = FALSE;
 
     if (DevExt->GlobalFence.VirtualAddress != NULL) {
         Bc250FreeContiguousMemory((PVOID)DevExt->GlobalFence.VirtualAddress,
                                    PAGE_SIZE);
         DevExt->GlobalFence.VirtualAddress = NULL;
     }
+    DevExt->GlobalFence.LastSubmittedValue = 0;
+    DevExt->GlobalFence.LastSignaledValue = 0;
 
     KdPrint(("AMDBC250: HwShutdown complete\n"));
 }
@@ -275,6 +378,8 @@ Bc250HwInitGfxRing(
     DevExt->GlobalFence.PhysicalAddress = FencePhys;
     DevExt->GlobalFence.VirtualAddress  = (volatile PULONG)FenceVirt;
     *DevExt->GlobalFence.VirtualAddress = 0;
+    DevExt->GlobalFence.LastSignaledValue = 0;
+    DevExt->GlobalFence.LastSubmittedValue = 0;
 
     /* Halt CP before programming ring */
     Bc250WriteMmio(DevExt, AMDBC250_REG_CP_ME_CNTL,
@@ -288,11 +393,7 @@ Bc250HwInitGfxRing(
                    (ULONG)(RingPhys.QuadPart >> 40));
 
     /* Calculate ring buffer size field (log2 of size in DWORDs) */
-    RbBufSz = 0;
-    {
-        ULONG Sz = RingSize / sizeof(ULONG);
-        while (Sz > 1) { Sz >>= 1; RbBufSz++; }
-    }
+    RbBufSz = Bc250GetRingBufferSizeField(RingSize);
 
     /* Program ring control register */
     RbCntl = (RbBufSz & CP_RB0_CNTL__RB_BUFSZ_MASK) |
@@ -311,6 +412,11 @@ Bc250HwInitGfxRing(
     /* Initialize command processor */
     Status = Bc250InitCommandProcessor(DevExt);
     if (!NT_SUCCESS(Status)) {
+        Bc250FreeContiguousMemory((PVOID)DevExt->GlobalFence.VirtualAddress, PAGE_SIZE);
+        DevExt->GlobalFence.VirtualAddress = NULL;
+        Bc250FreeContiguousMemory(RingVirt, RingSize);
+        DevExt->GfxRing.VirtualAddress = NULL;
+        DevExt->GfxRing.SizeInBytes = 0;
         return Status;
     }
 
@@ -321,6 +427,15 @@ Bc250HwInitGfxRing(
     Status = Bc250WaitForRegister(DevExt, AMDBC250_REG_SCRATCH_REG0,
                                    0xFFFFFFFF, 0xDEADBEEF,
                                    AMDBC250_INIT_TIMEOUT_US);
+    if (!NT_SUCCESS(Status)) {
+        KdPrint(("AMDBC250: CP scratch register handshake timeout: 0x%08X\n", Status));
+        Bc250FreeContiguousMemory((PVOID)DevExt->GlobalFence.VirtualAddress, PAGE_SIZE);
+        DevExt->GlobalFence.VirtualAddress = NULL;
+        Bc250FreeContiguousMemory(RingVirt, RingSize);
+        DevExt->GfxRing.VirtualAddress = NULL;
+        DevExt->GfxRing.SizeInBytes = 0;
+        return Status;
+    }
 
     DevExt->GfxRing.Initialized = TRUE;
     KdPrint(("AMDBC250: GFX ring initialized at PA=0x%llX\n",
@@ -343,6 +458,7 @@ Bc250HwInitIhRing(
     PVOID IhVirt;
     ULONG IhSize = AMDBC250_IH_RING_SIZE;
     ULONG IhCntl;
+    ULONG IhRbSizeField;
 
     KdPrint(("AMDBC250: InitIhRing - allocating %d KB IH ring\n",
              IhSize / 1024));
@@ -370,14 +486,13 @@ Bc250HwInitIhRing(
                    (ULONG)(IhPhys.QuadPart >> 40));
 
     /* Program IH ring control */
-    IhCntl = (14 & 0x1F) |          /* RB_SIZE: log2(64KB/4) = 14 */
-             (0 << 8)    |          /* MC_WRREQ_CREDIT */
-             (0 << 12)   |          /* MC_WR_CLEAN_CNT */
-             (0 << 16);             /* RPTR_REARM */
+    IhRbSizeField = Bc250GetRingBufferSizeField(IhSize);
+    IhCntl = (IhRbSizeField & 0x1F); /* RB_SIZE: log2(size_in_dwords) */
     Bc250WriteMmio(DevExt, AMDBC250_REG_IH_RB_CNTL, IhCntl);
 
     /* Initialize read/write pointers */
     Bc250WriteMmio(DevExt, AMDBC250_REG_IH_RB_RPTR, 0);
+    Bc250WriteMmio(DevExt, AMDBC250_REG_IH_RB_WPTR, 0);
 
     /* Enable interrupts */
     IhCntl |= IH_CNTL__ENABLE_INTR_MASK;
@@ -435,11 +550,7 @@ Bc250HwInitSdmaRing(
                    (ULONG)(SdmaPhys.QuadPart >> 40));
 
     /* Calculate buffer size field */
-    RbBufSz = 0;
-    {
-        ULONG Sz = SdmaSize / sizeof(ULONG);
-        while (Sz > 1) { Sz >>= 1; RbBufSz++; }
-    }
+    RbBufSz = Bc250GetRingBufferSizeField(SdmaSize);
 
     RbCntl = (RbBufSz & 0x3F) | (1 << 8);  /* RB_SIZE + RB_SWAP_ENABLE */
     Bc250WriteMmio(DevExt, AMDBC250_REG_SDMA0_GFX_RB_CNTL, RbCntl);
@@ -586,8 +697,7 @@ Bc250InitSmu(
                                    AMDBC250_SMU_TIMEOUT_US);
     if (!NT_SUCCESS(Status)) {
         KdPrint(("AMDBC250: SMU not ready (timeout)\n"));
-        /* Non-fatal: continue without SMU initialization */
-        return STATUS_SUCCESS;
+        return Status;
     }
 
     /* Send EnableAllSmuFeatures message */
@@ -597,9 +707,41 @@ Bc250InitSmu(
     Status = Bc250WaitForRegister(DevExt, AMDBC250_REG_MP1_SMN_P2CMSG_33,
                                    0x80000000, 0x80000000,
                                    AMDBC250_SMU_TIMEOUT_US);
+    if (!NT_SUCCESS(Status)) {
+        KdPrint(("AMDBC250: SMU enable command timed out, continuing with conservative clocks\n"));
+        return Status;
+    }
 
     KdPrint(("AMDBC250: SMU initialized\n"));
     return STATUS_SUCCESS;
+}
+
+/*===========================================================================
+  Static Helper: Bc250GetRingBufferSizeField
+  Returns log2(ring_size_in_dwords) encoded for RB_CNTL registers.
+===========================================================================*/
+
+static ULONG
+Bc250GetRingBufferSizeField(
+    _In_ ULONG RingSizeInBytes
+    )
+{
+    ULONG SizeInDwords;
+    ULONG Field;
+
+    if (RingSizeInBytes < sizeof(ULONG)) {
+        return 0;
+    }
+
+    SizeInDwords = RingSizeInBytes / sizeof(ULONG);
+    Field = 0;
+
+    while (SizeInDwords > 1) {
+        SizeInDwords >>= 1;
+        Field++;
+    }
+
+    return Field;
 }
 
 /*===========================================================================
@@ -617,7 +759,7 @@ Bc250WaitForRegister(
     )
 {
     ULONG Elapsed = 0;
-    ULONG Value;
+    ULONG Value = 0;
 
     while (Elapsed < TimeoutUs) {
         Value = Bc250ReadMmio(DevExt, RegisterOffset);
@@ -629,8 +771,7 @@ Bc250WaitForRegister(
     }
 
     KdPrint(("AMDBC250: Register 0x%X timeout (expected 0x%X, got 0x%X)\n",
-             RegisterOffset, ExpectedValue,
-             Bc250ReadMmio(DevExt, RegisterOffset)));
+             RegisterOffset, ExpectedValue, Value));
 
     return STATUS_TIMEOUT;
 }
@@ -648,6 +789,11 @@ Bc250AllocateContiguousMemory(
     _Out_ PVOID              *VirtualAddress
     )
 {
+    PVOID Allocation;
+    PHYSICAL_ADDRESS AllocationPhys;
+    ULONG Attempt;
+    SIZE_T EffectiveSize;
+    ULONG EffectiveAlignment;
     PHYSICAL_ADDRESS LowAddr  = {0};
     PHYSICAL_ADDRESS HighAddr = {0};
     PHYSICAL_ADDRESS BoundaryAddr = {0};
@@ -656,21 +802,37 @@ Bc250AllocateContiguousMemory(
     HighAddr.QuadPart = 0xFFFFFFFFFFFFFFFFULL;
     BoundaryAddr.QuadPart = 0;
 
-    *VirtualAddress = MmAllocateContiguousMemorySpecifyCache(
-        SizeInBytes,
-        LowAddr,
-        HighAddr,
-        BoundaryAddr,
-        MmWriteCombined
-        );
+    *VirtualAddress = NULL;
+    PhysicalAddress->QuadPart = 0;
 
-    if (*VirtualAddress != NULL) {
-        *PhysicalAddress = MmGetPhysicalAddress(*VirtualAddress);
-    } else {
-        PhysicalAddress->QuadPart = 0;
+    EffectiveAlignment = (Alignment == 0) ? sizeof(ULONG) : Alignment;
+    EffectiveSize = (SizeInBytes + (EffectiveAlignment - 1)) & ~((SIZE_T)EffectiveAlignment - 1);
+    if (EffectiveSize == 0) {
+        return;
     }
 
-    UNREFERENCED_PARAMETER(Alignment);
+    for (Attempt = 0; Attempt < 4; Attempt++) {
+        Allocation = MmAllocateContiguousMemorySpecifyCache(
+            EffectiveSize,
+            LowAddr,
+            HighAddr,
+            BoundaryAddr,
+            MmWriteCombined
+            );
+
+        if (Allocation == NULL) {
+            break;
+        }
+
+        AllocationPhys = MmGetPhysicalAddress(Allocation);
+        if ((Alignment == 0) || ((AllocationPhys.QuadPart & (Alignment - 1)) == 0)) {
+            *VirtualAddress = Allocation;
+            *PhysicalAddress = AllocationPhys;
+            return;
+        }
+
+        MmFreeContiguousMemory(Allocation);
+    }
 }
 
 /*===========================================================================
@@ -689,3 +851,7 @@ Bc250FreeContiguousMemory(
     }
     UNREFERENCED_PARAMETER(SizeInBytes);
 }
+
+
+
+

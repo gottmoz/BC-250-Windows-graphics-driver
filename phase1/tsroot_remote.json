@@ -1,0 +1,85 @@
+﻿[
+    {
+        "Name":  "AllowRemoteRPC",
+        "Value":  0
+    },
+    {
+        "Name":  "DelayConMgrTimeout",
+        "Value":  0
+    },
+    {
+        "Name":  "DeleteTempDirsOnExit",
+        "Value":  1
+    },
+    {
+        "Name":  "fDenyTSConnections",
+        "Value":  0
+    },
+    {
+        "Name":  "fSingleSessionPerUser",
+        "Value":  1
+    },
+    {
+        "Name":  "GlassSessionId",
+        "Value":  1
+    },
+    {
+        "Name":  "InstanceID",
+        "Value":  "66377f04-695f-491f-9e21-f5a5c00"
+    },
+    {
+        "Name":  "NotificationTimeOut",
+        "Value":  0
+    },
+    {
+        "Name":  "PerSessionTempDir",
+        "Value":  0
+    },
+    {
+        "Name":  "ProductVersion",
+        "Value":  "5.1"
+    },
+    {
+        "Name":  "RailShowallNotifyIcons",
+        "Value":  1
+    },
+    {
+        "Name":  "RCDependentServices",
+        "Value":  [
+                      "CertPropSvc",
+                      "SessionEnv"
+                  ]
+    },
+    {
+        "Name":  "RDPVGCInstalled",
+        "Value":  1
+    },
+    {
+        "Name":  "RDPVGSInstalled",
+        "Value":  1
+    },
+    {
+        "Name":  "SnapshotMonitors",
+        "Value":  "1"
+    },
+    {
+        "Name":  "StartRCM",
+        "Value":  1
+    },
+    {
+        "Name":  "TSEnabled",
+        "Value":  1
+    },
+    {
+        "Name":  "TSUserEnabled",
+        "Value":  1
+    },
+    {
+        "Name":  "updateRDStatus",
+        "Value":  1
+    },
+    {
+        "Name":  "WinStationsDisabled",
+        "Value":  0
+    }
+]

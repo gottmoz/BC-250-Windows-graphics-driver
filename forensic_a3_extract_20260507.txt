@@ -1,0 +1,259 @@
+﻿=== EVENTS CONFIG (400/410/411/430) since 05/07/2026 21:40:53 ===
+
+
+TimeCreated : 5/7/2026 9:50:40 PM
+Id          : 411
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: BasicDisplay
+              Lower Filters: 
+              Upper Filters: 
+              Problem: 0x15
+              Problem Status: 0x0
+
+TimeCreated : 5/7/2026 9:50:40 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 06/21/2006
+              Driver Version: 10.0.19041.868
+              Driver Provider: Microsoft
+              Driver Section: MSBDA
+              Driver Rank: 0xFB2008
+              Matching Device Id: PCI\CC_0300
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE&SUBSYS_00001022:00F60001 
+              oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:50:34 PM
+Id          : 410
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was started.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: BasicDisplay
+              Lower Filters: 
+              Upper Filters: 
+
+TimeCreated : 5/7/2026 9:50:34 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 06/21/2006
+              Driver Version: 10.0.19041.868
+              Driver Provider: Microsoft
+              Driver Section: MSBDA
+              Driver Rank: 0xFB2008
+              Matching Device Id: PCI\CC_0300
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE&SUBSYS_00001022:00F60001 
+              oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:50:11 PM
+Id          : 411
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+              
+              Driver Name: oem5.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: amdbc250kmd
+              Lower Filters: 
+              Upper Filters: 
+              Problem: 0x15
+              Problem Status: 0x0
+
+TimeCreated : 5/7/2026 9:50:11 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: oem5.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 04/23/2026
+              Driver Version: 1.0.101.0
+              Driver Provider: AMD BC-250 Driver Project
+              Driver Section: amdbc250_Inst
+              Driver Rank: 0xF60001
+              Matching Device Id: PCI\VEN_1002&DEV_13FE&SUBSYS_00001022
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001 display.inf:PCI\CC_0300:00FB2008
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:45:21 PM
+Id          : 411
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: BasicDisplay
+              Lower Filters: 
+              Upper Filters: 
+              Problem: 0x0
+              Problem Status: 0xC00000E5
+
+TimeCreated : 5/7/2026 9:45:21 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 06/21/2006
+              Driver Version: 10.0.19041.868
+              Driver Provider: Microsoft
+              Driver Section: MSBDA
+              Driver Rank: 0xFB2008
+              Matching Device Id: PCI\CC_0300
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE&SUBSYS_00001022:00F60001 
+              oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:45:17 PM
+Id          : 410
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was started.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: BasicDisplay
+              Lower Filters: 
+              Upper Filters: 
+
+TimeCreated : 5/7/2026 9:45:17 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 06/21/2006
+              Driver Version: 10.0.19041.868
+              Driver Provider: Microsoft
+              Driver Section: MSBDA
+              Driver Rank: 0xFB2008
+              Matching Device Id: PCI\CC_0300
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE&SUBSYS_00001022:00F60001 
+              oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:44:53 PM
+Id          : 411
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+              
+              Driver Name: oem5.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: amdbc250kmd
+              Lower Filters: 
+              Upper Filters: 
+              Problem: 0x0
+              Problem Status: 0xC00000E5
+
+TimeCreated : 5/7/2026 9:44:53 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: oem5.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 04/23/2026
+              Driver Version: 1.0.101.0
+              Driver Provider: AMD BC-250 Driver Project
+              Driver Section: amdbc250_Inst
+              Driver Rank: 0xF60001
+              Matching Device Id: PCI\VEN_1002&DEV_13FE&SUBSYS_00001022
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001 display.inf:PCI\CC_0300:00FB2008
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:41:51 PM
+Id          : 411
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: BasicDisplay
+              Lower Filters: 
+              Upper Filters: 
+              Problem: 0x0
+              Problem Status: 0xC00000E5
+
+TimeCreated : 5/7/2026 9:41:51 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 06/21/2006
+              Driver Version: 10.0.19041.868
+              Driver Provider: Microsoft
+              Driver Section: MSBDA
+              Driver Rank: 0xFB2008
+              Matching Device Id: PCI\CC_0300
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE&SUBSYS_00001022:00F60001 
+              oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:41:47 PM
+Id          : 410
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was started.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: BasicDisplay
+              Lower Filters: 
+              Upper Filters: 
+
+TimeCreated : 5/7/2026 9:41:47 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: display.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 06/21/2006
+              Driver Version: 10.0.19041.868
+              Driver Provider: Microsoft
+              Driver Section: MSBDA
+              Driver Rank: 0xFB2008
+              Matching Device Id: PCI\CC_0300
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE&SUBSYS_00001022:00F60001 
+              oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+TimeCreated : 5/7/2026 9:41:23 PM
+Id          : 411
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting.
+              
+              Driver Name: oem5.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Service: amdbc250kmd
+              Lower Filters: 
+              Upper Filters: 
+              Problem: 0x15
+              Problem Status: 0x0
+
+TimeCreated : 5/7/2026 9:41:23 PM
+Id          : 400
+Message     : Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 was configured.
+              
+              Driver Name: oem5.inf
+              Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318}
+              Driver Date: 04/23/2026
+              Driver Version: 1.0.101.0
+              Driver Provider: AMD BC-250 Driver Project
+              Driver Section: amdbc250_Inst
+              Driver Rank: 0xF60001
+              Matching Device Id: PCI\VEN_1002&DEV_13FE&SUBSYS_00001022
+              Outranked Drivers: oem5.inf:PCI\VEN_1002&DEV_13FE:00F62001 display.inf:PCI\CC_0300:00FB2008
+              Device Updated: true
+              Parent Device: PCI\VEN_1022&DEV_13E5&SUBSYS_13E51022&REV_00\3&11583659&0&41
+
+
+
+
+=== EVENTS SYSTEM (Kernel-PnP 219/225/442, SCM 7000/7001/7009/7026) ===

@@ -1,0 +1,8 @@
+
+Name                   Local Remote                                                                 
+----                   ----- ------                                                                 
+fAutoReconnected             1                                                                      
+SSLCertificateSHA1Hash       [217,127,64,156,10,178,67,30,54,59,248,226,30,173,89,34,88,228,120,199]
+
+
+

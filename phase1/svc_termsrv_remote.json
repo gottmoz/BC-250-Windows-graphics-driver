@@ -1,0 +1,100 @@
+﻿[
+    {
+        "Name":  "DependOnService",
+        "Value":  [
+                      "RPCSS"
+                  ]
+    },
+    {
+        "Name":  "Description",
+        "Value":  "@%SystemRoot%\\System32\\termsrv.dll,-267"
+    },
+    {
+        "Name":  "DisplayName",
+        "Value":  "@%SystemRoot%\\System32\\termsrv.dll,-268"
+    },
+    {
+        "Name":  "ErrorControl",
+        "Value":  1
+    },
+    {
+        "Name":  "FailureActions",
+        "Value":  [
+                      128,
+                      81,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      3,
+                      0,
+                      0,
+                      0,
+                      20,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      96,
+                      234,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      96,
+                      234,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      96,
+                      234,
+                      0,
+                      0
+                  ]
+    },
+    {
+        "Name":  "ImagePath",
+        "Value":  "C:\\Windows\\System32\\svchost.exe -k NetworkService"
+    },
+    {
+        "Name":  "ObjectName",
+        "Value":  "NT Authority\\NetworkService"
+    },
+    {
+        "Name":  "RequiredPrivileges",
+        "Value":  [
+                      "SeAssignPrimaryTokenPrivilege",
+                      "SeAuditPrivilege",
+                      "SeChangeNotifyPrivilege",
+                      "SeCreateGlobalPrivilege",
+                      "SeImpersonatePrivilege",
+                      "SeIncreaseQuotaPrivilege"
+                  ]
+    },
+    {
+        "Name":  "ServiceSidType",
+        "Value":  1
+    },
+    {
+        "Name":  "Start",
+        "Value":  2
+    },
+    {
+        "Name":  "Type",
+        "Value":  32
+    }
+]

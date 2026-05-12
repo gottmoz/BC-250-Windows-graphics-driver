@@ -4,37 +4,47 @@ Class       = Display
 ClassGuid   = {4d36e968-e325-11ce-bfc1-08002be10318}
 Provider    = %Manufacturer%
 CatalogFile = amdbc250.cat
-DriverVer   = 03/09/2026,1.0.0.0
+DriverVer   = 04/23/2026,1.0.101.0
 
 [Manufacturer]
 %Manufacturer% = AMD,NTamd64
 
 [AMD.NTamd64]
-%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_7420&SUBSYS_00000000&REV_C1
-%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_7421&SUBSYS_00000000&REV_C1
-%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_7422&SUBSYS_00000000&REV_C1
-%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_7423&SUBSYS_00000000&REV_C1
-%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_7424&SUBSYS_00000000&REV_C1
-%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_7425&SUBSYS_00000000&REV_C1
-%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_7426&SUBSYS_00000000&REV_C1
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_13FE&SUBSYS_00001022
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_13DB
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_13F9
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_13FA
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_13FB
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_13FC
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_13FE
+%DeviceDesc% = amdbc250_Inst, PCI\VEN_1002&DEV_143F
 
 [amdbc250_Inst]
+FeatureScore = F6
 CopyFiles = amdbc250_Files_KM, amdbc250_Files_UM
 AddReg    = amdbc250_AddReg
+
+[amdbc250_Inst.Services]
+AddService = amdbc250kmd, 0x00000002, amdbc250_Service_Inst
 
 [amdbc250_Files_KM]
 amdbc250kmd.sys
 
 [amdbc250_Files_UM]
-amdbc250umd.dll
+amdbc250umd.dll,,,0x00004000
 
 [amdbc250_AddReg]
-HKR,,InstalledDisplayDrivers,    %REG_MULTI_SZ%, amdbc250umd
-HKR,,NonLocalVidMemCaps,        %REG_DWORD%,    0
-HKR,,LocalVidMemCaps,           %REG_DWORD%,    0
+HKR,,InstalledDisplayDrivers,     %REG_MULTI_SZ%, amdbc250umd
+HKR,,UserModeDriverName,          %REG_MULTI_SZ%, amdbc250umd.dll
+HKR,,UserModeDriverNameWow,       %REG_MULTI_SZ%, amdbc250umd.dll
+HKR,,VgaCompatible,                 %REG_DWORD%,    0
+HKR,,Acceleration.Level,            %REG_DWORD%,    0
+HKR,,CapabilityOverride,            %REG_DWORD%,    0x8
+HKR,,NonLocalVidMemCaps,            %REG_DWORD%,    0
+HKR,,LocalVidMemCaps,               %REG_DWORD%,    0
 HKR,,HardwareInformation.ChipType, %REG_SZ%,     "AMD BC-250"
 HKR,,HardwareInformation.DacType,  %REG_SZ%,     "Internal"
-HKR,,HardwareInformation.MemorySize, %REG_DWORD%, 0
+HKR,,HardwareInformation.MemorySize, %REG_DWORD%, 0x00000000
 
 [SourceDisksNames]
 1 = %DiskDescription%,,,.
@@ -47,10 +57,19 @@ amdbc250umd.dll = 1
 DefaultDestDir = 12 ; %windir%\system32\drivers
 amdbc250_Files_UM = 11 ; %windir%\system32
 
+[amdbc250_Service_Inst]
+DisplayName   = %SvcDesc%
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %12%\amdbc250kmd.sys
+LoadOrderGroup = Video
+
 [Strings]
 Manufacturer   = "AMD BC-250 Driver Project"
 DeviceDesc     = "AMD BC-250 Graphics Adapter"
 DiskDescription = "AMD BC-250 Driver Installation Disk"
+SvcDesc        = "AMD BC-250 Kernel Display Miniport"
 REG_MULTI_SZ   = 0x00010000
 REG_DWORD      = 0x00010001
 REG_SZ         = 0x00000000

@@ -1,0 +1,74 @@
+=== E:\world view\refs\R.ID\extract-B413136\Packages\Drivers\Display\WT6A_INF\B413136\amdvlk64.dll ===
+Signer: CN=Advanced Micro Devices Inc., O=Advanced Micro Devices Inc., L=Santa Clara, S=California, C=US
+Status: Valid
+  vk_icd => 5
+  Vulkan => 1997
+  HIP => 3383
+  HSA => 214
+  ROCM => 8
+  amdgpu => 11429
+  gfx10 => 7669
+  gfx1013 => 1
+  Navi => 10
+  LLVM => 16263
+  Code Object => 4
+
+=== E:\world view\refs\R.ID\extract-B413136\Packages\Drivers\Display\WT6A_INF\B413136\amdvlk32.dll ===
+Signer: CN=Advanced Micro Devices Inc., O=Advanced Micro Devices Inc., L=Santa Clara, S=California, C=US
+Status: Valid
+  vk_icd => 5
+  Vulkan => 1997
+  HIP => 3397
+  HSA => 211
+  ROCM => 8
+  amdgpu => 11429
+  gfx10 => 7669
+  gfx1013 => 1
+  Navi => 10
+  LLVM => 16263
+  Code Object => 4
+
+=== E:\world view\refs\R.ID\extract-B413136\Packages\Drivers\Display\WT6A_INF\B413136\amdhip64.dll ===
+Signer: CN=Advanced Micro Devices Inc., O=Advanced Micro Devices Inc., L=Santa Clara, S=California, C=US
+Status: Valid
+  Vulkan => 1850
+  HIP => 5000
+  HSA => 119
+  ROCM => 1
+  amdgpu => 10685
+  gfx10 => 62
+  gfx1013 => 3
+  Navi => 1
+  LLVM => 21
+  comgr => 52
+  Code Object => 40
+
+=== E:\world view\refs\R.ID\extract-B413136\Packages\Drivers\Display\WT6A_INF\B413136\amdhip64_6.dll ===
+Signer: CN=Advanced Micro Devices, O=Advanced Micro Devices, S=California, C=US
+Status: Valid
+  Vulkan => 2
+  HIP => 3364
+  HSA => 116
+  ROCM => 1
+  amdgpu => 6400
+  gfx10 => 103
+  gfx1013 => 3
+  Navi => 13
+  LLVM => 21
+  comgr => 117
+  Code Object => 39
+
+=== E:\world view\refs\R.ID\extract-B413136\Packages\Drivers\Display\WT6A_INF\B413136\amd_comgr.dll ===
+Signer: CN=Advanced Micro Devices Inc., O=Advanced Micro Devices Inc., L=Santa Clara, S=California, C=US
+Status: Valid
+  HIP => 299
+  HSA => 412
+  ROCM => 36
+  amdgpu => 713
+  gfx10 => 7540
+  gfx1013 => 2
+  Navi => 7
+  LLVM => 16448
+  comgr => 107
+  Code Object => 9
+

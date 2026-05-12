@@ -1,0 +1,14 @@
+{
+    "BdFirmInfo": [
+        {
+            "BdFirm": "BD_FIRM_501R.bix",
+            "ProductId": "501R",
+            "Version": "0028"
+        },
+        {
+            "BdFirm": "BD_FIRM_502R.bix",
+            "ProductId": "502R",
+            "Version": "1137"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+﻿[2026-05-07 23:07:37] ITER_START FORENSIC_A7f1_CTRL_NO_UPDATEPATH headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:08:19] ITER_RESULT FORENSIC_A7f1_CTRL_NO_UPDATEPATH guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:08:19] ITER_EVENT FORENSIC_A7f1_CTRL_NO_UPDATEPATH Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 23:08:22] ITER_BASELINE FORENSIC_A7f1_CTRL_NO_UPDATEPATH status=OK problem=CM_PROB_NONE
+[2026-05-07 23:08:22] ITER_END FORENSIC_A7f1_CTRL_NO_UPDATEPATH
+[2026-05-07 23:08:24] ITER_START FORENSIC_A7f2_UPDATEPATH_NOTSUPPORTED headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:09:06] ITER_RESULT FORENSIC_A7f2_UPDATEPATH_NOTSUPPORTED guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:09:06] ITER_EVENT FORENSIC_A7f2_UPDATEPATH_NOTSUPPORTED Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 23:09:09] ITER_BASELINE FORENSIC_A7f2_UPDATEPATH_NOTSUPPORTED status=OK problem=CM_PROB_NONE
+[2026-05-07 23:09:09] ITER_END FORENSIC_A7f2_UPDATEPATH_NOTSUPPORTED
+[2026-05-07 23:09:10] ITER_START FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:09:52] ITER_RESULT FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:09:52] ITER_EVENT FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 23:09:55] ITER_BASELINE FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG status=OK problem=CM_PROB_NONE
+[2026-05-07 23:09:55] ITER_END FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG
+[2026-05-07 23:10:19] ITER_START FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG_REPRO headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:11:01] ITER_RESULT FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG_REPRO guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:11:01] ITER_EVENT FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG_REPRO Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 23:11:05] ITER_BASELINE FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG_REPRO status=OK problem=CM_PROB_NONE
+[2026-05-07 23:11:05] ITER_END FORENSIC_A7f3_UPDATEPATH_SUCCESS_LOG_REPRO

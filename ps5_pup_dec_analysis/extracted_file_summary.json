@@ -1,0 +1,170 @@
+[
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\11_titania.bls",
+    "size": 9062912,
+    "sha256": "0cce048d85cc0582ea93ca6d58416540e5c16681fa880914f6b6df47c604de05",
+    "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 07 00 00 00 25 45 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "head_ascii": "SLB2............%E..............................C3000005........"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\12_version_name.xml",
+    "size": 134,
+    "sha256": "c2288f5a8b508d9a6ce64c48fbb67e91d48e9b7fb8102317d48b3c5e33431eeb",
+    "head_hex": "3c 3f 78 6d 6c 20 76 65 72 73 69 6f 6e 3d 22 31 2e 30 22 20 3f 3e 0d 0a 3c 70 75 70 5f 6d 65 74",
+    "head_ascii": "<?xml version=\"1.0\" ?>..<pup_metadata>...<version_info>....<pref"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\14_eap_kbl.bin",
+    "size": 276480,
+    "sha256": "9596fc02759b9e89987034321b4e0d34f72822558d702cf7ac5d8e95f78806d6",
+    "head_hex": "1d 33 47 77 00 02 ff 00 00 10 04 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+    "head_ascii": ".3Gw.........(..X.$ ......s......5...R\\..Y..i.....f........|...s"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\15_bd_firm_info.json",
+    "size": 293,
+    "sha256": "f49024f98b326d74910a6ea9bd453997d946641b3c37709313c33daea37dde47",
+    "head_hex": "7b 0d 0a 20 20 20 20 22 42 64 46 69 72 6d 49 6e 66 6f 22 3a 20 5b 0d 0a 20 20 20 20 20 20 20 20",
+    "head_ascii": "{..    \"BdFirmInfo\": [..        {..            \"BdFirm\": \"BD_FIR"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\16_emc_salina_c0.bls",
+    "size": 454144,
+    "sha256": "819cd6b2de9e07cb2a466da755a84cbd59b33db9cf5147e0cc6ebd62c7ab6e99",
+    "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 02 00 00 00 77 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "head_ascii": "SLB2............w...................`...........C0000001........"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\17_floyd_salina_c0.bls",
+    "size": 240128,
+    "sha256": "65c51aa8990f1cac3ce1fa6aab4350f44c1c099f3b47336f2bc105f06ac5eff0",
+    "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 02 00 00 00 d5 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "head_ascii": "SLB2............................................C0040001........"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\18_usb_pdc_salina_c0.bls",
+    "size": 46080,
+    "sha256": "3191ab39cd10e16d1fa7d4900e3a88d3ee5e08cf350ba8a66b0c5d87734f3264",
+    "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 02 00 00 00 5a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "head_ascii": "SLB2............Z....................v..........C0050001........"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\1_eula.xml",
+    "size": 1557889,
+    "sha256": "a244a57dfe8f189b40564f1459d802e40ab96437b4a8cc0f90ac88e6b2b5a9d2",
+    "head_hex": "3c 3f 78 6d 6c 20 76 65 72 73 69 6f 6e 3d 27 31 2e 30 27 20 65 6e 63 6f 64 69 6e 67 3d 27 75 74",
+    "head_ascii": "<?xml version='1.0' encoding='utf-8'?>.<eula_list>.<version eula"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\259_oberon_sec_ldr_c0.bin",
+    "size": 401008,
+    "sha256": "d1e79b4d09ea9f6f5a09e38c668dff8229f2b6d0c65cd5f3871332a401c2754f",
+    "head_hex": "e4 db 7c 02 00 04 00 00 b0 00 00 00 70 1a 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "head_ascii": "..|.........p....................s..I'....3.gXU._&...!..to0K.Wr."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\260_oberon_sec_ldr_d0.bin",
+    "size": 401344,
+    "sha256": "2cf9ccd8c3ea1c63e9fb89a6ee8d0d383d40c120b7bef9bff8623872ec03fa6b",
+    "head_hex": "e4 db 7c 02 00 04 00 00 b0 00 00 00 c0 1b 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "head_ascii": "..|................................2.S..M.]b...7.F......fE_.$7.."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\2_updatemode.elf",
+    "size": 11619748,
+    "sha256": "ce80005ede782f8f5559bef0b924dc5132f53f0e8a8855447027833620840d2f",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 07 00 10 b0 02 f0 03 a4 4d b1 00 00 00 00 00 06 00 52 00 00 00 00 00",
+    "head_ascii": "T......2.........M........R....................................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\4_mbr.bin",
+    "size": 512,
+    "sha256": "436618362ec6a131767be6b1bb583b66bd2343cb6496687674b21efb17cefe33",
+    "head_hex": "53 6f 6e 79 49 6e 74 65 72 61 63 74 69 76 65 45 6e 74 65 72 74 61 69 6e 6d 65 6e 74 4c 4c 43 00",
+    "head_ascii": "SonyInteractiveEntertainmentLLC.........>6%..x.................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\5_kernel.bin",
+    "size": 21750272,
+    "sha256": "8942bcacbaf3b8dcfbd1cd10ffe9b90d361ea7f3345cf16db4d37f7baa07df05",
+    "head_hex": "ad 49 f5 2c fd a0 55 15 f3 f6 68 fc f1 c4 9a ee 33 b9 c1 5f 43 84 1c e8 21 b0 55 5a 2e 57 95 fa",
+    "head_ascii": ".I.,..U...h.....3.._C...!.UZ.W...u.m..k.t68...YN.E4f=c.zE..V.I.R"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\manifest.json",
+    "size": 10067,
+    "sha256": "2eeb54558ff26dea493d12701bc6c1d73cab9afa13ede67ec01a8b5908920a0c",
+    "head_hex": "7b 0d 0a 20 20 22 68 65 61 64 65 72 22 3a 20 7b 0d 0a 20 20 20 20 22 6d 61 67 69 63 22 3a 20 22",
+    "head_ascii": "{..  \"header\": {..    \"magic\": \"0xeef51454\",..    \"unknown04\": \""
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\dev\\513_wlanbt.bin",
+    "size": 791040,
+    "sha256": "145ad948d277d736fd34a59b97bb964c36c878de0dbab809f5c72039a0b5484c",
+    "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 02 00 00 00 09 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+    "head_ascii": "SLB2............................................C0030002........"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\13_for_5.img",
+    "size": 1344,
+    "sha256": "1d0162d736a5f0dd0cc00340de91c8e43d9a578052ce22aaf7396c2214c79bf5",
+    "head_hex": "06 74 1a 33 97 f4 b8 99 c6 64 28 6d 0a 57 14 1c d7 8b af 9f b7 e2 af e5 bd 16 64 68 cc a5 98 5a",
+    "head_ascii": ".t.3.....d(m.W............dh...Z..K....z.Z....O.....D...o....B.."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\15_for_14.img",
+    "size": 40,
+    "sha256": "7000f6ab1748f40d3b2269af947c26f1fd00d5bff402f839f86af1c3c87ce707",
+    "head_hex": "46 ae f9 dd 5f 76 79 69 42 a0 58 ad 93 40 a9 55 f1 6d 37 7c 22 ea db 7e e7 1e 82 17 24 38 19 c2",
+    "head_ascii": "F..._vyiB.X..@.U.m7|\"..~....$8......>..."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\17_for_11.img",
+    "size": 720,
+    "sha256": "1490b1102d2b8c8a91ae3112e4361079d22bda9ef27caac05426d79cb9bf9f16",
+    "head_hex": "e0 8c ea 1d 16 5a b2 33 24 13 7a cd 9a 55 b0 80 18 2a 0d a9 04 1c 35 c4 29 78 8f 95 02 10 cf 19",
+    "head_ascii": ".....Z.3$.z..U...*....5.)x......#1../.YV&..q.......4.f...8..G|.."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\21_for_513.img",
+    "size": 80,
+    "sha256": "2901d15f54bdbf33b098624dc6da45c558e8f42e42d70711d726f54d5d95d1b8",
+    "head_hex": "08 87 d6 9c 82 2e 58 11 6d 78 83 8c 0f b0 e2 ed ab d8 a2 38 a7 b1 5c fd 6b ad 42 c6 c8 9c aa 1c",
+    "head_ascii": "......X.mx.........8..\\.k.B........y.....j|..\\.p,.;.-....].+V.. "
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\23_for_515.img",
+    "size": 17720,
+    "sha256": "04d2b8d68bdfe3ca540d4ce8b1200c74a2031e69cfe15df02886e454a9c195ca",
+    "head_hex": "d7 0c e2 e6 59 61 46 c8 38 14 95 62 17 61 27 d1 27 de 13 62 01 59 4a 63 7e 24 45 c7 a9 ae 57 22",
+    "head_ascii": "....YaF.8..b.a'.'..b.YJc~$E...W\"?.)?xU?I...D.....tuT..d.<v....5."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\25_for_516.img",
+    "size": 76120,
+    "sha256": "6e6570f6a2fddc8f0df55aa08a58b5cde477beb0cfd4764f854937091aa07f50",
+    "head_hex": "3a d6 72 0a 47 2f 8c b6 a4 b1 8e 6e 58 b0 a3 e5 3f 21 50 0b 8a d8 a8 7f 12 d0 fa 7f 3f 7a 85 b0",
+    "head_ascii": ":.r.G/.....nX...?!P.........?z..\\.2v.2p$....t.G4J..n#......54.>."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\2_for_1.img",
+    "size": 120,
+    "sha256": "ec20422e0b2fb30245bc6f8d77a40a6fb8e7d5295800f23bf0e11a5064a1d926",
+    "head_hex": "4e 65 2d d1 ad 14 73 30 19 35 78 67 1f f7 0e bb dc cd e3 8c 66 5f b5 c7 d6 58 07 30 15 1e 6f 52",
+    "head_ascii": "Ne-...s0.5xg........f_...X.0..oR.......\\..y2......z.....(.%b...K"
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\4_for_12.img",
+    "size": 40,
+    "sha256": "e9b336cf67549135161bff884e4df1d870cb098ebc89bb9891114cde91e47400",
+    "head_hex": "b8 09 63 4d b1 90 fb fd 25 92 16 8f 99 34 0c 83 ec 70 43 96 4f 04 4f b8 ab 7d cf 25 80 a4 7c c0",
+    "head_ascii": "..cM....%....4...pC.O.O..}.%..|.....i..."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\tables\\6_for_2.img",
+    "size": 736,
+    "sha256": "095e075ef155f5e5dd18f6518bf891d3102662d3ed5c23c12468ff7db9bbacef",
+    "head_hex": "b2 10 98 20 84 78 22 a1 03 5f 02 d0 27 a8 3a b4 45 77 fc c5 1d 16 14 ff d4 bf 91 04 2f 61 af e5",
+    "head_ascii": "... .x\".._..'.:.Ew........../a.....Y.-.3F...j..S.9.y.B...'?.J5.L"
+  }
+]

@@ -1,27 +1,43 @@
 # Install-Driver.ps1
-# Script para instalar o driver AMD BC-250 no Windows
+# Installs the AMD BC-250 reference driver package.
 
 param(
-    [string]$DriverPath = ".\inf\amdbc250.inf"
+    [string]$DriverPath = ".\amdbc250.inf"
 )
 
-Write-Host "Iniciando a instalação do driver AMD BC-250..."
+Write-Host "Starting AMD BC-250 driver installation..."
 
-# Verificar se o test signing está habilitado
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$candidatePaths = @(
+    $DriverPath,
+    (Join-Path $scriptRoot "amdbc250.inf"),
+    (Join-Path $scriptRoot "..\inf\amdbc250.inf")
+)
+
+$resolvedDriverPath = $null
+foreach ($candidate in $candidatePaths) {
+    if (Test-Path -LiteralPath $candidate) {
+        $resolvedDriverPath = (Resolve-Path -LiteralPath $candidate).Path
+        break
+    }
+}
+
+if (-not $resolvedDriverPath) {
+    Write-Error "INF file not found. Provide a valid path using -DriverPath."
+    exit 1
+}
+
 $testSigningStatus = bcdedit /enum {current} | Select-String "testsigning"
 if ($testSigningStatus -notlike "*Yes*") {
-    Write-Warning "O Test Signing não está habilitado. O driver não assinado pode não ser carregado."
-    Write-Warning "Para habilitar: bcdedit /set testsigning on e reinicie o sistema."
+    Write-Warning "Test Signing is not enabled. Unsigned driver loading may fail."
+    Write-Warning "Enable with: bcdedit /set testsigning on (then reboot)."
 }
 
-# Instalar o driver usando pnputil
-Write-Host "Adicionando o pacote do driver: $DriverPath"
-pnputil /add-driver $DriverPath /install
+Write-Host "Adding driver package: $resolvedDriverPath"
+pnputil /add-driver $resolvedDriverPath /install
 
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "Driver instalado com sucesso!"
+    Write-Host "Driver installed successfully."
 } else {
-    Write-Error "Falha ao instalar o driver. Código de erro: $LASTEXITCODE"
+    Write-Error "Driver installation failed with code: $LASTEXITCODE"
 }
-
-Write-Host "Instalação concluída."

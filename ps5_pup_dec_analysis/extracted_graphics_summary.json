@@ -1,0 +1,93 @@
+[
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_ex_lib_libSceGLSlimClientVSH.sprx",
+    "size": 63496,
+    "sha256": "280ea579679e715dbc8bb4b6cf487131cad7690cc6466b185b2cbca51d79f58d",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 08 f8 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0...........R.............`......................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_ex_lib_libSceGLSlimServerVSH.sprx",
+    "size": 456505,
+    "sha256": "84e7a184060eff4902a9ea0b519d5ec8fc252356cae2b7cb474f9cf60f9ee60c",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 39 f7 06 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0.9.........R.............`......................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_ex_lib_libSceGLSlimVSH.sprx",
+    "size": 425074,
+    "sha256": "a159345bb19b62420c9e285f0e9a1105e2130138f8badd8104db30bad0f97dd9",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 72 7c 06 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0.r|........R.............`......................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceAgc.sprx",
+    "size": 75045,
+    "sha256": "7f6408d766b38234b5eb666201eb916c2950c64ae048ca332737a59b67fe034f",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 25 25 01 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0.%%........R.............`......................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceAgcDriver.sprx",
+    "size": 39895,
+    "sha256": "2a8f2d6174c1e67ff9862a1c941748bccc99ca5cf165e4900fd6e1ae2d69330d",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 d7 9b 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0...........R.............`.......x.......x......."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceAgcVsh.sprx",
+    "size": 61009,
+    "sha256": "623004989eded2fa213f006f967163275c7deb10624bbdb0183540b6c4914732",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 51 ee 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0.Q.........R.............`......................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceGnmDriver.sprx",
+    "size": 31515,
+    "sha256": "56897d7bd7188ea0ed602c403bebe18f15ade243e664a7a5f0b4560a3abf69aa",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 1b 7b 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0..{........R.............`.......P.......P......."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceGnmDriverCompat1.sprx",
+    "size": 32272,
+    "sha256": "395f4c9d66f2e5d95e21f24ed955e358581f9b603632e316c811f843baf5e3f9",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 10 7e 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0..~........R.............`.......x.......x......."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceGnmDriverForNeoMode.sprx",
+    "size": 32231,
+    "sha256": "ccd10a532ca11ef92a60a41fade1abb8cbb328bb4ae47e6acb4bc35ad82e4b52",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 e7 7d 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0..}........R.............`.......x.......x......."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceVideoOut.sprx",
+    "size": 77766,
+    "sha256": "b41d1e440ba20b70169c7123e282b19523ecb708eff95815a04104e1c14ab08d",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 c6 2f 01 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0../........R.............`......................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\common_lib_libSceVideoOutSecondary.sprx",
+    "size": 16296,
+    "sha256": "e32bab7fb5301934e07b2659514927f315b7d10df9cc934cba28bbcdedee910a",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 a8 3f 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0..?........R.............`.......P.......P......."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\sys_AgcCompositor.elf",
+    "size": 530302,
+    "sha256": "239c859124476721620052cf596a28ce400ba0428f7ff716455ed202199b510c",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 7e 17 08 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0.~.........R.............`......................."
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\extracted_graphics_files\\sys_gpudump.elf",
+    "size": 54318,
+    "sha256": "b0df47aab6d67ab9ab1caaffaa0c839001e5eb10bbd551d4ef500fc5f694dd29",
+    "head_hex": "54 14 f5 ee 10 01 01 32 01 03 00 10 30 05 30 06 2e d4 00 00 00 00 00 00 0c 00 52 00 00 00 00 00",
+    "head_ascii": "T......2....0.0...........R.............`......................."
+  }
+]

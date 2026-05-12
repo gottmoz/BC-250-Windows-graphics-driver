@@ -1,0 +1,33 @@
+seg02_id1__raw_head MEC 0x5d612: w.z..6f4..B....6$...M..Q.m..`.n........Re2.ADq..MEC.&..>......e...d....7......W t...k..z i.?8.....P....N..g#.k.|.;..}o.xnH.*.T_..?.L.!.i0......J
+seg02_id1__zlib navi 0x7381a: IE Inc:n verkkosivujen tai muiden virallisten kanavien kautta. K..ytt..j.. sallii SIE Inc:lle n..iden automaattisten p..ivitysten, parannusten j
+seg02_id1__zlib navi 0x796df: IE Inc:n verkkosivujen tai muiden virallisten kanavien kautta. K..ytt..j.. sallii SIE Inc:lle n..iden automaattisten p..ivitysten, parannusten j
+seg02_id1__zlib navi 0x7dedb: cable .. tout logiciel syst..me, micrologiciel, navigateur Internet et logiciel d...application int..gr.. au syst..me PS5 et ..galement aux corr
+seg02_id1__zlib navi 0x7dfaf: ions du logiciel syst..me, du micrologiciel, du navigateur Internet et du logiciel d...application mis .. la disposition de votre syst..me PS5 o
+seg02_id1__zlib firmware 0xf420: va se vztahuje na ka..d.. syst..mov.. software, firmware nebo software internetov..ho prohl....e..e a dal.... aplika..n.. softwary obsa..en.. ve
+seg02_id1__zlib firmware 0xf65a:  PS5 spole..nosti SIE Inc. Ve..ker.. software a firmware uveden.. v tomto odstavci je v cel.. smlouv.. d..le spole..n.. uv..d..n jako ...syst..m
+seg02_id1__zlib firmware 0x1547f: va se vztahuje na ka..d.. syst..mov.. software, firmware nebo software internetov..ho prohl....e..e a dal.... aplika..n.. softwary obsa..en.. ve
+seg02_id1__zlib firmware 0x156b9:  PS5 spole..nosti SIE Inc. Ve..ker.. software a firmware uveden.. v tomto odstavci je v cel.. smlouv.. d..le spole..n.. uv..d..n jako ...syst..m
+seg02_id1__zlib firmware 0x1b407: r.&#xa;Denne aftale g..lder for systemsoftware, firmware, internetbrowsersoftware og anden applikationssoftware, der er inkluderet i dit PS5-sys
+seg02_id1__zlib firmware 0x1b4d7: e versioner af den p..g..ldende systemsoftware, firmware og internetbrowsersoftware samt anden applikationssoftware, der leveres til eller g..re
+seg02_id1__zlib firmware 0x1b5df: nc-webside eller PS5-spilmedier. Al software og firmware, som er beskrevet i dette afsnit, bliver samlet refereret til som systemsoftware overal
+seg02_id1__zlib firmware 0x20779: r.&#xa;Denne aftale g..lder for systemsoftware, firmware, internetbrowsersoftware og anden applikationssoftware, der er inkluderet i dit PS5-sys
+seg02_id1__zlib firmware 0x20849: e versioner af den p..g..ldende systemsoftware, firmware og internetbrowsersoftware samt anden applikationssoftware, der leveres til eller g..re
+seg02_id1__zlib firmware 0x20951: nc-webside eller PS5-spilmedier. Al software og firmware, som er beskrevet i dette afsnit, bliver samlet refereret til som systemsoftware overal
+seg02_id1__zlib firmware 0x47c98: ;This Agreement applies to any system software, firmware and internet browser software and other application software included in your PS5 syste
+seg02_id1__zlib firmware 0x47d46: grades or new versions of that system software, firmware and internet browser software and other application software provided to or made availa
+seg02_id1__zlib firmware 0x47e40: Inc website or PS5 game media. All software and firmware described in this paragraph is referred to collectively as ...System Software... throug
+seg02_id1__zlib firmware 0x4cb4d: ;This Agreement applies to any system software, firmware and internet browser software and other application software included in your PS5 syste
+seg02_id1__zlib firmware 0x4cbfb: grades or new versions of that system software, firmware and internet browser software and other application software provided to or made availa
+seg02_id1__zlib firmware 0x4ccf5: Inc website or PS5 game media. All software and firmware described in this paragraph is referred to collectively as ...System Software... throug
+seg02_id1__zlib firmware 0x51a1a: ;This Agreement applies to any system software, firmware and Internet browser software and other application software included in your PS5 syste
+seg02_id1__zlib firmware 0x51ac8: grades or new versions of that system software, firmware and Internet browser software and other application software provided to or made availa
+seg02_id1__zlib firmware 0x51bc2: Inc website or PS5 game media. All software and firmware described in this paragraph is referred to collectively as "System Software" throughout
+seg02_id1__zlib firmware 0x56853: ;This Agreement applies to any system software, firmware and Internet browser software and other application software included in your PS5 syste
+seg06_id2__raw_head gfx 0x1e32ea: .x....e.?.o..........c.0...Lh..h%....jO...S....Ngfx....|.n.....9.@T.......a....??rx..'.......].{.....1....N..~!.j....U...y.r8]/.h.:....[.......-
+seg13_id5_kernel.bin_raw_head CP_ 0xe4e27b: ....1.{..y.....U{7.....oE7.......S...^W....c....CP_~..+.}..a(...rU3...5+.............h..3.G.."=.Z.... .e..........T....^.z@..I...Y..........e..s
+seg17_id11_titania.bls_raw_head AMD 0x2339629: .."[4..+3..Sp+...]..R.K...j.(..mg.....E...biC`.NAMD.H.8...:..+..&..j.........q.E.=_.^i..H)N.A...z...:VW.......u0.AW6..a&.M..v.~....O.6..OFwxs@..
+seg17_id11_titania.bls_raw_head MP1 0x2191790: ../..r.k....?..., Ei}.V.........c..ZK..D..C.F,P.MP1.h5..<W.eZ..{.'#,...v.zN.'..s/.........|..k[.p....:..-..[h.......9xP.YM.....9.t.._.q....E....
+seg17_id11_titania.bls_zlib AMD 0x9ea1: $T..c.Id7..........%.W..^C8..&...3....l...e.2?..AMD....L.".a....Q:....Yb...0t........W.r..+...(.)..|P.....q...b..........;y.9.G.k..........(....
+seg23_id4611_ssd0.system_b?_raw_head AMD 0x2c67937: ..&..">.%l..3..h...mA/.....!....#......f......BOAMDm.......~..m_.....(y........]...#..-..@..r....w..... h...^...~b.~D..E...W......@..j.&a.#..R.<
+seg23_id4611_ssd0.system_b?_raw_head MEC 0x2cecd5f: ...l...B......u...[...sk.....o.t[.j...)..>kN..e.MEC.w.i..]..R..S.8*..0..~..%.!D.B......{.4l... b.[..R....}.....cy\M.?.O.m.............w...jMR.f.
+seg25_id4612_ssd0.system_ex_b?_raw_head GFX 0xcd31521: g...ntt),.18.z ...GzHu.U...+5.].k...b...4...!...GFXt>..h....L......8....^?.f.J.,3...a[.....Z.zW.7\.i......_0..@.....yyY...;T....L6c...c.O...[[2.

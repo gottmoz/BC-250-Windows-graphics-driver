@@ -70,9 +70,9 @@ Environment:
 #define AMDBC250_MAX_WAVES_PER_CU       20      /* Max waves per CU          */
 #define AMDBC250_CACHE_LINE_SIZE        64      /* L1 cache line (bytes)     */
 #define AMDBC250_L2_CACHE_SIZE_KB       512     /* L2 cache size (KB)        */
-#define AMDBC250_TOTAL_MEMORY_MB        16384   /* 16 GB GDDR6 shared        */
-#define AMDBC250_DEFAULT_VRAM_MB        512     /* Default VRAM allocation   */
-#define AMDBC250_MAX_VRAM_MB            8192    /* Max VRAM allocation       */
+#define AMDBC250_TOTAL_MEMORY_MB        16384   /* 16 GB GDDR6 shared (UMA)  */
+#define AMDBC250_DEFAULT_VRAM_MB        16384   /* UMA dynamic pool baseline */
+#define AMDBC250_MAX_VRAM_MB            16384   /* Max logical shared budget */
 #define AMDBC250_MEMORY_BUS_WIDTH       256     /* Memory bus width (bits)   */
 #define AMDBC250_BASE_CLOCK_MHZ         1000    /* Base GPU clock (MHz)      */
 #define AMDBC250_BOOST_CLOCK_MHZ        2000    /* Boost GPU clock (MHz)     */

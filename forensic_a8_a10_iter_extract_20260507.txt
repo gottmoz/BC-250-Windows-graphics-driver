@@ -1,0 +1,15 @@
+﻿[2026-05-07 22:21:34] ITER_START FORENSIC_A8_SCANOUT_VIS headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:22:16] ITER_RESULT FORENSIC_A8_SCANOUT_VIS guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:22:16] ITER_EVENT FORENSIC_A8_SCANOUT_VIS Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 22:22:20] ITER_BASELINE FORENSIC_A8_SCANOUT_VIS status=OK problem=CM_PROB_NONE
+[2026-05-07 22:22:20] ITER_END FORENSIC_A8_SCANOUT_VIS
+[2026-05-07 22:23:30] ITER_START FORENSIC_A9_CTRLINT_ONLY headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:24:12] ITER_RESULT FORENSIC_A9_CTRLINT_ONLY guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:24:12] ITER_EVENT FORENSIC_A9_CTRLINT_ONLY Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 22:24:15] ITER_BASELINE FORENSIC_A9_CTRLINT_ONLY status=OK problem=CM_PROB_NONE
+[2026-05-07 22:24:15] ITER_END FORENSIC_A9_CTRLINT_ONLY
+[2026-05-07 22:25:14] ITER_START FORENSIC_A10_ALLOC_ONLY headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:25:56] ITER_RESULT FORENSIC_A10_ALLOC_ONLY guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 22:25:56] ITER_EVENT FORENSIC_A10_ALLOC_ONLY Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 22:25:59] ITER_BASELINE FORENSIC_A10_ALLOC_ONLY status=OK problem=CM_PROB_NONE
+[2026-05-07 22:25:59] ITER_END FORENSIC_A10_ALLOC_ONLY

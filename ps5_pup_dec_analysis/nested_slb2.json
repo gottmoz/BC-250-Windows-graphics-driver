@@ -1,0 +1,202 @@
+[
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\11_titania.bls",
+    "size": 9062912,
+    "version": 3,
+    "flags": 0,
+    "entry_count": 7,
+    "size_sectors": 17701,
+    "entries": [
+      {
+        "index": 0,
+        "name": "C3000005",
+        "start_sector": 1,
+        "offset": 512,
+        "size": 1300480,
+        "end": 1300992,
+        "head_hex": "1d 33 47 77 00 01 ff 00 00 b0 13 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+        "entropy": 7.99395235244263
+      },
+      {
+        "index": 1,
+        "name": "C3000006",
+        "start_sector": 2541,
+        "offset": 1300992,
+        "size": 1300480,
+        "end": 2601472,
+        "head_hex": "1d 33 47 77 00 01 ff 00 00 b0 13 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+        "entropy": 7.9937820896564284
+      },
+      {
+        "index": 2,
+        "name": "C3000007",
+        "start_sector": 5081,
+        "offset": 2601472,
+        "size": 1300480,
+        "end": 3901952,
+        "head_hex": "1d 33 47 77 00 01 ff 00 00 b0 13 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+        "entropy": 7.994024780214505
+      },
+      {
+        "index": 3,
+        "name": "C3000009",
+        "start_sector": 7621,
+        "offset": 3901952,
+        "size": 1300480,
+        "end": 5202432,
+        "head_hex": "1d 33 47 77 00 01 ff 00 00 b0 13 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+        "entropy": 7.993888142634278
+      },
+      {
+        "index": 4,
+        "name": "C300000A",
+        "start_sector": 10161,
+        "offset": 5202432,
+        "size": 1320960,
+        "end": 6523392,
+        "head_hex": "1d 33 47 77 00 01 ff 00 00 00 14 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+        "entropy": 7.994094633558728
+      },
+      {
+        "index": 5,
+        "name": "C300000B",
+        "start_sector": 12741,
+        "offset": 6523392,
+        "size": 1320960,
+        "end": 7844352,
+        "head_hex": "1d 33 47 77 00 01 ff 00 00 00 14 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+        "entropy": 7.994090467540987
+      },
+      {
+        "index": 6,
+        "name": "C300000C",
+        "start_sector": 15321,
+        "offset": 7844352,
+        "size": 1218560,
+        "end": 9062912,
+        "head_hex": "1d 33 47 77 00 01 ff 00 00 70 12 00 00 28 00 00 58 2e 24 20 ec d9 19 90 8e cd 73 d7 a5 e8 cb a3",
+        "entropy": 7.993134763171112
+      }
+    ]
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\16_emc_salina_c0.bls",
+    "size": 454144,
+    "version": 3,
+    "flags": 0,
+    "entry_count": 2,
+    "size_sectors": 887,
+    "entries": [
+      {
+        "index": 0,
+        "name": "C0000001",
+        "start_sector": 1,
+        "offset": 512,
+        "size": 452960,
+        "end": 453472,
+        "head_hex": "aa f9 8f d4 03 00 55 48 00 02 00 00 60 e7 06 00 00 0c 10 00 00 0c 10 00 ff ad be ef ca fe be be",
+        "entropy": 7.999598177186943
+      },
+      {
+        "index": 1,
+        "name": "C0008001",
+        "start_sector": 886,
+        "offset": 453632,
+        "size": 64,
+        "end": 453696,
+        "head_hex": "01 00 00 00 00 00 00 00 00 00 00 00 06 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "entropy": 0.31601597513537405
+      }
+    ]
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\17_floyd_salina_c0.bls",
+    "size": 240128,
+    "version": 3,
+    "flags": 0,
+    "entry_count": 2,
+    "size_sectors": 469,
+    "entries": [
+      {
+        "index": 0,
+        "name": "C0040001",
+        "start_sector": 1,
+        "offset": 512,
+        "size": 115712,
+        "end": 116224,
+        "head_hex": "47 ab 6b ef 01 00 00 00 00 02 00 00 00 c2 01 00 00 00 00 00 00 00 00 00 00 00 01 00 01 00 00 00",
+        "entropy": 7.998190382566871
+      },
+      {
+        "index": 1,
+        "name": "C0040002",
+        "start_sector": 227,
+        "offset": 116224,
+        "size": 123904,
+        "end": 240128,
+        "head_hex": "47 ab 6b ef 01 00 00 00 00 02 00 00 00 e2 01 00 00 00 00 00 00 00 00 00 00 00 01 00 01 00 00 00",
+        "entropy": 7.998390028020416
+      }
+    ]
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\18_usb_pdc_salina_c0.bls",
+    "size": 46080,
+    "version": 3,
+    "flags": 0,
+    "entry_count": 2,
+    "size_sectors": 90,
+    "entries": [
+      {
+        "index": 0,
+        "name": "C0050001",
+        "start_sector": 1,
+        "offset": 512,
+        "size": 30208,
+        "end": 30720,
+        "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 02 00 00 00 3b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "entropy": 6.416243235297958
+      },
+      {
+        "index": 1,
+        "name": "C0050002",
+        "start_sector": 60,
+        "offset": 30720,
+        "size": 15360,
+        "end": 46080,
+        "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 02 00 00 00 1e 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "entropy": 6.522004701463582
+      }
+    ]
+  },
+  {
+    "file": "ps5_pup_dec_analysis\\unpacked\\dev\\513_wlanbt.bin",
+    "size": 791040,
+    "version": 3,
+    "flags": 0,
+    "entry_count": 2,
+    "size_sectors": 1545,
+    "entries": [
+      {
+        "index": 0,
+        "name": "C0030002",
+        "start_sector": 1,
+        "offset": 512,
+        "size": 169472,
+        "end": 169984,
+        "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 02 00 00 00 4b 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "entropy": 6.118261159047173
+      },
+      {
+        "index": 1,
+        "name": "C0030003",
+        "start_sector": 332,
+        "offset": 169984,
+        "size": 621056,
+        "end": 791040,
+        "head_hex": "53 4c 42 32 03 00 00 00 00 00 00 00 04 00 00 00 bd 04 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "entropy": 7.441334478269304
+      }
+    ]
+  }
+]

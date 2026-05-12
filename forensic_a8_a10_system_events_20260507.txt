@@ -1,0 +1,269 @@
+﻿
+
+TimeCreated  : 5/7/2026 10:25:32 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:25:32 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:25:32 PM
+Id           : 7000
+ProviderName : Service Control Manager
+Message      : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+               Indicates two revision levels are incompatible.
+
+TimeCreated  : 5/7/2026 10:25:31 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:25:29 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:25:29 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:25:29 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:25:29 PM
+Id           : 7045
+ProviderName : Service Control Manager
+Message      : A service was installed in the system.
+               
+               Service Name:  AMD BC-250 Kernel Display Miniport
+               Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+               Service Type:  kernel mode driver
+               Service Start Type:  demand start
+               Service Account:  
+
+TimeCreated  : 5/7/2026 10:23:48 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:23:48 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:23:48 PM
+Id           : 7000
+ProviderName : Service Control Manager
+Message      : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+               Indicates two revision levels are incompatible.
+
+TimeCreated  : 5/7/2026 10:23:48 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:23:46 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:23:46 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:23:45 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:23:45 PM
+Id           : 7045
+ProviderName : Service Control Manager
+Message      : A service was installed in the system.
+               
+               Service Name:  AMD BC-250 Kernel Display Miniport
+               Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+               Service Type:  kernel mode driver
+               Service Start Type:  demand start
+               Service Account:  
+
+TimeCreated  : 5/7/2026 10:21:52 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:21:52 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:21:52 PM
+Id           : 7000
+ProviderName : Service Control Manager
+Message      : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+               Indicates two revision levels are incompatible.
+
+TimeCreated  : 5/7/2026 10:21:52 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:21:50 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:21:50 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:21:50 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:21:50 PM
+Id           : 7045
+ProviderName : Service Control Manager
+Message      : A service was installed in the system.
+               
+               Service Name:  AMD BC-250 Kernel Display Miniport
+               Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+               Service Type:  kernel mode driver
+               Service Start Type:  demand start
+               Service Account:  
+
+TimeCreated  : 5/7/2026 10:17:49 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:17:49 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:17:49 PM
+Id           : 7000
+ProviderName : Service Control Manager
+Message      : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+               Indicates two revision levels are incompatible.
+
+TimeCreated  : 5/7/2026 10:17:49 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:17:47 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:17:47 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:17:47 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:17:46 PM
+Id           : 7045
+ProviderName : Service Control Manager
+Message      : A service was installed in the system.
+               
+               Service Name:  AMD BC-250 Kernel Display Miniport
+               Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+               Service Type:  kernel mode driver
+               Service Start Type:  demand start
+               Service Account:  
+
+TimeCreated  : 5/7/2026 10:15:59 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:15:59 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:15:59 PM
+Id           : 7000
+ProviderName : Service Control Manager
+Message      : The AMD BC-250 Kernel Display Miniport service failed to start due to the following error: 
+               Indicates two revision levels are incompatible.
+
+TimeCreated  : 5/7/2026 10:15:58 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:15:56 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:15:56 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:15:56 PM
+Id           : 219
+ProviderName : Microsoft-Windows-Kernel-PnP
+Message      : The driver \Driver\amdbc250kmd failed to load for the device 
+               PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041.
+
+TimeCreated  : 5/7/2026 10:15:56 PM
+Id           : 7045
+ProviderName : Service Control Manager
+Message      : A service was installed in the system.
+               
+               Service Name:  AMD BC-250 Kernel Display Miniport
+               Service File Name:  \SystemRoot\System32\drivers\amdbc250kmd.sys
+               Service Type:  kernel mode driver
+               Service Start Type:  demand start
+               Service Account:  
+
+
+

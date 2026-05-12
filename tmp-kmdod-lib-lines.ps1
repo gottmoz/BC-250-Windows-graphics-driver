@@ -1,0 +1,1 @@
+Select-String -Path 'C:\Dev\windows-driver-samples\video\KMDOD\Sample\SampleDisplay.vcxproj' -Pattern 'DDK_LIB_PATH|SDK_LIB_PATH|AdditionalLibraryDirectories|AdditionalDependencies' | ForEach-Object { $_.Line }

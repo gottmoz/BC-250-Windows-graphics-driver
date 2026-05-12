@@ -1,0 +1,1 @@
+Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -in @('powershell','MSBuild','link','cl') } | Select-Object ProcessName,Id,CPU,StartTime | Sort-Object StartTime | Format-Table -AutoSize

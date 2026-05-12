@@ -1,0 +1,200 @@
+[
+  {
+    "label": "seg02_id1__raw_head",
+    "pattern": "MEC",
+    "offset": 382482,
+    "context": "w.z..6f4..B....6$...M..Q.m..`.n........Re2.ADq..MEC.&..>......e...d....7......W t...k..z i.?8.....P....N..g#.k.|.;..}o.xnH.*.T_..?.L.!.i0......J"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "navi",
+    "offset": 473114,
+    "context": "IE Inc:n verkkosivujen tai muiden virallisten kanavien kautta. K..ytt..j.. sallii SIE Inc:lle n..iden automaattisten p..ivitysten, parannusten j"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "navi",
+    "offset": 497375,
+    "context": "IE Inc:n verkkosivujen tai muiden virallisten kanavien kautta. K..ytt..j.. sallii SIE Inc:lle n..iden automaattisten p..ivitysten, parannusten j"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "navi",
+    "offset": 515803,
+    "context": "cable .. tout logiciel syst..me, micrologiciel, navigateur Internet et logiciel d...application int..gr.. au syst..me PS5 et ..galement aux corr"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "navi",
+    "offset": 516015,
+    "context": "ions du logiciel syst..me, du micrologiciel, du navigateur Internet et du logiciel d...application mis .. la disposition de votre syst..me PS5 o"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 62496,
+    "context": "va se vztahuje na ka..d.. syst..mov.. software, firmware nebo software internetov..ho prohl....e..e a dal.... aplika..n.. softwary obsa..en.. ve"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 63066,
+    "context": " PS5 spole..nosti SIE Inc. Ve..ker.. software a firmware uveden.. v tomto odstavci je v cel.. smlouv.. d..le spole..n.. uv..d..n jako ...syst..m"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 87167,
+    "context": "va se vztahuje na ka..d.. syst..mov.. software, firmware nebo software internetov..ho prohl....e..e a dal.... aplika..n.. softwary obsa..en.. ve"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 87737,
+    "context": " PS5 spole..nosti SIE Inc. Ve..ker.. software a firmware uveden.. v tomto odstavci je v cel.. smlouv.. d..le spole..n.. uv..d..n jako ...syst..m"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 111623,
+    "context": "r.&#xa;Denne aftale g..lder for systemsoftware, firmware, internetbrowsersoftware og anden applikationssoftware, der er inkluderet i dit PS5-sys"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 111831,
+    "context": "e versioner af den p..g..ldende systemsoftware, firmware og internetbrowsersoftware samt anden applikationssoftware, der leveres til eller g..re"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 112095,
+    "context": "nc-webside eller PS5-spilmedier. Al software og firmware, som er beskrevet i dette afsnit, bliver samlet refereret til som systemsoftware overal"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 132985,
+    "context": "r.&#xa;Denne aftale g..lder for systemsoftware, firmware, internetbrowsersoftware og anden applikationssoftware, der er inkluderet i dit PS5-sys"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 133193,
+    "context": "e versioner af den p..g..ldende systemsoftware, firmware og internetbrowsersoftware samt anden applikationssoftware, der leveres til eller g..re"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 133457,
+    "context": "nc-webside eller PS5-spilmedier. Al software og firmware, som er beskrevet i dette afsnit, bliver samlet refereret til som systemsoftware overal"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 294040,
+    "context": ";This Agreement applies to any system software, firmware and internet browser software and other application software included in your PS5 syste"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 294214,
+    "context": "grades or new versions of that system software, firmware and internet browser software and other application software provided to or made availa"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 294464,
+    "context": "Inc website or PS5 game media. All software and firmware described in this paragraph is referred to collectively as ...System Software... throug"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 314189,
+    "context": ";This Agreement applies to any system software, firmware and internet browser software and other application software included in your PS5 syste"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 314363,
+    "context": "grades or new versions of that system software, firmware and internet browser software and other application software provided to or made availa"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 314613,
+    "context": "Inc website or PS5 game media. All software and firmware described in this paragraph is referred to collectively as ...System Software... throug"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 334362,
+    "context": ";This Agreement applies to any system software, firmware and Internet browser software and other application software included in your PS5 syste"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 334536,
+    "context": "grades or new versions of that system software, firmware and Internet browser software and other application software provided to or made availa"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 334786,
+    "context": "Inc website or PS5 game media. All software and firmware described in this paragraph is referred to collectively as \"System Software\" throughout"
+  },
+  {
+    "label": "seg02_id1__zlib",
+    "pattern": "firmware",
+    "offset": 354387,
+    "context": ";This Agreement applies to any system software, firmware and Internet browser software and other application software included in your PS5 syste"
+  },
+  {
+    "label": "seg06_id2__raw_head",
+    "pattern": "gfx",
+    "offset": 1979114,
+    "context": ".x....e.?.o..........c.0...Lh..h%....jO...S....Ngfx....|.n.....9.@T.......a....??rx..'.......].{.....1....N..~!.j....U...y.r8]/.h.:....[.......-"
+  },
+  {
+    "label": "seg13_id5_kernel.bin_raw_head",
+    "pattern": "CP_",
+    "offset": 15000187,
+    "context": "....1.{..y.....U{7.....oE7.......S...^W....c....CP_~..+.}..a(...rU3...5+.............h..3.G..\"=.Z.... .e..........T....^.z@..I...Y..........e..s"
+  },
+  {
+    "label": "seg17_id11_titania.bls_raw_head",
+    "pattern": "AMD",
+    "offset": 36935209,
+    "context": "..\"[4..+3..Sp+...]..R.K...j.(..mg.....E...biC`.NAMD.H.8...:..+..&..j.........q.E.=_.^i..H)N.A...z...:VW.......u0.AW6..a&.M..v.~....O.6..OFwxs@.."
+  },
+  {
+    "label": "seg17_id11_titania.bls_raw_head",
+    "pattern": "MP1",
+    "offset": 35198864,
+    "context": "../..r.k....?..., Ei}.V.........c..ZK..D..C.F,P.MP1.h5..<W.eZ..{.'#,...v.zN.'..s/.........|..k[.p....:..-..[h.......9xP.YM.....9.t.._.q....E...."
+  },
+  {
+    "label": "seg17_id11_titania.bls_zlib",
+    "pattern": "AMD",
+    "offset": 40609,
+    "context": "$T..c.Id7..........%.W..^C8..&...3....l...e.2?..AMD....L.\".a....Q:....Yb...0t........W.r..+...(.)..|P.....q...b..........;y.9.G.k..........(...."
+  },
+  {
+    "label": "seg23_id4611_ssd0.system_b?_raw_head",
+    "pattern": "AMD",
+    "offset": 46561591,
+    "context": "..&..\">.%l..3..h...mA/.....!....#......f......BOAMDm.......~..m_.....(y........]...#..-..@..r....w..... h...^...~b.~D..E...W......@..j.&a.#..R.<"
+  },
+  {
+    "label": "seg23_id4611_ssd0.system_b?_raw_head",
+    "pattern": "MEC",
+    "offset": 47107423,
+    "context": "...l...B......u...[...sk.....o.t[.j...)..>kN..e.MEC.w.i..]..R..S.8*..0..~..%.!D.B......{.4l... b.[..R....}.....cy\\M.?.O.m.............w...jMR.f."
+  },
+  {
+    "label": "seg25_id4612_ssd0.system_ex_b?_raw_head",
+    "pattern": "GFX",
+    "offset": 215160097,
+    "context": "g...ntt),.18.z ...GzHu.U...+5.].k...b...4...!...GFXt>..h....L......8....^?.f.J.,3...a[.....Z.zW.7\\.i......_0..@.....yyY...;T....L6c...c.O...[[2."
+  }
+]

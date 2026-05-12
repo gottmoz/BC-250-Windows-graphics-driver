@@ -1,0 +1,1272 @@
+[
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceAgc.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 39,
+    "size": 75045,
+    "no_fat": true,
+    "image_offset": 2686976
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceAgcDriver.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 41,
+    "size": 39895,
+    "no_fat": true,
+    "image_offset": 2818048
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceAgcVsh.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 42,
+    "size": 61009,
+    "no_fat": true,
+    "image_offset": 2883584
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceCompanionHttpd.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 115,
+    "size": 6889,
+    "no_fat": true,
+    "image_offset": 7667712
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceCompanionUtil.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 116,
+    "size": 4687,
+    "no_fat": true,
+    "image_offset": 7733248
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceCompositeExt.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 117,
+    "size": 31373,
+    "no_fat": true,
+    "image_offset": 7798784
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGameCustomDataDialog.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 209,
+    "size": 8378,
+    "no_fat": true,
+    "image_offset": 13828096
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGameLiveStreaming.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 210,
+    "size": 23507,
+    "no_fat": true,
+    "image_offset": 13893632
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGameUpdate.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 211,
+    "size": 10273,
+    "no_fat": true,
+    "image_offset": 13959168
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGic.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 212,
+    "size": 4877,
+    "no_fat": true,
+    "image_offset": 14024704
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGifParser.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 213,
+    "size": 33507,
+    "no_fat": true,
+    "image_offset": 14090240
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGnmDriver.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 214,
+    "size": 31515,
+    "no_fat": true,
+    "image_offset": 14155776
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGnmDriverCompat1.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 215,
+    "size": 32272,
+    "no_fat": true,
+    "image_offset": 14221312
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGnmDriverForNeoMode.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 216,
+    "size": 32231,
+    "no_fat": true,
+    "image_offset": 14286848
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceGvMp4Parser.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 217,
+    "size": 278117,
+    "no_fat": true,
+    "image_offset": 14352384
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoArbitration.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 605,
+    "size": 6454,
+    "no_fat": true,
+    "image_offset": 39780352
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoCoreInterface.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 606,
+    "size": 61935,
+    "no_fat": true,
+    "image_offset": 39845888
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoCoreServerInterface.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 607,
+    "size": 15926,
+    "no_fat": true,
+    "image_offset": 39911424
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoDecoderArbitration.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 608,
+    "size": 5456,
+    "no_fat": true,
+    "image_offset": 39976960
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoNativeExtEssential.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 609,
+    "size": 83156,
+    "no_fat": true,
+    "image_offset": 40042496
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoOut.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 611,
+    "size": 77766,
+    "no_fat": true,
+    "image_offset": 40173568
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoOutSecondary.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 613,
+    "size": 16296,
+    "no_fat": true,
+    "image_offset": 40304640
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoRecording.native.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 614,
+    "size": 201940,
+    "no_fat": true,
+    "image_offset": 40370176
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoRecording.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 618,
+    "size": 169671,
+    "no_fat": true,
+    "image_offset": 40632320
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideoStreamingEngine_sys.sprx",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 621,
+    "size": 1338444,
+    "no_fat": true,
+    "image_offset": 40828928
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideodec.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 642,
+    "size": 9364,
+    "no_fat": true,
+    "image_offset": 42205184
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/common/lib/libSceVideodec2.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 643,
+    "size": 14648,
+    "no_fat": true,
+    "image_offset": 42270720
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/priv/lib/libSceComposite.sprx",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 2123,
+    "size": 33412,
+    "no_fat": true,
+    "image_offset": 139264000
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/sys/AgcCompositor.elf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 2292,
+    "size": 530302,
+    "no_fat": true,
+    "image_offset": 150339584
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\515_ssd0.system_b",
+    "path": "/sys/gpudump.elf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 2315,
+    "size": 54318,
+    "no_fat": true,
+    "image_offset": 151846912
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40087/psm/Application/resource/Sce.Vsh.ShellUI.QuickVideoEdit.rco",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 976,
+    "size": 171472,
+    "no_fat": true,
+    "image_offset": 64225280
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40087/psm/Application/Sce.Vsh.VideoRecordingWrapper.dll.sprx",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 1185,
+    "size": 15571,
+    "no_fat": true,
+    "image_offset": 77922304
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40087/ugc",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 1231,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 80936960
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40087/ugc/SIE-ModeMinALargePro-B.otf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 1232,
+    "size": 4301468,
+    "no_fat": true,
+    "image_offset": 81002496
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40087/ugc/SIE-PopHappinessStd-EB.otf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 1298,
+    "size": 2855048,
+    "no_fat": true,
+    "image_offset": 85327872
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40087/ugc/SST-Condensed.otf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 1342,
+    "size": 86492,
+    "no_fat": true,
+    "image_offset": 88211456
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40087/ugc/SST-HeavyItalic.otf",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 1344,
+    "size": 85820,
+    "no_fat": true,
+    "image_offset": 88342528
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/app/NPXS40140/cdc/lib/libgnmawt.prx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 2172,
+    "size": 739091,
+    "no_fat": true,
+    "image_offset": 142606336
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/ReactNative.Components.Vsh.PSNowPlayer.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 2812,
+    "size": 51301,
+    "no_fat": true,
+    "image_offset": 184549376
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/ReactNative.Components.Vsh.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 2813,
+    "size": 178024,
+    "no_fat": true,
+    "image_offset": 184614912
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/Sce.Vsh.ShareVideoTranscoderWrapper.dll.sprx",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 3140,
+    "size": 10651,
+    "no_fat": true,
+    "image_offset": 206045184
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/Sce.Vsh.ShellUI.QuickVideoEdit.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3258,
+    "size": 81059,
+    "no_fat": true,
+    "image_offset": 213778432
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/Sce.Vsh.ShellUI.ShareVideoTranscoder.dll.sprx",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 3299,
+    "size": 127183,
+    "no_fat": true,
+    "image_offset": 216465408
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/Sce.Vsh.ShellUI.Ugc.dll.sprx",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 3312,
+    "size": 60652,
+    "no_fat": true,
+    "image_offset": 217317376
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/Sce.Vsh.VideoPlayer.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3347,
+    "size": 62568,
+    "no_fat": true,
+    "image_offset": 219611136
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/Sce.Vsh.VideoServiceWrapper.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3348,
+    "size": 12805,
+    "no_fat": true,
+    "image_offset": 219676672
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/System.ComponentModel.Composition.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3362,
+    "size": 498373,
+    "no_fat": true,
+    "image_offset": 220594176
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/System.ComponentModel.DataAnnotations.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3370,
+    "size": 125299,
+    "no_fat": true,
+    "image_offset": 221118464
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/System.IO.Compression.FileSystem.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3475,
+    "size": 24767,
+    "no_fat": true,
+    "image_offset": 227999744
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/System.IO.Compression.dll.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3476,
+    "size": 222875,
+    "no_fat": true,
+    "image_offset": 228065280
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/libSceGLSlimClientVSH.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3767,
+    "size": 63496,
+    "no_fat": true,
+    "image_offset": 247136256
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/libSceGLSlimServerVSH.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3768,
+    "size": 456505,
+    "no_fat": true,
+    "image_offset": 247201792
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/libSceGLSlimVSH.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 3775,
+    "size": 425074,
+    "no_fat": true,
+    "image_offset": 247660544
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/common_ex/lib/libSceVideoStreamingEngine.sprx",
+    "attrs": 35,
+    "is_dir": false,
+    "first_cluster": 4320,
+    "size": 1338444,
+    "no_fat": true,
+    "image_offset": 283377664
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/priv_ex/share/trophy/material/for_video",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 6461,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 423690240
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/priv_ex/share/trophy/material/for_video/compressed",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 6462,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 423755776
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/priv_ex/share/trophy/material/for_video/compressed/trophy.zip",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 6463,
+    "size": 61714039,
+    "no_fat": true,
+    "image_offset": 423821312
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/priv_ex/share/trophy/material/for_video/compressed/trophy_asset_version.json",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7405,
+    "size": 19,
+    "no_fat": true,
+    "image_offset": 485556224
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40003/assets/node_modules/@rnps-ppr/notification-view-template/src/components",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7444,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 488112128
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40003/assets/node_modules/@rnps-ppr/notification-view-template/src/components/Icon",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7445,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 488177664
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40003/assets/node_modules/@rnps-ppr/notification-view-template/src/components/Icon/PredefinedIcon",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7446,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 488243200
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40003/assets/node_modules/@rnps-ppr/notification-view-template/src/components/Icon/PredefinedIcon/assets",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7447,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 488308736
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40003/assets/node_modules/@rnps-ppr/notification-view-template/src/components/Icon/PredefinedIcon/assets/SystemSoftware_Default_4k.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7448,
+    "size": 2595,
+    "no_fat": true,
+    "image_offset": 488374272
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7770,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 509476864
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7771,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 509542400
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7772,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 509607936
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/icon",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7773,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 509673472
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/icon/Badge_New.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7774,
+    "size": 790,
+    "no_fat": true,
+    "image_offset": 509739008
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/icon/arrow_L.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7775,
+    "size": 994,
+    "no_fat": true,
+    "image_offset": 509804544
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/icon/arrow_R.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7776,
+    "size": 962,
+    "no_fat": true,
+    "image_offset": 509870080
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/icon/checkmark.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7777,
+    "size": 1319,
+    "no_fat": true,
+    "image_offset": 509935616
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 7778,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 510001152
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/Bond.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7779,
+    "size": 111237,
+    "no_fat": true,
+    "image_offset": 510066688
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/Bond_plus_line.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7781,
+    "size": 125427,
+    "no_fat": true,
+    "image_offset": 510197760
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_L1.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7783,
+    "size": 12914,
+    "no_fat": true,
+    "image_offset": 510328832
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_L2.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7784,
+    "size": 14609,
+    "no_fat": true,
+    "image_offset": 510394368
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_L3.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7785,
+    "size": 20812,
+    "no_fat": true,
+    "image_offset": 510459904
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_R1.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7786,
+    "size": 13400,
+    "no_fat": true,
+    "image_offset": 510525440
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_R2.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7787,
+    "size": 14934,
+    "no_fat": true,
+    "image_offset": 510590976
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_R3.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7788,
+    "size": 21354,
+    "no_fat": true,
+    "image_offset": 510656512
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_circle.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7789,
+    "size": 11454,
+    "no_fat": true,
+    "image_offset": 510722048
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_cross.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7790,
+    "size": 12159,
+    "no_fat": true,
+    "image_offset": 510787584
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_down.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7791,
+    "size": 11274,
+    "no_fat": true,
+    "image_offset": 510853120
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_left.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7792,
+    "size": 10122,
+    "no_fat": true,
+    "image_offset": 510918656
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_right.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7793,
+    "size": 14412,
+    "no_fat": true,
+    "image_offset": 510984192
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_square.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7794,
+    "size": 15622,
+    "no_fat": true,
+    "image_offset": 511049728
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_triangle.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7795,
+    "size": 12089,
+    "no_fat": true,
+    "image_offset": 511115264
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40008/assets/src/modules/accessibility/buttonAssignments/assets/texture/parts/focus_up.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 7796,
+    "size": 11120,
+    "no_fat": true,
+    "image_offset": 511180800
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40009/assets/src/assets/texture/rating/icon_GCAM_12.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8461,
+    "size": 11695,
+    "no_fat": true,
+    "image_offset": 554762240
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40009/assets/src/assets/texture/rating/icon_GCAM_16.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8462,
+    "size": 11861,
+    "no_fat": true,
+    "image_offset": 554827776
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40009/assets/src/assets/texture/rating/icon_GCAM_18.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8463,
+    "size": 11049,
+    "no_fat": true,
+    "image_offset": 554893312
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40009/assets/src/assets/texture/rating/icon_GCAM_3.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8464,
+    "size": 11049,
+    "no_fat": true,
+    "image_offset": 554958848
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40009/assets/src/assets/texture/rating/icon_GCAM_7.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8465,
+    "size": 10319,
+    "no_fat": true,
+    "image_offset": 555024384
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/packages/notification-view-template/src/components",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8651,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 567214080
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/packages/notification-view-template/src/components/Icon",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8652,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 567279616
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/packages/notification-view-template/src/components/Icon/PredefinedIcon",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8653,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 567345152
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/packages/notification-view-template/src/components/Icon/PredefinedIcon/assets",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8654,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 567410688
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/packages/notification-view-template/src/components/Icon/PredefinedIcon/assets/SystemSoftware_Default_4k.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8655,
+    "size": 2595,
+    "no_fat": true,
+    "image_offset": 567476224
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8657,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 567607296
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/Popup",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8658,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 567672832
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/Popup/assets",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8659,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 567738368
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/Popup/assets/Notification_MultiLogin_base.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8660,
+    "size": 6433,
+    "no_fat": true,
+    "image_offset": 567803904
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/Popup/assets/Notification_MultiLogin_base@2x.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8661,
+    "size": 23740,
+    "no_fat": true,
+    "image_offset": 567869440
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/Popup/assets/morpheus_notification_base_dh118_dv118_mh102_mv102.dds",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8662,
+    "size": 57728,
+    "no_fat": true,
+    "image_offset": 567934976
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8663,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 568000512
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/OutOfPlayAreaWarning",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8664,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 568066048
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/OutOfPlayAreaWarning/assets",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8665,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 568131584
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/OutOfPlayAreaWarning/assets/PlayArea_Base_dh280_dv280.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8666,
+    "size": 16441,
+    "no_fat": true,
+    "image_offset": 568197120
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/ScreenLockIndicator",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8667,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 568262656
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/ScreenLockIndicator/assets",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 8668,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 568328192
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/ScreenLockIndicator/assets/screenlock_base.dds",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8669,
+    "size": 40128,
+    "no_fat": true,
+    "image_offset": 568393728
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/ScreenLockIndicator/assets/screenlock_comp.dds",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8670,
+    "size": 40128,
+    "no_fat": true,
+    "image_offset": 568459264
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/ScreenLockIndicator/assets/screenlock_progress.dds",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8671,
+    "size": 6176,
+    "no_fat": true,
+    "image_offset": 568524800
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/ScreenLockIndicator/assets/screenlock_ring_left.dds",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8672,
+    "size": 6176,
+    "no_fat": true,
+    "image_offset": 568590336
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40011/assets/src/components/VrIndicator/ScreenLockIndicator/assets/screenlock_ring_right.dds",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 8673,
+    "size": 6176,
+    "no_fat": true,
+    "image_offset": 568655872
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40021/assets/src/modules/SampleSingleScreenDialog",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 9024,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 591659008
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40021/assets/src/modules/SampleSingleScreenDialog/assets",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 9025,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 591724544
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40021/assets/src/modules/SampleSingleScreenDialog/assets/icons",
+    "attrs": 22,
+    "is_dir": true,
+    "first_cluster": 9026,
+    "size": 65536,
+    "no_fat": true,
+    "image_offset": 591790080
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40021/assets/src/modules/SampleSingleScreenDialog/assets/icons/autojoin_01.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 9027,
+    "size": 6657,
+    "no_fat": true,
+    "image_offset": 591855616
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40021/assets/src/modules/SampleSingleScreenDialog/assets/icons/autojoin_01@2x.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 9028,
+    "size": 9284,
+    "no_fat": true,
+    "image_offset": 591921152
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40062/assets/modules/arcrunner-ui/src/assets/default-cart-item-video.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 10111,
+    "size": 714,
+    "no_fat": true,
+    "image_offset": 662896640
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40081/assets/src/assets/texture/rating/icon_GCAM_12.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 10949,
+    "size": 11695,
+    "no_fat": true,
+    "image_offset": 717815808
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40081/assets/src/assets/texture/rating/icon_GCAM_16.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 10950,
+    "size": 11861,
+    "no_fat": true,
+    "image_offset": 717881344
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40081/assets/src/assets/texture/rating/icon_GCAM_18.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 10951,
+    "size": 11049,
+    "no_fat": true,
+    "image_offset": 717946880
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40081/assets/src/assets/texture/rating/icon_GCAM_3.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 10952,
+    "size": 11049,
+    "no_fat": true,
+    "image_offset": 718012416
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/rnps/apps/NPXS40081/assets/src/assets/texture/rating/icon_GCAM_7.png",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 10953,
+    "size": 10319,
+    "no_fat": true,
+    "image_offset": 718077952
+  },
+  {
+    "image": "ps5_pup_dec_analysis\\unpacked_large\\dev\\516_ssd0.system_ex_b",
+    "path": "/vsh_asset/ReactNative.Components.CommonAssets.rco",
+    "attrs": 38,
+    "is_dir": false,
+    "first_cluster": 11577,
+    "size": 18315744,
+    "no_fat": true,
+    "image_offset": 758972416
+  }
+]

@@ -1,0 +1,4747 @@
+{
+  "path": "C:\\Users\\jimmy\\Downloads\\PS5UPDATE.PUP",
+  "size": 1246464000,
+  "outer": {
+    "magic": "SLB2",
+    "version": 3,
+    "flags": 65536,
+    "entry_count": 1,
+    "size_in_sectors": 2434500,
+    "entries": [
+      {
+        "index": 0,
+        "name": "PS5UPDATE1.PUP",
+        "start_sector": 2,
+        "offset": 1024,
+        "size": 1246462813,
+        "end": 1246463837
+      }
+    ]
+  },
+  "outer_md5": "41733cde5847ee2a63a253df94188c88",
+  "outer_sha256": "a69f5ddf3b0f963407f4d2a9abf0968061e9865571cd0c84631d262c7201f806",
+  "first_entry": {
+    "index": 0,
+    "name": "PS5UPDATE1.PUP",
+    "start_sector": 2,
+    "offset": 1024,
+    "size": 1246462813,
+    "end": 1246463837,
+    "md5": "5d67b4060deaa368d452caec3f796620",
+    "sha256": "a58b23459533f1d7161b92e83194c73388f518f47f60cc208e1395407e1cdcdd",
+    "entropy_bits_per_byte": 7.999999871893169,
+    "head_hex": "54 14 f5 ee 10 01 01 32 04 00 00 00 b0 05 e0 0d c8 ad 8f bd a1 4f 6e 09 c2 c0 64 1e 43 1e 78 73 79 51 32 24 13 36 6f 47 1c a1 1f d1 ac 11 12 ad 82 2b 08 44 73 1e 91 9e 40 eb 08 d3 9e 93 27 b5 31 cb ce 6b 5a cd 28 99 40 d1 7e 58 3e 59 d5 16 03 5a 0e 44 e6 cc 61 99 1c 76 35 68 b4 5e ba bb 35 3c f6 c6 da 77 89 68 2e 18 3a 8c c5 93 e7 5f a7 d4 f2 4c b4 0a d2 05 da 7d f9 a1 e0 ea 09 e4 c8 42 d2 68 fb 6a 76 be 62 e6 3a 4f df 9b ca 07 85 b5 6e 32 e9 2a 5e 1d e6 5c ac 9a d3 a7 5f 79 b5 21 50 66 3e 1b ee 24 b5 c2 7a a8 86 41 99 8c e1 4f 2c 21 48 25 23 8e f2 49 26 7e 07 e1 45 9e 7e 80 1d b1 dc b2 5d 7e e9 57 ca 1c 59 4d 7a 0f 6b 48 9f 56 24 66 3a eb 51 da cf b4 44 aa 0a 04 2e c9 97 02 c3 b1 cb 4a 73 b8 e9 d6 22 0b fa bd 28 59 df 87 9a 98 16 85 b6 59 c5 2d 44 d9 b5 e2"
+  },
+  "targeted_findings": [
+    {
+      "pattern": "SLB2",
+      "offset": 0
+    },
+    {
+      "pattern": "ELF",
+      "offset": 7945069
+    },
+    {
+      "pattern": "SCE",
+      "offset": 7571078
+    },
+    {
+      "pattern": "AMD",
+      "offset": 4769153
+    },
+    {
+      "pattern": "GC_",
+      "offset": 3962801
+    },
+    {
+      "pattern": "DCN",
+      "offset": 5302949
+    },
+    {
+      "pattern": "CP_",
+      "offset": 1663185
+    },
+    {
+      "pattern": "PFP",
+      "offset": 1780832
+    },
+    {
+      "pattern": "ELF",
+      "offset": 8796790
+    },
+    {
+      "pattern": "SCE",
+      "offset": 14234957
+    },
+    {
+      "pattern": "gfx",
+      "offset": 8742410
+    },
+    {
+      "pattern": "DCN",
+      "offset": 9920535
+    },
+    {
+      "pattern": "DCN",
+      "offset": 10470013
+    },
+    {
+      "pattern": "PFP",
+      "offset": 13072993
+    },
+    {
+      "pattern": "MEC",
+      "offset": 12471424
+    },
+    {
+      "pattern": "ELF",
+      "offset": 22354201
+    },
+    {
+      "pattern": "gfx",
+      "offset": 19020748
+    },
+    {
+      "pattern": "GFX",
+      "offset": 18375736
+    },
+    {
+      "pattern": "GFX",
+      "offset": 21546776
+    },
+    {
+      "pattern": "GFX",
+      "offset": 21902322
+    },
+    {
+      "pattern": "GFX",
+      "offset": 24171288
+    },
+    {
+      "pattern": "ELF",
+      "offset": 25346899
+    },
+    {
+      "pattern": "ELF",
+      "offset": 28626022
+    },
+    {
+      "pattern": "AMD",
+      "offset": 26176408
+    },
+    {
+      "pattern": "AMD",
+      "offset": 32260394
+    },
+    {
+      "pattern": "gfx",
+      "offset": 28466381
+    },
+    {
+      "pattern": "GFX",
+      "offset": 26512722
+    },
+    {
+      "pattern": "GC_",
+      "offset": 28394212
+    },
+    {
+      "pattern": "DCN",
+      "offset": 27759558
+    },
+    {
+      "pattern": "gfx",
+      "offset": 41620693
+    },
+    {
+      "pattern": "GFX",
+      "offset": 34813429
+    },
+    {
+      "pattern": "SMU",
+      "offset": 34794138
+    },
+    {
+      "pattern": "PFP",
+      "offset": 35119987
+    },
+    {
+      "pattern": "PFP",
+      "offset": 39775549
+    },
+    {
+      "pattern": "MEC",
+      "offset": 40234880
+    },
+    {
+      "pattern": "ELF",
+      "offset": 44661280
+    },
+    {
+      "pattern": "AMD",
+      "offset": 50083990
+    },
+    {
+      "pattern": "gfx",
+      "offset": 44358416
+    },
+    {
+      "pattern": "gfx",
+      "offset": 47908388
+    },
+    {
+      "pattern": "GC_",
+      "offset": 48555159
+    },
+    {
+      "pattern": "DCN",
+      "offset": 43806395
+    },
+    {
+      "pattern": "SMU",
+      "offset": 43134923
+    },
+    {
+      "pattern": "SMU",
+      "offset": 44307566
+    },
+    {
+      "pattern": "ELF",
+      "offset": 51636670
+    },
+    {
+      "pattern": "ELF",
+      "offset": 56099664
+    },
+    {
+      "pattern": "GFX",
+      "offset": 54972276
+    },
+    {
+      "pattern": "GFX",
+      "offset": 57424660
+    },
+    {
+      "pattern": "DCN",
+      "offset": 53386689
+    },
+    {
+      "pattern": "DCN",
+      "offset": 57404498
+    },
+    {
+      "pattern": "SMU",
+      "offset": 54655040
+    },
+    {
+      "pattern": "SMU",
+      "offset": 57114059
+    },
+    {
+      "pattern": "CP_",
+      "offset": 57988627
+    },
+    {
+      "pattern": "PFP",
+      "offset": 51249367
+    },
+    {
+      "pattern": "ELF",
+      "offset": 59373055
+    },
+    {
+      "pattern": "AMD",
+      "offset": 60646489
+    },
+    {
+      "pattern": "GC_",
+      "offset": 60194257
+    },
+    {
+      "pattern": "DCN",
+      "offset": 60006489
+    },
+    {
+      "pattern": "SCE",
+      "offset": 70780472
+    },
+    {
+      "pattern": "SCE",
+      "offset": 72298536
+    },
+    {
+      "pattern": "gfx",
+      "offset": 70102379
+    },
+    {
+      "pattern": "GC_",
+      "offset": 73008390
+    },
+    {
+      "pattern": "SMU",
+      "offset": 69698784
+    },
+    {
+      "pattern": "PFP",
+      "offset": 73859439
+    },
+    {
+      "pattern": "GFX",
+      "offset": 76106675
+    },
+    {
+      "pattern": "GFX",
+      "offset": 78886763
+    },
+    {
+      "pattern": "CP_",
+      "offset": 78795140
+    },
+    {
+      "pattern": "AMD",
+      "offset": 85556144
+    },
+    {
+      "pattern": "AMD",
+      "offset": 89388494
+    },
+    {
+      "pattern": "AMD",
+      "offset": 91971262
+    },
+    {
+      "pattern": "DCN",
+      "offset": 86888990
+    },
+    {
+      "pattern": "DCN",
+      "offset": 87213666
+    },
+    {
+      "pattern": "DCN",
+      "offset": 87217769
+    },
+    {
+      "pattern": "DCN",
+      "offset": 88023436
+    },
+    {
+      "pattern": "ELF",
+      "offset": 96431532
+    },
+    {
+      "pattern": "SCE",
+      "offset": 99034329
+    },
+    {
+      "pattern": "SCE",
+      "offset": 99959936
+    },
+    {
+      "pattern": "AMD",
+      "offset": 97623343
+    },
+    {
+      "pattern": "GFX",
+      "offset": 100384487
+    },
+    {
+      "pattern": "GC_",
+      "offset": 96190213
+    },
+    {
+      "pattern": "PFP",
+      "offset": 99230474
+    },
+    {
+      "pattern": "PFP",
+      "offset": 99473610
+    },
+    {
+      "pattern": "MEC",
+      "offset": 95441646
+    },
+    {
+      "pattern": "gfx",
+      "offset": 105561309
+    },
+    {
+      "pattern": "GFX",
+      "offset": 103570053
+    },
+    {
+      "pattern": "GC_",
+      "offset": 106288774
+    },
+    {
+      "pattern": "DCN",
+      "offset": 116194352
+    },
+    {
+      "pattern": "PFP",
+      "offset": 116711551
+    },
+    {
+      "pattern": "SMU",
+      "offset": 124751131
+    },
+    {
+      "pattern": "CP_",
+      "offset": 122832232
+    },
+    {
+      "pattern": "PFP",
+      "offset": 120026745
+    },
+    {
+      "pattern": "MEC",
+      "offset": 123984415
+    },
+    {
+      "pattern": "AMD",
+      "offset": 130069839
+    },
+    {
+      "pattern": "GC_",
+      "offset": 126441694
+    },
+    {
+      "pattern": "CP_",
+      "offset": 127632731
+    },
+    {
+      "pattern": "gfx",
+      "offset": 135696178
+    },
+    {
+      "pattern": "gfx",
+      "offset": 140435358
+    },
+    {
+      "pattern": "GC_",
+      "offset": 137803890
+    },
+    {
+      "pattern": "SMU",
+      "offset": 140872907
+    },
+    {
+      "pattern": "PFP",
+      "offset": 137948189
+    },
+    {
+      "pattern": "MEC",
+      "offset": 134239270
+    },
+    {
+      "pattern": "SCE",
+      "offset": 143620624
+    },
+    {
+      "pattern": "SMU",
+      "offset": 143872720
+    },
+    {
+      "pattern": "CP_",
+      "offset": 150769208
+    },
+    {
+      "pattern": "MEC",
+      "offset": 146488864
+    },
+    {
+      "pattern": "MEC",
+      "offset": 146974529
+    },
+    {
+      "pattern": "gfx",
+      "offset": 151354527
+    },
+    {
+      "pattern": "GC_",
+      "offset": 151973462
+    },
+    {
+      "pattern": "SMU",
+      "offset": 155910347
+    },
+    {
+      "pattern": "MEC",
+      "offset": 151395240
+    },
+    {
+      "pattern": "MEC",
+      "offset": 151604844
+    },
+    {
+      "pattern": "MEC",
+      "offset": 157986024
+    },
+    {
+      "pattern": "AMD",
+      "offset": 165842239
+    },
+    {
+      "pattern": "AMD",
+      "offset": 166899638
+    },
+    {
+      "pattern": "SMU",
+      "offset": 165307435
+    },
+    {
+      "pattern": "MEC",
+      "offset": 161704578
+    },
+    {
+      "pattern": "GFX",
+      "offset": 173064377
+    },
+    {
+      "pattern": "GC_",
+      "offset": 169404067
+    },
+    {
+      "pattern": "DCN",
+      "offset": 172828644
+    },
+    {
+      "pattern": "DCN",
+      "offset": 173478340
+    },
+    {
+      "pattern": "PFP",
+      "offset": 168095895
+    },
+    {
+      "pattern": "MEC",
+      "offset": 170961003
+    },
+    {
+      "pattern": "ELF",
+      "offset": 181152155
+    },
+    {
+      "pattern": "gfx",
+      "offset": 181220320
+    },
+    {
+      "pattern": "AMD",
+      "offset": 192027404
+    },
+    {
+      "pattern": "gfx",
+      "offset": 188312523
+    },
+    {
+      "pattern": "GFX",
+      "offset": 192126224
+    },
+    {
+      "pattern": "DCN",
+      "offset": 189655029
+    },
+    {
+      "pattern": "CP_",
+      "offset": 190984288
+    },
+    {
+      "pattern": "CP_",
+      "offset": 191997192
+    },
+    {
+      "pattern": "MEC",
+      "offset": 186772763
+    },
+    {
+      "pattern": "GFX",
+      "offset": 193498975
+    },
+    {
+      "pattern": "SMU",
+      "offset": 196096921
+    },
+    {
+      "pattern": "PFP",
+      "offset": 195324360
+    },
+    {
+      "pattern": "PFP",
+      "offset": 199395767
+    },
+    {
+      "pattern": "gfx",
+      "offset": 207794398
+    },
+    {
+      "pattern": "GFX",
+      "offset": 206705286
+    },
+    {
+      "pattern": "DCN",
+      "offset": 202742966
+    },
+    {
+      "pattern": "DCN",
+      "offset": 206864626
+    },
+    {
+      "pattern": "ELF",
+      "offset": 211073590
+    },
+    {
+      "pattern": "AMD",
+      "offset": 215945152
+    },
+    {
+      "pattern": "AMD",
+      "offset": 216555891
+    },
+    {
+      "pattern": "CP_",
+      "offset": 211195213
+    },
+    {
+      "pattern": "PFP",
+      "offset": 210812030
+    },
+    {
+      "pattern": "PFP",
+      "offset": 213136381
+    },
+    {
+      "pattern": "ELF",
+      "offset": 218435935
+    },
+    {
+      "pattern": "SCE",
+      "offset": 220960901
+    },
+    {
+      "pattern": "AMD",
+      "offset": 219522743
+    },
+    {
+      "pattern": "AMD",
+      "offset": 222420484
+    },
+    {
+      "pattern": "DCN",
+      "offset": 226470900
+    },
+    {
+      "pattern": "CP_",
+      "offset": 223776459
+    },
+    {
+      "pattern": "CP_",
+      "offset": 224677059
+    },
+    {
+      "pattern": "MEC",
+      "offset": 225322984
+    },
+    {
+      "pattern": "ELF",
+      "offset": 231004112
+    },
+    {
+      "pattern": "ELF",
+      "offset": 233221506
+    },
+    {
+      "pattern": "ELF",
+      "offset": 234578770
+    },
+    {
+      "pattern": "GC_",
+      "offset": 228628522
+    },
+    {
+      "pattern": "GC_",
+      "offset": 231307290
+    },
+    {
+      "pattern": "SCE",
+      "offset": 238536158
+    },
+    {
+      "pattern": "SCE",
+      "offset": 240932473
+    },
+    {
+      "pattern": "GC_",
+      "offset": 238222430
+    },
+    {
+      "pattern": "GC_",
+      "offset": 238306934
+    },
+    {
+      "pattern": "GC_",
+      "offset": 238889191
+    },
+    {
+      "pattern": "GC_",
+      "offset": 242568434
+    },
+    {
+      "pattern": "PFP",
+      "offset": 235895309
+    },
+    {
+      "pattern": "ELF",
+      "offset": 243983182
+    },
+    {
+      "pattern": "SCE",
+      "offset": 248622278
+    },
+    {
+      "pattern": "SCE",
+      "offset": 249624216
+    },
+    {
+      "pattern": "GFX",
+      "offset": 244362963
+    },
+    {
+      "pattern": "GC_",
+      "offset": 247855361
+    },
+    {
+      "pattern": "SMU",
+      "offset": 246521128
+    },
+    {
+      "pattern": "CP_",
+      "offset": 245206663
+    },
+    {
+      "pattern": "PFP",
+      "offset": 245260927
+    },
+    {
+      "pattern": "ELF",
+      "offset": 259361890
+    },
+    {
+      "pattern": "SCE",
+      "offset": 259315042
+    },
+    {
+      "pattern": "SCE",
+      "offset": 259528470
+    },
+    {
+      "pattern": "GFX",
+      "offset": 254839162
+    },
+    {
+      "pattern": "DCN",
+      "offset": 254997642
+    },
+    {
+      "pattern": "PFP",
+      "offset": 257718268
+    },
+    {
+      "pattern": "ELF",
+      "offset": 262487587
+    },
+    {
+      "pattern": "gfx",
+      "offset": 267112348
+    },
+    {
+      "pattern": "DCN",
+      "offset": 265845874
+    },
+    {
+      "pattern": "CP_",
+      "offset": 266535872
+    },
+    {
+      "pattern": "PFP",
+      "offset": 263172986
+    },
+    {
+      "pattern": "ELF",
+      "offset": 274788329
+    },
+    {
+      "pattern": "GFX",
+      "offset": 273782089
+    },
+    {
+      "pattern": "GC_",
+      "offset": 268970761
+    },
+    {
+      "pattern": "DCN",
+      "offset": 270094480
+    },
+    {
+      "pattern": "SMU",
+      "offset": 275080122
+    },
+    {
+      "pattern": "PFP",
+      "offset": 271201005
+    },
+    {
+      "pattern": "SCE",
+      "offset": 279562084
+    },
+    {
+      "pattern": "gfx",
+      "offset": 278553822
+    },
+    {
+      "pattern": "GFX",
+      "offset": 277741458
+    },
+    {
+      "pattern": "GC_",
+      "offset": 279949164
+    },
+    {
+      "pattern": "GC_",
+      "offset": 284017707
+    },
+    {
+      "pattern": "DCN",
+      "offset": 283787307
+    },
+    {
+      "pattern": "SMU",
+      "offset": 280462549
+    },
+    {
+      "pattern": "CP_",
+      "offset": 279557953
+    },
+    {
+      "pattern": "MEC",
+      "offset": 278914948
+    },
+    {
+      "pattern": "ELF",
+      "offset": 289317934
+    },
+    {
+      "pattern": "gfx",
+      "offset": 288125507
+    },
+    {
+      "pattern": "MEC",
+      "offset": 286727727
+    },
+    {
+      "pattern": "MEC",
+      "offset": 287139761
+    },
+    {
+      "pattern": "ELF",
+      "offset": 297086598
+    },
+    {
+      "pattern": "AMD",
+      "offset": 298283713
+    },
+    {
+      "pattern": "gfx",
+      "offset": 300698160
+    },
+    {
+      "pattern": "GFX",
+      "offset": 298893161
+    },
+    {
+      "pattern": "GC_",
+      "offset": 294657755
+    },
+    {
+      "pattern": "DCN",
+      "offset": 296798154
+    },
+    {
+      "pattern": "DCN",
+      "offset": 301420260
+    },
+    {
+      "pattern": "CP_",
+      "offset": 301324872
+    },
+    {
+      "pattern": "GFX",
+      "offset": 303622138
+    },
+    {
+      "pattern": "SMU",
+      "offset": 303313584
+    },
+    {
+      "pattern": "SMU",
+      "offset": 310278111
+    },
+    {
+      "pattern": "PFP",
+      "offset": 308060297
+    },
+    {
+      "pattern": "MEC",
+      "offset": 303430610
+    },
+    {
+      "pattern": "MEC",
+      "offset": 306016349
+    },
+    {
+      "pattern": "SCE",
+      "offset": 318004277
+    },
+    {
+      "pattern": "DCN",
+      "offset": 312850649
+    },
+    {
+      "pattern": "DCN",
+      "offset": 317166981
+    },
+    {
+      "pattern": "SMU",
+      "offset": 312109444
+    },
+    {
+      "pattern": "SMU",
+      "offset": 317707653
+    },
+    {
+      "pattern": "PFP",
+      "offset": 313631346
+    },
+    {
+      "pattern": "MEC",
+      "offset": 314667199
+    },
+    {
+      "pattern": "ELF",
+      "offset": 322778487
+    },
+    {
+      "pattern": "SMU",
+      "offset": 319212914
+    },
+    {
+      "pattern": "MEC",
+      "offset": 325023515
+    },
+    {
+      "pattern": "gfx",
+      "offset": 329128078
+    },
+    {
+      "pattern": "DCN",
+      "offset": 327956019
+    },
+    {
+      "pattern": "SMU",
+      "offset": 327403447
+    },
+    {
+      "pattern": "SMU",
+      "offset": 328907812
+    },
+    {
+      "pattern": "MEC",
+      "offset": 328055066
+    },
+    {
+      "pattern": "AMD",
+      "offset": 336717554
+    },
+    {
+      "pattern": "GFX",
+      "offset": 339060453
+    },
+    {
+      "pattern": "GC_",
+      "offset": 343303571
+    },
+    {
+      "pattern": "MEC",
+      "offset": 341326448
+    },
+    {
+      "pattern": "ELF",
+      "offset": 344647942
+    },
+    {
+      "pattern": "SCE",
+      "offset": 348127371
+    },
+    {
+      "pattern": "GFX",
+      "offset": 347729313
+    },
+    {
+      "pattern": "GFX",
+      "offset": 351600246
+    },
+    {
+      "pattern": "SMU",
+      "offset": 352228606
+    },
+    {
+      "pattern": "CP_",
+      "offset": 348992658
+    },
+    {
+      "pattern": "PFP",
+      "offset": 344585575
+    },
+    {
+      "pattern": "PFP",
+      "offset": 344587054
+    },
+    {
+      "pattern": "SCE",
+      "offset": 354641613
+    },
+    {
+      "pattern": "SCE",
+      "offset": 359190503
+    },
+    {
+      "pattern": "SCE",
+      "offset": 359563492
+    },
+    {
+      "pattern": "gfx",
+      "offset": 355764297
+    },
+    {
+      "pattern": "gfx",
+      "offset": 360467108
+    },
+    {
+      "pattern": "GFX",
+      "offset": 357545047
+    },
+    {
+      "pattern": "GC_",
+      "offset": 356431017
+    },
+    {
+      "pattern": "SCE",
+      "offset": 365092876
+    },
+    {
+      "pattern": "AMD",
+      "offset": 360864103
+    },
+    {
+      "pattern": "gfx",
+      "offset": 368434853
+    },
+    {
+      "pattern": "GFX",
+      "offset": 368062234
+    },
+    {
+      "pattern": "DCN",
+      "offset": 363735699
+    },
+    {
+      "pattern": "DCN",
+      "offset": 364034590
+    },
+    {
+      "pattern": "SMU",
+      "offset": 361094582
+    },
+    {
+      "pattern": "SMU",
+      "offset": 366743166
+    },
+    {
+      "pattern": "CP_",
+      "offset": 362200531
+    },
+    {
+      "pattern": "CP_",
+      "offset": 369011402
+    },
+    {
+      "pattern": "PFP",
+      "offset": 367212075
+    },
+    {
+      "pattern": "ELF",
+      "offset": 374635327
+    },
+    {
+      "pattern": "gfx",
+      "offset": 370582767
+    },
+    {
+      "pattern": "gfx",
+      "offset": 371316612
+    },
+    {
+      "pattern": "GFX",
+      "offset": 373085001
+    },
+    {
+      "pattern": "CP_",
+      "offset": 372905071
+    },
+    {
+      "pattern": "SCE",
+      "offset": 382365369
+    },
+    {
+      "pattern": "gfx",
+      "offset": 377886239
+    },
+    {
+      "pattern": "GFX",
+      "offset": 381475894
+    },
+    {
+      "pattern": "DCN",
+      "offset": 385675984
+    },
+    {
+      "pattern": "ELF",
+      "offset": 387581641
+    },
+    {
+      "pattern": "AMD",
+      "offset": 393784086
+    },
+    {
+      "pattern": "GFX",
+      "offset": 386668232
+    },
+    {
+      "pattern": "CP_",
+      "offset": 394094559
+    },
+    {
+      "pattern": "MEC",
+      "offset": 389289051
+    },
+    {
+      "pattern": "ELF",
+      "offset": 398870403
+    },
+    {
+      "pattern": "SCE",
+      "offset": 400445249
+    },
+    {
+      "pattern": "GC_",
+      "offset": 394643199
+    },
+    {
+      "pattern": "SMU",
+      "offset": 401753838
+    },
+    {
+      "pattern": "CP_",
+      "offset": 395936028
+    },
+    {
+      "pattern": "PFP",
+      "offset": 401000243
+    },
+    {
+      "pattern": "MEC",
+      "offset": 397924225
+    },
+    {
+      "pattern": "ELF",
+      "offset": 407734034
+    },
+    {
+      "pattern": "ELF",
+      "offset": 409909444
+    },
+    {
+      "pattern": "GC_",
+      "offset": 410171890
+    },
+    {
+      "pattern": "PFP",
+      "offset": 405290747
+    },
+    {
+      "pattern": "MEC",
+      "offset": 409894756
+    },
+    {
+      "pattern": "SCE",
+      "offset": 418091096
+    },
+    {
+      "pattern": "SCE",
+      "offset": 418599363
+    },
+    {
+      "pattern": "AMD",
+      "offset": 415111797
+    },
+    {
+      "pattern": "GFX",
+      "offset": 413734258
+    },
+    {
+      "pattern": "CP_",
+      "offset": 417054282
+    },
+    {
+      "pattern": "MEC",
+      "offset": 412912636
+    },
+    {
+      "pattern": "MEC",
+      "offset": 413682710
+    },
+    {
+      "pattern": "SCE",
+      "offset": 427091231
+    },
+    {
+      "pattern": "AMD",
+      "offset": 422895831
+    },
+    {
+      "pattern": "gfx",
+      "offset": 419493348
+    },
+    {
+      "pattern": "gfx",
+      "offset": 419917182
+    },
+    {
+      "pattern": "SMU",
+      "offset": 421505419
+    },
+    {
+      "pattern": "SMU",
+      "offset": 423106520
+    },
+    {
+      "pattern": "SMU",
+      "offset": 426657887
+    },
+    {
+      "pattern": "SMU",
+      "offset": 427178856
+    },
+    {
+      "pattern": "MEC",
+      "offset": 425322395
+    },
+    {
+      "pattern": "MEC",
+      "offset": 425477147
+    },
+    {
+      "pattern": "ELF",
+      "offset": 432710683
+    },
+    {
+      "pattern": "AMD",
+      "offset": 435519137
+    },
+    {
+      "pattern": "GFX",
+      "offset": 429892869
+    },
+    {
+      "pattern": "SMU",
+      "offset": 430094657
+    },
+    {
+      "pattern": "SMU",
+      "offset": 430952180
+    },
+    {
+      "pattern": "MEC",
+      "offset": 435279441
+    },
+    {
+      "pattern": "GFX",
+      "offset": 438092680
+    },
+    {
+      "pattern": "GFX",
+      "offset": 443027065
+    },
+    {
+      "pattern": "DCN",
+      "offset": 438541557
+    },
+    {
+      "pattern": "PFP",
+      "offset": 444501975
+    },
+    {
+      "pattern": "AMD",
+      "offset": 449893450
+    },
+    {
+      "pattern": "gfx",
+      "offset": 448228627
+    },
+    {
+      "pattern": "GFX",
+      "offset": 447044948
+    },
+    {
+      "pattern": "DCN",
+      "offset": 449082311
+    },
+    {
+      "pattern": "CP_",
+      "offset": 447911876
+    },
+    {
+      "pattern": "PFP",
+      "offset": 451752122
+    },
+    {
+      "pattern": "MEC",
+      "offset": 445758930
+    },
+    {
+      "pattern": "MEC",
+      "offset": 449916395
+    },
+    {
+      "pattern": "ELF",
+      "offset": 458386496
+    },
+    {
+      "pattern": "ELF",
+      "offset": 461062710
+    },
+    {
+      "pattern": "SCE",
+      "offset": 455709108
+    },
+    {
+      "pattern": "GC_",
+      "offset": 458821856
+    },
+    {
+      "pattern": "SMU",
+      "offset": 455154590
+    },
+    {
+      "pattern": "PFP",
+      "offset": 457291209
+    },
+    {
+      "pattern": "gfx",
+      "offset": 462902929
+    },
+    {
+      "pattern": "gfx",
+      "offset": 467350648
+    },
+    {
+      "pattern": "GFX",
+      "offset": 464476690
+    },
+    {
+      "pattern": "GFX",
+      "offset": 466527075
+    },
+    {
+      "pattern": "AMD",
+      "offset": 475402458
+    },
+    {
+      "pattern": "DCN",
+      "offset": 469881738
+    },
+    {
+      "pattern": "CP_",
+      "offset": 472328805
+    },
+    {
+      "pattern": "CP_",
+      "offset": 477147559
+    },
+    {
+      "pattern": "MEC",
+      "offset": 470001364
+    },
+    {
+      "pattern": "MEC",
+      "offset": 473299815
+    },
+    {
+      "pattern": "MEC",
+      "offset": 476972625
+    },
+    {
+      "pattern": "ELF",
+      "offset": 478900735
+    },
+    {
+      "pattern": "ELF",
+      "offset": 485829447
+    },
+    {
+      "pattern": "SCE",
+      "offset": 485095465
+    },
+    {
+      "pattern": "GFX",
+      "offset": 484419061
+    },
+    {
+      "pattern": "DCN",
+      "offset": 483466444
+    },
+    {
+      "pattern": "SMU",
+      "offset": 479629570
+    },
+    {
+      "pattern": "ELF",
+      "offset": 489517086
+    },
+    {
+      "pattern": "SCE",
+      "offset": 489704135
+    },
+    {
+      "pattern": "AMD",
+      "offset": 492105460
+    },
+    {
+      "pattern": "gfx",
+      "offset": 486673877
+    },
+    {
+      "pattern": "gfx",
+      "offset": 490796885
+    },
+    {
+      "pattern": "GFX",
+      "offset": 489067351
+    },
+    {
+      "pattern": "GFX",
+      "offset": 489884049
+    },
+    {
+      "pattern": "DCN",
+      "offset": 486759916
+    },
+    {
+      "pattern": "SMU",
+      "offset": 488532193
+    },
+    {
+      "pattern": "AMD",
+      "offset": 503091313
+    },
+    {
+      "pattern": "gfx",
+      "offset": 497226851
+    },
+    {
+      "pattern": "GFX",
+      "offset": 498812351
+    },
+    {
+      "pattern": "DCN",
+      "offset": 496711370
+    },
+    {
+      "pattern": "gfx",
+      "offset": 505819184
+    },
+    {
+      "pattern": "gfx",
+      "offset": 508298731
+    },
+    {
+      "pattern": "gfx",
+      "offset": 508984973
+    },
+    {
+      "pattern": "DCN",
+      "offset": 504084555
+    },
+    {
+      "pattern": "DCN",
+      "offset": 506450126
+    },
+    {
+      "pattern": "SMU",
+      "offset": 508267530
+    },
+    {
+      "pattern": "PFP",
+      "offset": 510706570
+    },
+    {
+      "pattern": "MEC",
+      "offset": 506365710
+    },
+    {
+      "pattern": "SCE",
+      "offset": 518642917
+    },
+    {
+      "pattern": "AMD",
+      "offset": 518522650
+    },
+    {
+      "pattern": "GFX",
+      "offset": 512918600
+    },
+    {
+      "pattern": "GFX",
+      "offset": 518731214
+    },
+    {
+      "pattern": "CP_",
+      "offset": 518961599
+    },
+    {
+      "pattern": "MEC",
+      "offset": 514700867
+    },
+    {
+      "pattern": "MEC",
+      "offset": 517746467
+    },
+    {
+      "pattern": "SCE",
+      "offset": 521788211
+    },
+    {
+      "pattern": "gfx",
+      "offset": 521544601
+    },
+    {
+      "pattern": "CP_",
+      "offset": 521190997
+    },
+    {
+      "pattern": "CP_",
+      "offset": 528135904
+    },
+    {
+      "pattern": "SCE",
+      "offset": 533452669
+    },
+    {
+      "pattern": "gfx",
+      "offset": 532047212
+    },
+    {
+      "pattern": "SMU",
+      "offset": 532414486
+    },
+    {
+      "pattern": "CP_",
+      "offset": 532698938
+    },
+    {
+      "pattern": "MEC",
+      "offset": 535188776
+    },
+    {
+      "pattern": "gfx",
+      "offset": 542691949
+    },
+    {
+      "pattern": "SMU",
+      "offset": 540329994
+    },
+    {
+      "pattern": "SMU",
+      "offset": 541836479
+    },
+    {
+      "pattern": "PFP",
+      "offset": 543335071
+    },
+    {
+      "pattern": "ELF",
+      "offset": 550874096
+    },
+    {
+      "pattern": "SCE",
+      "offset": 546762524
+    },
+    {
+      "pattern": "SCE",
+      "offset": 551322522
+    },
+    {
+      "pattern": "GFX",
+      "offset": 551852956
+    },
+    {
+      "pattern": "DCN",
+      "offset": 548943353
+    },
+    {
+      "pattern": "SMU",
+      "offset": 553510155
+    },
+    {
+      "pattern": "MEC",
+      "offset": 547266025
+    },
+    {
+      "pattern": "MEC",
+      "offset": 553231877
+    },
+    {
+      "pattern": "SCE",
+      "offset": 560634119
+    },
+    {
+      "pattern": "gfx",
+      "offset": 559657121
+    },
+    {
+      "pattern": "GC_",
+      "offset": 555103186
+    },
+    {
+      "pattern": "SMU",
+      "offset": 560740390
+    },
+    {
+      "pattern": "PFP",
+      "offset": 557619344
+    },
+    {
+      "pattern": "MEC",
+      "offset": 555018003
+    },
+    {
+      "pattern": "AMD",
+      "offset": 566156731
+    },
+    {
+      "pattern": "gfx",
+      "offset": 568248583
+    },
+    {
+      "pattern": "GFX",
+      "offset": 562100095
+    },
+    {
+      "pattern": "GFX",
+      "offset": 567665059
+    },
+    {
+      "pattern": "GC_",
+      "offset": 567478428
+    },
+    {
+      "pattern": "DCN",
+      "offset": 569175058
+    },
+    {
+      "pattern": "SCE",
+      "offset": 573086052
+    },
+    {
+      "pattern": "gfx",
+      "offset": 575571409
+    },
+    {
+      "pattern": "GC_",
+      "offset": 572781964
+    },
+    {
+      "pattern": "SMU",
+      "offset": 570537476
+    },
+    {
+      "pattern": "SMU",
+      "offset": 575624330
+    },
+    {
+      "pattern": "SMU",
+      "offset": 577420051
+    },
+    {
+      "pattern": "CP_",
+      "offset": 577191835
+    },
+    {
+      "pattern": "gfx",
+      "offset": 582965447
+    },
+    {
+      "pattern": "gfx",
+      "offset": 586403827
+    },
+    {
+      "pattern": "DCN",
+      "offset": 579843884
+    },
+    {
+      "pattern": "DCN",
+      "offset": 580731938
+    },
+    {
+      "pattern": "DCN",
+      "offset": 580982419
+    },
+    {
+      "pattern": "DCN",
+      "offset": 586120582
+    },
+    {
+      "pattern": "SMU",
+      "offset": 581931025
+    },
+    {
+      "pattern": "CP_",
+      "offset": 582521347
+    },
+    {
+      "pattern": "CP_",
+      "offset": 587132217
+    },
+    {
+      "pattern": "MEC",
+      "offset": 579345569
+    },
+    {
+      "pattern": "ELF",
+      "offset": 588806578
+    },
+    {
+      "pattern": "AMD",
+      "offset": 588757931
+    },
+    {
+      "pattern": "GFX",
+      "offset": 587314846
+    },
+    {
+      "pattern": "GFX",
+      "offset": 591446809
+    },
+    {
+      "pattern": "DCN",
+      "offset": 588961484
+    },
+    {
+      "pattern": "DCN",
+      "offset": 595544512
+    },
+    {
+      "pattern": "SMU",
+      "offset": 588631549
+    },
+    {
+      "pattern": "CP_",
+      "offset": 587438527
+    },
+    {
+      "pattern": "CP_",
+      "offset": 594498036
+    },
+    {
+      "pattern": "SMU",
+      "offset": 601636261
+    },
+    {
+      "pattern": "CP_",
+      "offset": 595608855
+    },
+    {
+      "pattern": "ELF",
+      "offset": 604816356
+    },
+    {
+      "pattern": "ELF",
+      "offset": 611812890
+    },
+    {
+      "pattern": "SCE",
+      "offset": 605980862
+    },
+    {
+      "pattern": "SCE",
+      "offset": 606011253
+    },
+    {
+      "pattern": "SCE",
+      "offset": 607847864
+    },
+    {
+      "pattern": "GFX",
+      "offset": 607376613
+    },
+    {
+      "pattern": "DCN",
+      "offset": 610063596
+    },
+    {
+      "pattern": "SMU",
+      "offset": 609443974
+    },
+    {
+      "pattern": "CP_",
+      "offset": 608696477
+    },
+    {
+      "pattern": "SCE",
+      "offset": 617768986
+    },
+    {
+      "pattern": "gfx",
+      "offset": 612792115
+    },
+    {
+      "pattern": "PFP",
+      "offset": 613867965
+    },
+    {
+      "pattern": "MEC",
+      "offset": 612502298
+    },
+    {
+      "pattern": "ELF",
+      "offset": 622139019
+    },
+    {
+      "pattern": "ELF",
+      "offset": 629018372
+    },
+    {
+      "pattern": "GC_",
+      "offset": 621001216
+    },
+    {
+      "pattern": "GC_",
+      "offset": 624162118
+    },
+    {
+      "pattern": "DCN",
+      "offset": 621833184
+    },
+    {
+      "pattern": "SCE",
+      "offset": 630286479
+    },
+    {
+      "pattern": "gfx",
+      "offset": 631869109
+    },
+    {
+      "pattern": "GC_",
+      "offset": 632907328
+    },
+    {
+      "pattern": "DCN",
+      "offset": 636456130
+    },
+    {
+      "pattern": "SMU",
+      "offset": 634429867
+    },
+    {
+      "pattern": "CP_",
+      "offset": 632280385
+    },
+    {
+      "pattern": "SCE",
+      "offset": 640555581
+    },
+    {
+      "pattern": "AMD",
+      "offset": 645187381
+    },
+    {
+      "pattern": "MEC",
+      "offset": 643090058
+    },
+    {
+      "pattern": "MEC",
+      "offset": 644391486
+    },
+    {
+      "pattern": "ELF",
+      "offset": 649130858
+    },
+    {
+      "pattern": "AMD",
+      "offset": 650780827
+    },
+    {
+      "pattern": "gfx",
+      "offset": 647138448
+    },
+    {
+      "pattern": "GC_",
+      "offset": 653664707
+    },
+    {
+      "pattern": "GC_",
+      "offset": 653854338
+    },
+    {
+      "pattern": "AMD",
+      "offset": 657901587
+    },
+    {
+      "pattern": "GC_",
+      "offset": 660252462
+    },
+    {
+      "pattern": "SMU",
+      "offset": 654350782
+    },
+    {
+      "pattern": "PFP",
+      "offset": 656938397
+    },
+    {
+      "pattern": "GFX",
+      "offset": 665579601
+    },
+    {
+      "pattern": "PFP",
+      "offset": 663817816
+    },
+    {
+      "pattern": "MEC",
+      "offset": 665318724
+    },
+    {
+      "pattern": "MEC",
+      "offset": 667381941
+    },
+    {
+      "pattern": "ELF",
+      "offset": 676129616
+    },
+    {
+      "pattern": "AMD",
+      "offset": 676098440
+    },
+    {
+      "pattern": "GC_",
+      "offset": 672115311
+    },
+    {
+      "pattern": "GC_",
+      "offset": 672138818
+    },
+    {
+      "pattern": "CP_",
+      "offset": 675166485
+    },
+    {
+      "pattern": "MEC",
+      "offset": 678157923
+    },
+    {
+      "pattern": "ELF",
+      "offset": 682767523
+    },
+    {
+      "pattern": "SCE",
+      "offset": 686556366
+    },
+    {
+      "pattern": "GC_",
+      "offset": 680818853
+    },
+    {
+      "pattern": "AMD",
+      "offset": 692998105
+    },
+    {
+      "pattern": "ELF",
+      "offset": 697679250
+    },
+    {
+      "pattern": "SCE",
+      "offset": 700095277
+    },
+    {
+      "pattern": "AMD",
+      "offset": 697246423
+    },
+    {
+      "pattern": "PFP",
+      "offset": 698984513
+    },
+    {
+      "pattern": "SCE",
+      "offset": 704872913
+    },
+    {
+      "pattern": "AMD",
+      "offset": 709673472
+    },
+    {
+      "pattern": "gfx",
+      "offset": 704969294
+    },
+    {
+      "pattern": "GC_",
+      "offset": 707964164
+    },
+    {
+      "pattern": "GC_",
+      "offset": 711080004
+    },
+    {
+      "pattern": "CP_",
+      "offset": 707261260
+    },
+    {
+      "pattern": "ELF",
+      "offset": 715743988
+    },
+    {
+      "pattern": "gfx",
+      "offset": 717366350
+    },
+    {
+      "pattern": "CP_",
+      "offset": 717019501
+    },
+    {
+      "pattern": "PFP",
+      "offset": 715742534
+    },
+    {
+      "pattern": "ELF",
+      "offset": 724539285
+    },
+    {
+      "pattern": "SCE",
+      "offset": 721823911
+    },
+    {
+      "pattern": "SCE",
+      "offset": 726937191
+    },
+    {
+      "pattern": "SCE",
+      "offset": 729488244
+    },
+    {
+      "pattern": "gfx",
+      "offset": 724587301
+    },
+    {
+      "pattern": "CP_",
+      "offset": 721634189
+    },
+    {
+      "pattern": "CP_",
+      "offset": 727903126
+    },
+    {
+      "pattern": "ELF",
+      "offset": 737887789
+    },
+    {
+      "pattern": "SCE",
+      "offset": 732137627
+    },
+    {
+      "pattern": "ELF",
+      "offset": 741779344
+    },
+    {
+      "pattern": "ELF",
+      "offset": 745909944
+    },
+    {
+      "pattern": "PFP",
+      "offset": 743007526
+    },
+    {
+      "pattern": "SCE",
+      "offset": 751489266
+    },
+    {
+      "pattern": "AMD",
+      "offset": 749827596
+    },
+    {
+      "pattern": "GC_",
+      "offset": 751210198
+    },
+    {
+      "pattern": "PFP",
+      "offset": 762849132
+    },
+    {
+      "pattern": "AMD",
+      "offset": 777881831
+    },
+    {
+      "pattern": "AMD",
+      "offset": 787246662
+    },
+    {
+      "pattern": "GC_",
+      "offset": 784206443
+    },
+    {
+      "pattern": "CP_",
+      "offset": 787450488
+    },
+    {
+      "pattern": "PFP",
+      "offset": 787720297
+    },
+    {
+      "pattern": "GC_",
+      "offset": 793292365
+    },
+    {
+      "pattern": "PFP",
+      "offset": 791631804
+    },
+    {
+      "pattern": "GC_",
+      "offset": 798887560
+    },
+    {
+      "pattern": "CP_",
+      "offset": 804072639
+    },
+    {
+      "pattern": "AMD",
+      "offset": 805352173
+    },
+    {
+      "pattern": "CP_",
+      "offset": 808542634
+    },
+    {
+      "pattern": "PFP",
+      "offset": 808454159
+    },
+    {
+      "pattern": "PFP",
+      "offset": 810495113
+    },
+    {
+      "pattern": "GC_",
+      "offset": 815288463
+    },
+    {
+      "pattern": "GC_",
+      "offset": 826956764
+    },
+    {
+      "pattern": "CP_",
+      "offset": 828009973
+    },
+    {
+      "pattern": "PFP",
+      "offset": 829783575
+    },
+    {
+      "pattern": "GC_",
+      "offset": 833032840
+    },
+    {
+      "pattern": "CP_",
+      "offset": 836629509
+    },
+    {
+      "pattern": "GC_",
+      "offset": 854705099
+    },
+    {
+      "pattern": "AMD",
+      "offset": 858535139
+    },
+    {
+      "pattern": "AMD",
+      "offset": 861669247
+    },
+    {
+      "pattern": "GC_",
+      "offset": 862711550
+    },
+    {
+      "pattern": "AMD",
+      "offset": 864235212
+    },
+    {
+      "pattern": "CP_",
+      "offset": 864411233
+    },
+    {
+      "pattern": "AMD",
+      "offset": 893575207
+    },
+    {
+      "pattern": "Navi",
+      "offset": 893750073
+    },
+    {
+      "pattern": "CP_",
+      "offset": 902107753
+    },
+    {
+      "pattern": "CP_",
+      "offset": 912770262
+    },
+    {
+      "pattern": "PFP",
+      "offset": 913763730
+    },
+    {
+      "pattern": "AMD",
+      "offset": 928900888
+    },
+    {
+      "pattern": "PFP",
+      "offset": 932405535
+    },
+    {
+      "pattern": "PFP",
+      "offset": 946651979
+    },
+    {
+      "pattern": "AMD",
+      "offset": 954134433
+    },
+    {
+      "pattern": "PFP",
+      "offset": 948832665
+    },
+    {
+      "pattern": "AMD",
+      "offset": 961167054
+    },
+    {
+      "pattern": "AMD",
+      "offset": 984647969
+    }
+  ],
+  "strings_sample": [
+    {
+      "region": "outer_head",
+      "offset": 48,
+      "string": "PS5UPDATE1.PUP"
+    },
+    {
+      "region": "outer_head",
+      "offset": 1054,
+      "string": "xsyQ2$"
+    },
+    {
+      "region": "outer_head",
+      "offset": 1201,
+      "string": "O,!H%#"
+    },
+    {
+      "region": "outer_head",
+      "offset": 1442,
+      "string": "7.18D"
+    },
+    {
+      "region": "outer_head",
+      "offset": 1485,
+      "string": "r;.UP"
+    },
+    {
+      "region": "outer_head",
+      "offset": 1707,
+      "string": " fC#h"
+    },
+    {
+      "region": "outer_head",
+      "offset": 1762,
+      "string": ",${CA/|A"
+    },
+    {
+      "region": "outer_head",
+      "offset": 2088,
+      "string": "{J7+'"
+    },
+    {
+      "region": "outer_head",
+      "offset": 2100,
+      "string": "4j*3."
+    },
+    {
+      "region": "outer_head",
+      "offset": 2245,
+      "string": "+a&)k"
+    },
+    {
+      "region": "outer_head",
+      "offset": 2309,
+      "string": " ~]d,:"
+    },
+    {
+      "region": "outer_head",
+      "offset": 3028,
+      "string": "8jj's"
+    },
+    {
+      "region": "outer_head",
+      "offset": 3072,
+      "string": "~H$2;'t"
+    },
+    {
+      "region": "outer_head",
+      "offset": 3359,
+      "string": "QQMeI"
+    },
+    {
+      "region": "outer_head",
+      "offset": 3675,
+      "string": "=G9=+7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 1054,
+      "string": "xsyQ2$"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 1201,
+      "string": "O,!H%#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 1442,
+      "string": "7.18D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 1485,
+      "string": "r;.UP"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 1707,
+      "string": " fC#h"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 1762,
+      "string": ",${CA/|A"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 2088,
+      "string": "{J7+'"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 2100,
+      "string": "4j*3."
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 2245,
+      "string": "+a&)k"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 2309,
+      "string": " ~]d,:"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 3028,
+      "string": "8jj's"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 3072,
+      "string": "~H$2;'t"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 3359,
+      "string": "QQMeI"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 3675,
+      "string": "=G9=+7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 4182,
+      "string": "Bnh9N"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 5304,
+      "string": " )yL1+puH"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 5353,
+      "string": "~uO>D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 5394,
+      "string": "z,dgZyn"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 5451,
+      "string": "jhdJp$"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 5838,
+      "string": "0;s:oV"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 6053,
+      "string": "fKI!vb"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 6077,
+      "string": "+|.Gb"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 6301,
+      "string": "wZ|fO"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 6308,
+      "string": "!Ihjc."
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 6581,
+      "string": "vy[#3]"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 6838,
+      "string": "@3=tH"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 6949,
+      "string": "lRCzl"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 7190,
+      "string": "CF_&h"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 7233,
+      "string": "dE=+a"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 8318,
+      "string": "QT&sF"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 8399,
+      "string": "jf]\\T"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 8572,
+      "string": "wDB4Q\\"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 8837,
+      "string": "kRd)("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9174,
+      "string": "MY~Z\"A5"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9346,
+      "string": "aq{wt"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9619,
+      "string": "a-/Q,"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9735,
+      "string": "p9Zt\\F"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9883,
+      "string": "+]Iub"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9900,
+      "string": "*^KUix"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9916,
+      "string": "Ve)yo"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 9994,
+      "string": "ZdvO>Hle"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 10071,
+      "string": "V%roJQ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 10361,
+      "string": "#Stwy\""
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 10686,
+      "string": "WC~5?"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 11124,
+      "string": "S-+KH"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 11149,
+      "string": "MD}mq"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 11385,
+      "string": " {]i,"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 11673,
+      "string": "Q..uk"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 11792,
+      "string": "O6^*/D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 12004,
+      "string": "mnwGD"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 12141,
+      "string": "MY#6^bN"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 12247,
+      "string": "0s-G:Z"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 12632,
+      "string": "|zzxl3"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 13241,
+      "string": "$[h<\\"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 13634,
+      "string": "8BZG<Jh"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 13645,
+      "string": "BpZ:M"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 13867,
+      "string": ":RfJ_"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 14021,
+      "string": "dmtj)"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 14121,
+      "string": "\"B]Ef"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 14426,
+      "string": "7/'+0"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 15091,
+      "string": "MO;m2j"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 15132,
+      "string": "\"uo5W"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 15462,
+      "string": "P-@+F"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 15853,
+      "string": "Fm\\$X"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 15981,
+      "string": "w{FKN"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 16266,
+      "string": "XT5 ("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 16452,
+      "string": "n$\\p:i{"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 16530,
+      "string": "BIzfy"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 16633,
+      "string": "F<co "
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 16769,
+      "string": "/*}Y7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 16829,
+      "string": "ff>8~"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 16959,
+      "string": " #D0:2Y84"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 17529,
+      "string": ",U76W"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 17547,
+      "string": "%g\\pB\\f"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 17557,
+      "string": ">|63["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 17766,
+      "string": "]7X)nmKa"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 18046,
+      "string": "h?=#G"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 18196,
+      "string": "Pm`6+"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 18226,
+      "string": "Y#_E^B]RI-"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 18865,
+      "string": "thL)kq"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 19189,
+      "string": "xh|tD"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 19234,
+      "string": "KuxV|"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 19269,
+      "string": "GI4Ce"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 19459,
+      "string": "`U~F`"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 19935,
+      "string": "Hs]#W"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 20218,
+      "string": "C`gW/"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 20279,
+      "string": "[zjR#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 20721,
+      "string": "G^6}^E"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 20775,
+      "string": "~;x*{"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 20861,
+      "string": "1a#i["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 20998,
+      "string": "8-&2g"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 21270,
+      "string": "`S_kb[P`z"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 21288,
+      "string": "G\\L Q`9`"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 21315,
+      "string": "}Imim"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 21379,
+      "string": ">Xoyq$p"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 21533,
+      "string": "nOaBv"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 21933,
+      "string": "'^%y^"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 22078,
+      "string": " &W$2"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 23005,
+      "string": "=0;/@~"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 23153,
+      "string": ";e,>9"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 23555,
+      "string": "B= )!"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 23584,
+      "string": "v.}>fK:"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 23661,
+      "string": "[y'A8"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 23844,
+      "string": ",hJ<:J"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 24166,
+      "string": "[:_=^"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 24400,
+      "string": "Ncv=a"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 24541,
+      "string": "E`SH0"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 24781,
+      "string": "'t4;4Q;"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 25136,
+      "string": "=mr-1"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 25343,
+      "string": "GjPly\\}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 25621,
+      "string": "\\ERG#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 25980,
+      "string": "G`>`I"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 25986,
+      "string": "<,AR9"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 26059,
+      "string": "{R<XJC"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 26139,
+      "string": "Phj>o,("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 26305,
+      "string": "d1T`7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 26822,
+      "string": "RaHW9"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 26914,
+      "string": "l{?>r"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 26961,
+      "string": "X'hlYIPRz6"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 27009,
+      "string": "-}IJ%"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 27286,
+      "string": "-mbIW"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 27450,
+      "string": "_h??F"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 27659,
+      "string": "Y4;@^"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 27725,
+      "string": ".xxS1"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 27812,
+      "string": "#Gph;"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 27931,
+      "string": "BAVy&"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 29401,
+      "string": "UuJ,`"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 29487,
+      "string": "/)_0W"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 29680,
+      "string": "Fj]N*"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30118,
+      "string": "(~C)U^("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30132,
+      "string": "8Pa7D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30211,
+      "string": "c?W{{"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30419,
+      "string": "x_CeS"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30453,
+      "string": "#;1nj"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30695,
+      "string": "K\"%zP"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30757,
+      "string": "NNK(B"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 30866,
+      "string": "G$*tQ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 31111,
+      "string": "C(/z8E"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 31376,
+      "string": "b+ZQ$B"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 31571,
+      "string": "Bo:L/"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 32154,
+      "string": "'^i!["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 32201,
+      "string": "a/B\\."
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 32349,
+      "string": "0}G2<F"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 32413,
+      "string": "-z)Pr"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 32587,
+      "string": "OuzaC"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 32798,
+      "string": "!LS4g"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 33399,
+      "string": "1bO\\!$L"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 33501,
+      "string": "/1FyR"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 33555,
+      "string": "_z1p*"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 33608,
+      "string": "/=0Og"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 33620,
+      "string": "6!xG^a"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 33929,
+      "string": "_6t=u"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34036,
+      "string": ">,9Gf62}'"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34190,
+      "string": "1*HY8"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34208,
+      "string": "WKV6jk"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34359,
+      "string": "S?c-,w"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34530,
+      "string": "y(~Kl"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34617,
+      "string": "aXzSG/&"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34746,
+      "string": "Asydg"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 34942,
+      "string": "iI*)/e"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 35067,
+      "string": "%+sjR"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 35110,
+      "string": "A?:c}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 35234,
+      "string": "da)xJ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 35388,
+      "string": "5/n$\""
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 35702,
+      "string": "kK;Hr"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 35828,
+      "string": "y7ZNl"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 36005,
+      "string": "vc]+gh"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 36328,
+      "string": "J@e1]"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 36363,
+      "string": "JcC\\)"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 36574,
+      "string": "#am'=<"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 36633,
+      "string": "97?]EF"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 36692,
+      "string": "yd[xds"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 36733,
+      "string": "Wv/$s"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 37165,
+      "string": "SP^sb"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 37228,
+      "string": "X(SQ("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 37287,
+      "string": ".$bNB"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 37389,
+      "string": "~{U>?~"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 37457,
+      "string": "FU~lqX"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 37670,
+      "string": "\\SKof"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 37888,
+      "string": "Atp;@"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 38248,
+      "string": "j<MYK"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 38264,
+      "string": "te7^w"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 38450,
+      "string": "*`OVuf"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 38577,
+      "string": "rd6E^"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 38956,
+      "string": "yi9y]"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 39166,
+      "string": ">4pDge`VH"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 39439,
+      "string": "VV:)J"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 39445,
+      "string": "D72;cq"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 39776,
+      "string": "mb5Cf"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 39825,
+      "string": "OVzyJ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 40015,
+      "string": "jLo9ww"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 40025,
+      "string": ")gZ?'L,"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 40160,
+      "string": "Jmmy(0k"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 40237,
+      "string": "YrH} "
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 40853,
+      "string": "*W7IH"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 41740,
+      "string": "x$T?v"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 42357,
+      "string": "\\5$!o"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 42566,
+      "string": "hKt@N34x"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 42817,
+      "string": "JN*TF.b"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 42951,
+      "string": "\\sjoL#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 42973,
+      "string": "1U4=g#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 42998,
+      "string": "se3uS"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 43334,
+      "string": "%uc;c"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 43727,
+      "string": ")cXl]"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 44032,
+      "string": "va~[ "
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 44135,
+      "string": ";jJ<g"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 44198,
+      "string": "Q<:v:"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 45487,
+      "string": "N)Jo&a@"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 45515,
+      "string": "/KeIp"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 45581,
+      "string": "[]^Zw"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 45857,
+      "string": "r3qt@"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 45891,
+      "string": "tt!#G"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 46634,
+      "string": "P=sy{"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 46725,
+      "string": "d<!UO1Wb"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 46779,
+      "string": "p62Eay"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 46917,
+      "string": "6x4zo"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 46953,
+      "string": "gCkZb"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 47108,
+      "string": "ZgV{\"a%"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 47214,
+      "string": "^XN#q"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 47503,
+      "string": "CEAWW"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 47786,
+      "string": "e:6\\~"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 47995,
+      "string": "Pkjy9"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 48280,
+      "string": "bfk.("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 48290,
+      "string": "\"cx.C"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 48555,
+      "string": "6W <ZD"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 48739,
+      "string": "*e}X?bG"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 48894,
+      "string": "yRW)>^oYxaD"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 49626,
+      "string": "B$IGe{pk`"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 50032,
+      "string": "/\\eu/"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 50040,
+      "string": "e\"H7G}PY"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 50674,
+      "string": "3|_&~a\"#["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 50736,
+      "string": "fp?^D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 50853,
+      "string": "oP84#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51363,
+      "string": "%=A19"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51408,
+      "string": "}v}n "
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51506,
+      "string": ">K/vp"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51716,
+      "string": "*Q`j4"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51843,
+      "string": "T.1yD"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51859,
+      "string": "87*@a"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51889,
+      "string": "{+R=j"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 51970,
+      "string": "p7V[ZXR"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52015,
+      "string": "\\e\\RB"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52290,
+      "string": " ui^?"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52311,
+      "string": "q#!&f"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52347,
+      "string": "[EKTx!W"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52546,
+      "string": "(_5+q"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52564,
+      "string": "il?s1"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52705,
+      "string": "Ayh&6"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52799,
+      "string": "Y*IT)"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52937,
+      "string": "tF+*["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 52957,
+      "string": "'2Bo)"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 53310,
+      "string": "Nb)`%"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 53497,
+      "string": "U(Q6Mx>"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 53626,
+      "string": "nuzUR"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 53708,
+      "string": "\\EP`E"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 53752,
+      "string": " q[g6"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54108,
+      "string": "wmO-Lx"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54176,
+      "string": "6g'#<"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54498,
+      "string": "tPqXU3"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54515,
+      "string": "I NC=gL"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54538,
+      "string": "nLqW-4"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54624,
+      "string": "`IB\\0"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54675,
+      "string": "c#};L"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 54770,
+      "string": "JLdLp"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 55067,
+      "string": "kwINKb"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 55199,
+      "string": "_Lxrn"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 55580,
+      "string": "YiBIWD"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 56022,
+      "string": "$VN9E4dR"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 56158,
+      "string": "]UomP"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 56319,
+      "string": "AhZ3'w"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 57041,
+      "string": "V/|gc"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 57297,
+      "string": "F,j?."
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 57347,
+      "string": "%5#Vy"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 57556,
+      "string": "Px)3h1/"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 57737,
+      "string": "sx;%6"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 57819,
+      "string": "-))`}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 58202,
+      "string": "d@oeC"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 58266,
+      "string": "*9TXX"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 58863,
+      "string": "(fx@5"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 58946,
+      "string": "h#uib$"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59031,
+      "string": "6t*[k"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59079,
+      "string": "1'k#C"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59113,
+      "string": "Y1qaU"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59130,
+      "string": "`{^s<"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59380,
+      "string": "0(Bpl"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59712,
+      "string": "/zLqOn"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59807,
+      "string": " gl3~"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 59988,
+      "string": "aX'y8"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 60035,
+      "string": "W]&Y\"$"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 60138,
+      "string": "aVxmn"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 60683,
+      "string": "exBv&"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 60737,
+      "string": "[(rSwC"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 61239,
+      "string": "TU+r;k"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 61520,
+      "string": "W:fq,R"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 61606,
+      "string": "76:aA"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 61720,
+      "string": ":NnnV"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 62831,
+      "string": "6+:cO"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 62884,
+      "string": "D_$cf"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63043,
+      "string": "nv0xM"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63081,
+      "string": "ds/)/"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63112,
+      "string": ":[csI"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63250,
+      "string": "mEZ=G"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63274,
+      "string": "L&I.09"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63293,
+      "string": "GzePB"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63401,
+      "string": "S72kw"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 63497,
+      "string": ",/a#o~E"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 65069,
+      "string": "o(b-D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 65414,
+      "string": "%bU=TI"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 65458,
+      "string": "Pb:bC,I"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 66363,
+      "string": "Z4>tXn"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 66384,
+      "string": ".H&@["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 66582,
+      "string": "pC,'t"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 66687,
+      "string": " S;.X\\5"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 66735,
+      "string": ".`{\"N"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 66825,
+      "string": "d8;_z9A"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 66856,
+      "string": "b,ct9"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 67009,
+      "string": "M1pUj"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 67046,
+      "string": "^rm1#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 67173,
+      "string": "As8y,"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 67342,
+      "string": "m%KGg"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 67534,
+      "string": "I%G5y"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 67631,
+      "string": "a-u&(#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 67679,
+      "string": "`olaz,y"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 68100,
+      "string": "5sU]j"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 68578,
+      "string": "Nbq,<["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 68602,
+      "string": "g6Ro$"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 68634,
+      "string": "UxVv+Y"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 68698,
+      "string": "r@m|R"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69039,
+      "string": "|:H#*"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69236,
+      "string": "nwnfu"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69310,
+      "string": "n AwxS."
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69329,
+      "string": "+TjPAe"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69429,
+      "string": "n5c7qe"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69666,
+      "string": "I'zXL"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69763,
+      "string": "v$^Q<"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 69893,
+      "string": "P@`Fi"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 70730,
+      "string": "]eY2N"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 70798,
+      "string": "'0AfX"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 70962,
+      "string": "Z$\"1Avi("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 71466,
+      "string": "a8Lz*"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 72331,
+      "string": "i`{\"y"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 72547,
+      "string": "'}[Ia"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 73136,
+      "string": "^S%Co"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 73256,
+      "string": "T\\0(S~"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 74639,
+      "string": "zhE@e&"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 75222,
+      "string": "(rWiA"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 75396,
+      "string": "j;rM=tRa"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 75500,
+      "string": "nBq5<"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 75628,
+      "string": "JM;x@"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 75639,
+      "string": "EP~!)"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 76237,
+      "string": "Jol:a"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 76254,
+      "string": "A3F}("
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 76496,
+      "string": "2,IW4a"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 76603,
+      "string": "sUFXS"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 76905,
+      "string": "-J,V?"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 77153,
+      "string": "8#r2x"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 77192,
+      "string": "gFNr6"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 77432,
+      "string": "mSq3o"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 77516,
+      "string": "\\Ap5%"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 77815,
+      "string": "\\+z5*="
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 77828,
+      "string": "E+%=2E3"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 77882,
+      "string": "*cm v"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 78125,
+      "string": "\"v#`m"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 78218,
+      "string": "j,F?8"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 78228,
+      "string": "#T.0=6Qp*7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 78239,
+      "string": "T*%W18"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 78653,
+      "string": ":A`\\Vo/a"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 78772,
+      "string": "\"^}DnQ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 79339,
+      "string": "\">+ASl"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 79379,
+      "string": "$~)hU"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 79724,
+      "string": "w)o;C"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 80344,
+      "string": "7Hjd-qq"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 80440,
+      "string": ",]Gq3"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 81206,
+      "string": "Xz>S3"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 81432,
+      "string": "z+rp<.0"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 81472,
+      "string": ")L/10"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 82200,
+      "string": "#:;M-au"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 82285,
+      "string": "L&&0&"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 82554,
+      "string": "^x~Q%"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 82560,
+      "string": "JEd\"t@)"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 82745,
+      "string": "E(r\\g"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 82798,
+      "string": " _/l\""
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 82998,
+      "string": "@9^Xv"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 83150,
+      "string": "O2>Ff"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 83961,
+      "string": "C6(3[F"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 84326,
+      "string": "v;wD@"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 84478,
+      "string": "\"OOA,`^"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 84847,
+      "string": "yEt[Z"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 85451,
+      "string": "3)F+QsX"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 85572,
+      "string": "xP~%X_"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 85757,
+      "string": ",N0\"a$"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 85806,
+      "string": "*\"6I\""
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 85901,
+      "string": "A+[a)X"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 86024,
+      "string": "p{k>s"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 86233,
+      "string": "fJ5o>"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 86899,
+      "string": " B@7NM"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 87178,
+      "string": ")%o]|"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 87224,
+      "string": "n?+E3"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 87336,
+      "string": "$'t/D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 87436,
+      "string": "Q\")T(u"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 87571,
+      "string": "gLBLRPbB"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 87857,
+      "string": "5ywF3"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 87907,
+      "string": "-y[/R"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 88166,
+      "string": "56~,>"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 88195,
+      "string": ">| {I"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 88662,
+      "string": "9l)W}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 88732,
+      "string": "$45mqy"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 88744,
+      "string": "%#G9UD"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 88891,
+      "string": "a+Jd=2"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 88961,
+      "string": "|5[6>[4s"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 89200,
+      "string": "UeXtF"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 89360,
+      "string": "Z7}e9"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 89645,
+      "string": "mXH-}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 89855,
+      "string": "e;oT07"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 90135,
+      "string": "m-<[#c"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 90466,
+      "string": "y2e1.'I"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 90503,
+      "string": "t]/PZ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 90607,
+      "string": "I3-&!v)"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 90669,
+      "string": "w/bxZ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 90746,
+      "string": "i5]8["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 90949,
+      "string": "KL{zj"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 91873,
+      "string": "2Br4*7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 91932,
+      "string": "L7-tT|"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 92370,
+      "string": "C#5)B_"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 92404,
+      "string": "}`a;b"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 92607,
+      "string": "_Pv^$P*"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 93124,
+      "string": "ivT^#"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 93153,
+      "string": "zc:PG"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 93191,
+      "string": "X&IU`"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 93860,
+      "string": "TLC{/"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 94032,
+      "string": "%rfH2"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 94038,
+      "string": "Y;65S"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 94217,
+      "string": "k/[G^"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 94307,
+      "string": "ws'=G"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 94633,
+      "string": "-!(jd6n"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 94756,
+      "string": "GaEPY"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 94812,
+      "string": "<$fg%l"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 95339,
+      "string": "?!Ep'"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 95359,
+      "string": "8[K6\\g!"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 95558,
+      "string": "l2,6`"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 95606,
+      "string": "\"v&t'"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 95805,
+      "string": "jD'<W"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 96018,
+      "string": "#Lsa="
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 96258,
+      "string": "RG)Tve"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 96368,
+      "string": "\"q5[y"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 96598,
+      "string": "TPq/W"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 96845,
+      "string": "WD>M6"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 97500,
+      "string": "jFU'dN"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 97677,
+      "string": "v1B5k"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 98340,
+      "string": "/vTwa"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 98531,
+      "string": "{21k=S"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 98729,
+      "string": ":$%^rChH"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 99340,
+      "string": "~`aw="
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 99490,
+      "string": "XaR?I"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 99649,
+      "string": "uh~k7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 99666,
+      "string": "_m{BJ"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 99682,
+      "string": "r].~G"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 100055,
+      "string": "'IZ(D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 100245,
+      "string": "BG#{Ld"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 100408,
+      "string": "?x&-V"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 100415,
+      "string": "g7(JF"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 100638,
+      "string": "/hUa[}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 100720,
+      "string": "M'7^I"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 100816,
+      "string": "27.h!D"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 101009,
+      "string": "Y4c>2i"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 101622,
+      "string": "X^_#*0"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 101635,
+      "string": "8HL;[Q0"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 101730,
+      "string": "zE/S$"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 101838,
+      "string": "dud*3\""
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 102054,
+      "string": ">!N=[1<"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 102365,
+      "string": "b&L^1p/["
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 102439,
+      "string": "xA}jm"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 102867,
+      "string": "7p)`m7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 103007,
+      "string": "C1<.V}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 103052,
+      "string": "dx@gU"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 103071,
+      "string": "SkX^9B%"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 103578,
+      "string": "se^U>"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 103610,
+      "string": "Ksg-[7"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 103744,
+      "string": "S7Dz?"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 103903,
+      "string": "\"L-ji}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 104287,
+      "string": "z-Ag\\h-^O"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 104375,
+      "string": "yWkP0}"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 104569,
+      "string": "BGm5*"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 105227,
+      "string": "v97ud"
+    },
+    {
+      "region": "first_entry_head",
+      "offset": 105369,
+      "string": "_sh:^"
+    }
+  ]
+}

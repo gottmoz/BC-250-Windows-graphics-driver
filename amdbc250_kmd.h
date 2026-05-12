@@ -26,7 +26,6 @@ Environment:
 #include <wdm.h>
 #include <dispmprt.h>       /* WDDM Display Miniport interfaces */
 #include <d3dkmddi.h>       /* D3D Kernel-Mode Driver Interface */
-#include <d3dumddi.h>       /* D3D User-Mode Driver Interface   */
 #include "amdbc250_hw.h"
 
 /*===========================================================================
@@ -35,8 +34,8 @@ Environment:
 
 #define AMDBC250_DRIVER_MAJOR_VERSION   1
 #define AMDBC250_DRIVER_MINOR_VERSION   0
-#define AMDBC250_DRIVER_BUILD_NUMBER    100
-#define AMDBC250_DRIVER_VERSION_STRING  L"1.0.100.0"
+#define AMDBC250_DRIVER_BUILD_NUMBER    101
+#define AMDBC250_DRIVER_VERSION_STRING  L"1.0.101.0"
 
 /*===========================================================================
   Pool Tags (for memory allocation tracking)
@@ -228,6 +227,20 @@ typedef struct _AMDBC250_DEVICE_EXTENSION {
     ULONG               InterruptCount;     /* Total interrupt count         */
     ULONG               ResetCount;         /* GPU reset count               */
     ULONG               ErrorCount;         /* Error count                   */
+    ULONG               DebugStartStage;    /* StartDevice stage marker      */
+    NTSTATUS            DebugStartStatus;   /* Last StartDevice status       */
+    ULONG               DebugHwInitStage;   /* HwInitialize stage marker     */
+    NTSTATUS            DebugHwInitStatus;  /* Last HwInitialize status      */
+    ULONG               DebugFirstFailStage; /* First failing stage marker   */
+    NTSTATUS            DebugFirstFailStatus; /* First failing NTSTATUS      */
+    ULONG               DebugFirstFailDdiId; /* First failing DDI id        */
+    ULONG               DebugFirstFailQueryType; /* First failing query type */
+    ULONGLONG           DebugFirstFailOutSize; /* First failing output size */
+    ULONG               DebugQueryCount;    /* QueryAdapterInfo call count   */
+    ULONG               DebugQueryLastType; /* Last QueryAdapterInfo type    */
+    ULONGLONG           DebugQueryLastOutSize; /* Last output size (bytes)   */
+    NTSTATUS            DebugQueryLastStatus; /* Last QueryAdapterInfo status*/
+    ULONGLONG           DebugQueryLastVramBytes; /* Last reported VRAM bytes */
 
 } AMDBC250_DEVICE_EXTENSION, *PAMDBC250_DEVICE_EXTENSION;
 
@@ -337,6 +350,15 @@ Bc250DdiRemoveDevice(
     _In_ PVOID MiniportDeviceContext
     );
 
+/* DxgkDdiDispatchIoRequest */
+NTSTATUS
+APIENTRY
+Bc250DdiDispatchIoRequest(
+    _In_ CONST PVOID MiniportDeviceContext,
+    _In_ ULONG VidPnSourceId,
+    _In_ PVIDEO_REQUEST_PACKET VideoRequestPacket
+    );
+
 /* DxgkDdiQueryChildRelations */
 NTSTATUS
 APIENTRY
@@ -430,6 +452,38 @@ Bc250DdiQueryAdapterInfo(
     _In_ CONST DXGKARG_QUERYADAPTERINFO *pQueryAdapterInfo
     );
 
+/* DxgkDdiSetPalette */
+NTSTATUS
+APIENTRY
+Bc250DdiSetPalette(
+    _In_ CONST HANDLE hAdapter,
+    _In_ CONST DXGKARG_SETPALETTE *pSetPalette
+    );
+
+/* DxgkDdiSetPointerPosition */
+NTSTATUS
+APIENTRY
+Bc250DdiSetPointerPosition(
+    _In_ CONST HANDLE hAdapter,
+    _In_ CONST DXGKARG_SETPOINTERPOSITION *pSetPointerPosition
+    );
+
+/* DxgkDdiSetPointerShape */
+NTSTATUS
+APIENTRY
+Bc250DdiSetPointerShape(
+    _In_ CONST HANDLE hAdapter,
+    _In_ CONST DXGKARG_SETPOINTERSHAPE *pSetPointerShape
+    );
+
+/* DxgkDdiIsSupportedVidPn */
+NTSTATUS
+APIENTRY
+Bc250DdiIsSupportedVidPn(
+    _In_ CONST HANDLE hAdapter,
+    _Inout_ DXGKARG_ISSUPPORTEDVIDPN *pIsSupportedVidPn
+    );
+
 /* DxgkDdiCreateDevice */
 NTSTATUS
 APIENTRY
@@ -443,6 +497,21 @@ NTSTATUS
 APIENTRY
 Bc250DdiDestroyDevice(
     _In_ CONST HANDLE hDevice
+    );
+
+/* DxgkDdiCreateContext */
+NTSTATUS
+APIENTRY
+Bc250DdiCreateContext(
+    _In_    CONST HANDLE           hDevice,
+    _Inout_ DXGKARG_CREATECONTEXT *pCreateContext
+    );
+
+/* DxgkDdiDestroyContext */
+NTSTATUS
+APIENTRY
+Bc250DdiDestroyContext(
+    _In_ CONST HANDLE hContext
     );
 
 /* DxgkDdiCreateAllocation */
@@ -461,12 +530,36 @@ Bc250DdiDestroyAllocation(
     _In_ CONST DXGKARG_DESTROYALLOCATION *pDestroyAllocation
     );
 
+/* DxgkDdiOpenAllocation */
+NTSTATUS
+APIENTRY
+Bc250DdiOpenAllocation(
+    _In_ CONST HANDLE                 hDevice,
+    _In_ CONST DXGKARG_OPENALLOCATION *pOpenAllocation
+    );
+
+/* DxgkDdiCloseAllocation */
+NTSTATUS
+APIENTRY
+Bc250DdiCloseAllocation(
+    _In_ CONST HANDLE                  hDevice,
+    _In_ CONST DXGKARG_CLOSEALLOCATION *pCloseAllocation
+    );
+
 /* DxgkDdiBuildPagingBuffer */
 NTSTATUS
 APIENTRY
 Bc250DdiBuildPagingBuffer(
     _In_    CONST HANDLE                hAdapter,
     _Inout_ DXGKARG_BUILDPAGINGBUFFER   *pBuildPagingBuffer
+    );
+
+/* DxgkDdiPatch */
+NTSTATUS
+APIENTRY
+Bc250DdiPatch(
+    _In_ CONST HANDLE         hAdapter,
+    _In_ CONST DXGKARG_PATCH *pPatch
     );
 
 /* DxgkDdiSubmitCommand */
@@ -555,6 +648,14 @@ APIENTRY
 Bc250DdiGetScanLine(
     _In_    CONST HANDLE            hAdapter,
     _Inout_ DXGKARG_GETSCANLINE     *pGetScanLine
+    );
+
+/* DxgkDdiQueryVidPnHWCapability */
+NTSTATUS
+APIENTRY
+Bc250DdiQueryVidPnHwCapability(
+    _In_ CONST HANDLE hAdapter,
+    _Inout_ DXGKARG_QUERYVIDPNHWCAPABILITY *pVidPnHWCaps
     );
 
 /* DxgkDdiControlInterrupt */

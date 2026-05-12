@@ -1,0 +1,25 @@
+﻿[2026-05-07 23:28:00] ITER_START B1_SAFEPROFILE_COUNTERS headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:28:42] ITER_RESULT B1_SAFEPROFILE_COUNTERS guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:28:42] ITER_EVENT B1_SAFEPROFILE_COUNTERS Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 23:28:45] ITER_BASELINE B1_SAFEPROFILE_COUNTERS status=OK problem=CM_PROB_NONE
+[2026-05-07 23:28:45] ITER_END B1_SAFEPROFILE_COUNTERS
+[2026-05-07 23:28:46] ITER_START B2_SAFEPROFILE_UNKNOWN_NOTSUPPORTED headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:29:28] ITER_RESULT B2_SAFEPROFILE_UNKNOWN_NOTSUPPORTED guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:29:28] ITER_EVENT B2_SAFEPROFILE_UNKNOWN_NOTSUPPORTED Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 23:29:31] ITER_BASELINE B2_SAFEPROFILE_UNKNOWN_NOTSUPPORTED status=OK problem=CM_PROB_NONE
+[2026-05-07 23:29:31] ITER_END B2_SAFEPROFILE_UNKNOWN_NOTSUPPORTED
+[2026-05-07 23:29:32] ITER_START B3_SAFEPROFILE_QAI_DUMP20 headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:30:16] ITER_RESULT B3_SAFEPROFILE_QAI_DUMP20 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:30:16] ITER_EVENT B3_SAFEPROFILE_QAI_DUMP20 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x0 | Problem Status: 0xC00000E5
+[2026-05-07 23:30:19] ITER_BASELINE B3_SAFEPROFILE_QAI_DUMP20 status=OK problem=CM_PROB_NONE
+[2026-05-07 23:30:19] ITER_END B3_SAFEPROFILE_QAI_DUMP20
+[2026-05-07 23:31:19] ITER_START B2_REPRO_UNKNOWN_NOTSUPPORTED headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:32:01] ITER_RESULT B2_REPRO_UNKNOWN_NOTSUPPORTED guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:32:01] ITER_EVENT B2_REPRO_UNKNOWN_NOTSUPPORTED Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 23:32:04] ITER_BASELINE B2_REPRO_UNKNOWN_NOTSUPPORTED status=OK problem=CM_PROB_NONE
+[2026-05-07 23:32:05] ITER_END B2_REPRO_UNKNOWN_NOTSUPPORTED
+[2026-05-07 23:32:06] ITER_START B3_REPRO_QAI_DUMP20 headless=0 skipHw=1 reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:32:48] ITER_RESULT B3_REPRO_QAI_DUMP20 guardExit=0 status=OK problem=CM_PROB_NONE inf=display.inf svc=BasicDisplay pcode=0 pstatus= reportedVramMb=4096 pagingBufferBytes=0 wddmCapsLevel=0 umaFlagsProfile=0
+[2026-05-07 23:32:48] ITER_EVENT B3_REPRO_QAI_DUMP20 Device PCI\VEN_1002&DEV_13FE&SUBSYS_00001022&REV_00\4&19caf403&0&0041 had a problem starting. |  | Driver Name: oem5.inf | Class Guid: {4d36e968-e325-11ce-bfc1-08002be10318} | Service: amdbc250kmd | Lower Filters:  | Upper Filters:  | Problem: 0x15 | Problem Status: 0x0
+[2026-05-07 23:32:51] ITER_BASELINE B3_REPRO_QAI_DUMP20 status=OK problem=CM_PROB_NONE
+[2026-05-07 23:32:51] ITER_END B3_REPRO_QAI_DUMP20

@@ -1,0 +1,338 @@
+﻿[
+    {
+        "Name":  "AudioEnumeratorDll",
+        "Value":  "rdpendp.dll"
+    },
+    {
+        "Name":  "Callback",
+        "Value":  0
+    },
+    {
+        "Name":  "CallbackNumber",
+        "Value":  ""
+    },
+    {
+        "Name":  "CdClass",
+        "Value":  0
+    },
+    {
+        "Name":  "CdDLL",
+        "Value":  ""
+    },
+    {
+        "Name":  "CdFlag",
+        "Value":  0
+    },
+    {
+        "Name":  "CdName",
+        "Value":  ""
+    },
+    {
+        "Name":  "CfgDll",
+        "Value":  "RDPCFGEX.DLL"
+    },
+    {
+        "Name":  "ColorDepth",
+        "Value":  5
+    },
+    {
+        "Name":  "Comment",
+        "Value":  ""
+    },
+    {
+        "Name":  "Domain",
+        "Value":  ""
+    },
+    {
+        "Name":  "DrawGdiplusSupportLevel",
+        "Value":  1
+    },
+    {
+        "Name":  "fAllowSecProtocolNegotiation",
+        "Value":  1
+    },
+    {
+        "Name":  "fAutoClientDrives",
+        "Value":  1
+    },
+    {
+        "Name":  "fAutoClientLpts",
+        "Value":  1
+    },
+    {
+        "Name":  "fDisableAudioCapture",
+        "Value":  0
+    },
+    {
+        "Name":  "fDisableCam",
+        "Value":  0
+    },
+    {
+        "Name":  "fDisableCcm",
+        "Value":  0
+    },
+    {
+        "Name":  "fDisableCdm",
+        "Value":  0
+    },
+    {
+        "Name":  "fDisableClip",
+        "Value":  0
+    },
+    {
+        "Name":  "fDisableCpm",
+        "Value":  0
+    },
+    {
+        "Name":  "fDisableEncryption",
+        "Value":  1
+    },
+    {
+        "Name":  "fDisableExe",
+        "Value":  0
+    },
+    {
+        "Name":  "fDisableLPT",
+        "Value":  0
+    },
+    {
+        "Name":  "fEnableWinStation",
+        "Value":  1
+    },
+    {
+        "Name":  "fForceClientLptDef",
+        "Value":  1
+    },
+    {
+        "Name":  "fHomeDirectoryMapRoot",
+        "Value":  0
+    },
+    {
+        "Name":  "fInheritAutoClient",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritAutoLogon",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritCallback",
+        "Value":  0
+    },
+    {
+        "Name":  "fInheritCallbackNumber",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritColorDepth",
+        "Value":  0
+    },
+    {
+        "Name":  "fInheritInitialProgram",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritMaxDisconnectionTime",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritMaxIdleTime",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritMaxSessionTime",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritReconnectSame",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritResetBroken",
+        "Value":  1
+    },
+    {
+        "Name":  "fInheritSecurity",
+        "Value":  0
+    },
+    {
+        "Name":  "fInheritShadow",
+        "Value":  1
+    },
+    {
+        "Name":  "fLogonDisabled",
+        "Value":  0
+    },
+    {
+        "Name":  "fPromptForPassword",
+        "Value":  0
+    },
+    {
+        "Name":  "fReconnectSame",
+        "Value":  0
+    },
+    {
+        "Name":  "fResetBroken",
+        "Value":  0
+    },
+    {
+        "Name":  "fUseDefaultGina",
+        "Value":  0
+    },
+    {
+        "Name":  "InitialProgram",
+        "Value":  ""
+    },
+    {
+        "Name":  "InputBufferLength",
+        "Value":  2048
+    },
+    {
+        "Name":  "InteractiveDelay",
+        "Value":  50
+    },
+    {
+        "Name":  "KeepAliveTimeout",
+        "Value":  0
+    },
+    {
+        "Name":  "KeyboardLayout",
+        "Value":  0
+    },
+    {
+        "Name":  "LanAdapter",
+        "Value":  0
+    },
+    {
+        "Name":  "LoadableProtocol_Object",
+        "Value":  "{5828227c-20cf-4408-b73f-73ab70b8849f}"
+    },
+    {
+        "Name":  "MaxConnectionTime",
+        "Value":  0
+    },
+    {
+        "Name":  "MaxDisconnectionTime",
+        "Value":  0
+    },
+    {
+        "Name":  "MaxIdleTime",
+        "Value":  0
+    },
+    {
+        "Name":  "MaxInstanceCount",
+        "Value":  4294967295
+    },
+    {
+        "Name":  "MinEncryptionLevel",
+        "Value":  2
+    },
+    {
+        "Name":  "NWLogonServer",
+        "Value":  ""
+    },
+    {
+        "Name":  "OutBufCount",
+        "Value":  6
+    },
+    {
+        "Name":  "OutBufDelay",
+        "Value":  100
+    },
+    {
+        "Name":  "OutBufLength",
+        "Value":  530
+    },
+    {
+        "Name":  "Password",
+        "Value":  ""
+    },
+    {
+        "Name":  "PdClass",
+        "Value":  2
+    },
+    {
+        "Name":  "PdClass1",
+        "Value":  11
+    },
+    {
+        "Name":  "PdDLL",
+        "Value":  "tdtcp"
+    },
+    {
+        "Name":  "PdDLL1",
+        "Value":  "tssecsrv"
+    },
+    {
+        "Name":  "PdFlag",
+        "Value":  78
+    },
+    {
+        "Name":  "PdFlag1",
+        "Value":  0
+    },
+    {
+        "Name":  "PdName",
+        "Value":  "tcp"
+    },
+    {
+        "Name":  "PdName1",
+        "Value":  "tssecsrv"
+    },
+    {
+        "Name":  "PortNumber",
+        "Value":  3389
+    },
+    {
+        "Name":  "SecurityLayer",
+        "Value":  2
+    },
+    {
+        "Name":  "SelectNetworkDetect",
+        "Value":  1
+    },
+    {
+        "Name":  "SelectTransport",
+        "Value":  2
+    },
+    {
+        "Name":  "Shadow",
+        "Value":  1
+    },
+    {
+        "Name":  "UserAuthentication",
+        "Value":  1
+    },
+    {
+        "Name":  "Username",
+        "Value":  ""
+    },
+    {
+        "Name":  "WdFlag",
+        "Value":  54
+    },
+    {
+        "Name":  "WdName",
+        "Value":  "Microsoft RDP 8.0"
+    },
+    {
+        "Name":  "WdPrefix",
+        "Value":  "RDP"
+    },
+    {
+        "Name":  "WebSocketListenerPort",
+        "Value":  3387
+    },
+    {
+        "Name":  "WebSocketTlsListenerPort",
+        "Value":  3392
+    },
+    {
+        "Name":  "WFProfilePath",
+        "Value":  ""
+    },
+    {
+        "Name":  "WorkDirectory",
+        "Value":  ""
+    }
+]

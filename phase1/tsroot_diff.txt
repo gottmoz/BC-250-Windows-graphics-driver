@@ -1,0 +1,13 @@
+
+Name                Local                             Remote                           
+----                -----                             ------                           
+fDenyTSConnections  1                                 0                                
+InstanceID          "47023e71-97d4-4d00-a592-1ffdc88" "66377f04-695f-491f-9e21-f5a5c00"
+StartRCM            0                                 1                                
+TSEnabled                                             1                                
+TSUserEnabled       0                                 1                                
+updateRDStatus                                        1                                
+WinStationsDisabled                                   0                                
+
+
+

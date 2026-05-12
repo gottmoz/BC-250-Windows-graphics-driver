@@ -1,0 +1,97 @@
+﻿
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+    AudioEnumeratorDll    REG_SZ    rdpendp.dll
+    Callback    REG_DWORD    0x0
+    CallbackNumber    REG_SZ    
+    CdClass    REG_DWORD    0x0
+    CdDLL    REG_SZ    
+    CdFlag    REG_DWORD    0x0
+    CdName    REG_SZ    
+    CfgDll    REG_SZ    RDPCFGEX.DLL
+    ColorDepth    REG_DWORD    0x5
+    Comment    REG_SZ    
+    Domain    REG_SZ    
+    DrawGdiplusSupportLevel    REG_DWORD    0x1
+    fAllowSecProtocolNegotiation    REG_DWORD    0x1
+    fAutoClientDrives    REG_DWORD    0x1
+    fAutoClientLpts    REG_DWORD    0x1
+    fDisableAudioCapture    REG_DWORD    0x0
+    fDisableCam    REG_DWORD    0x0
+    fDisableCcm    REG_DWORD    0x0
+    fDisableCdm    REG_DWORD    0x0
+    fDisableClip    REG_DWORD    0x0
+    fDisableCpm    REG_DWORD    0x0
+    fDisableEncryption    REG_DWORD    0x1
+    fDisableExe    REG_DWORD    0x0
+    fDisableLPT    REG_DWORD    0x0
+    fEnableWinStation    REG_DWORD    0x1
+    fForceClientLptDef    REG_DWORD    0x1
+    fHomeDirectoryMapRoot    REG_DWORD    0x0
+    fInheritAutoClient    REG_DWORD    0x1
+    fInheritAutoLogon    REG_DWORD    0x1
+    fInheritCallback    REG_DWORD    0x0
+    fInheritCallbackNumber    REG_DWORD    0x1
+    fInheritColorDepth    REG_DWORD    0x0
+    fInheritInitialProgram    REG_DWORD    0x1
+    fInheritMaxDisconnectionTime    REG_DWORD    0x1
+    fInheritMaxIdleTime    REG_DWORD    0x1
+    fInheritMaxSessionTime    REG_DWORD    0x1
+    fInheritReconnectSame    REG_DWORD    0x1
+    fInheritResetBroken    REG_DWORD    0x1
+    fInheritSecurity    REG_DWORD    0x0
+    fInheritShadow    REG_DWORD    0x1
+    fLogonDisabled    REG_DWORD    0x0
+    fPromptForPassword    REG_DWORD    0x0
+    fReconnectSame    REG_DWORD    0x0
+    fResetBroken    REG_DWORD    0x0
+    fUseDefaultGina    REG_DWORD    0x0
+    InitialProgram    REG_SZ    
+    InputBufferLength    REG_DWORD    0x800
+    InteractiveDelay    REG_DWORD    0x32
+    KeepAliveTimeout    REG_DWORD    0x0
+    KeyboardLayout    REG_DWORD    0x0
+    LanAdapter    REG_DWORD    0x0
+    LoadableProtocol_Object    REG_SZ    {5828227c-20cf-4408-b73f-73ab70b8849f}
+    MaxConnectionTime    REG_DWORD    0x0
+    MaxDisconnectionTime    REG_DWORD    0x0
+    MaxIdleTime    REG_DWORD    0x0
+    MaxInstanceCount    REG_DWORD    0xffffffff
+    MinEncryptionLevel    REG_DWORD    0x2
+    NWLogonServer    REG_SZ    
+    OutBufCount    REG_DWORD    0x6
+    OutBufDelay    REG_DWORD    0x64
+    OutBufLength    REG_DWORD    0x212
+    Password    REG_SZ    
+    PdClass    REG_DWORD    0x2
+    PdClass1    REG_DWORD    0xb
+    PdDLL    REG_SZ    tdtcp
+    PdDLL1    REG_SZ    tssecsrv
+    PdFlag    REG_DWORD    0x4e
+    PdFlag1    REG_DWORD    0x0
+    PdName    REG_SZ    tcp
+    PdName1    REG_SZ    tssecsrv
+    PortNumber    REG_DWORD    0xd3d
+    SecurityLayer    REG_DWORD    0x2
+    SelectNetworkDetect    REG_DWORD    0x1
+    SelectTransport    REG_DWORD    0x2
+    Shadow    REG_DWORD    0x1
+    UserAuthentication    REG_DWORD    0x1
+    Username    REG_SZ    
+    WdFlag    REG_DWORD    0x36
+    WdName    REG_SZ    Microsoft RDP 8.0
+    WdPrefix    REG_SZ    RDP
+    WebSocketListenerPort    REG_DWORD    0xd3b
+    WebSocketTlsListenerPort    REG_DWORD    0xd40
+    WFProfilePath    REG_SZ    
+    WorkDirectory    REG_SZ    
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\TSMMRemotingAllowedApps
+    ehshell.exe    REG_DWORD    0x2
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\VideoRemotingWindowNames
+    AGFullScreenWinClass    REG_SZ    *
+    EVRVideoHandler    REG_SZ    *
+    MacromediaFlashPlayerActiveX    REG_SZ    *
+    MicrosoftSilverlight    REG_SZ    *
+    ShockwaveFlashFullScreen    REG_SZ    *
+
