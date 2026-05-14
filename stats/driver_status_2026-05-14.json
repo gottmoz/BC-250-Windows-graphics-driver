@@ -1,0 +1,60 @@
+﻿{
+    "generated_at":  "2026-05-14 09:40:21 +02:00",
+    "source_files":  [
+                         "TEST_MATRIX.md",
+                         "PROGRESS.md"
+                     ],
+    "totals":  {
+                   "test_entries":  20,
+                   "result_lines":  35,
+                   "pass":  1,
+                   "fail":  25,
+                   "build_fail":  3
+               },
+    "key_signals":  {
+                        "status_0xC0000059":  {
+                                                  "TEST_MATRIX":  102,
+                                                  "PROGRESS":  22
+                                              },
+                        "status_0xC00000E5":  {
+                                                  "TEST_MATRIX":  21,
+                                                  "PROGRESS":  14
+                                              },
+                        "problem_0x15_status_0x0":  {
+                                                        "TEST_MATRIX":  19,
+                                                        "PROGRESS":  8
+                                                    },
+                        "code_43":  {
+                                        "TEST_MATRIX":  45,
+                                        "PROGRESS":  5
+                                    },
+                        "cm_prob_failed_driver_entry":  {
+                                                            "TEST_MATRIX":  71,
+                                                            "PROGRESS":  9
+                                                        },
+                        "cm_prob_failed_add":  {
+                                                   "TEST_MATRIX":  6,
+                                                   "PROGRESS":  5
+                                               }
+                    },
+    "recent_progress_markers":  [
+                                    "### 2026-05-07 22:30 CEST",
+                                    "### 2026-05-07 22:39 CEST",
+                                    "### 2026-05-07 22:59 CEST",
+                                    "### 2026-05-07 23:12 CEST",
+                                    "### 2026-05-07 23:34 CEST",
+                                    "### 2026-05-07 23:41 CEST",
+                                    "### 2026-05-07 23:45 CEST",
+                                    "### 2026-05-08 08:51 CEST",
+                                    "### 2026-05-08 16:45 CEST",
+                                    "### 2026-05-08 17:11 CEST",
+                                    "### 2026-05-08 19:53 CEST",
+                                    "### 2026-05-08 20:01 CEST"
+                                ],
+    "collaboration_next_steps":  [
+                                     "Reproducera senaste stabila bas med hash-gate (B_EQ_C) innan varje test",
+                                     "Halla DOD callback-shape som passerar init (inkl. ResetDevice) som fast baseline",
+                                     "Logga AddDevice/StartDevice breadcrumbs till registry for varje iteration",
+                                     "Publicera nya runs i TEST_MATRIX.md och PROGRESS.md med en-andring-per-test"
+                                 ]
+}

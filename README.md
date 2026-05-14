@@ -412,3 +412,25 @@ As seguintes fontes foram utilizadas no desenvolvimento deste driver:
 ---
 
 *Documentação — Projeto AMD BC-250 Windows Driver*
+
+---
+
+## Collaboration Stats (Current)
+
+For shared debugging and reproducibility, current status snapshots are published under `stats/`.
+
+- `stats/driver_status_2026-05-14.md`
+- `stats/driver_status_2026-05-14.json`
+
+Regenerate stats from the latest `TEST_MATRIX.md` and `PROGRESS.md`:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\generate-collab-stats.ps1
+```
+
+Before pushing new runs:
+
+1. Update `TEST_MATRIX.md` with one-change-per-test results.
+2. Update `PROGRESS.md` with timeline notes and blockers.
+3. Regenerate `stats/*` using the script above.
+4. Commit all three (`TEST_MATRIX.md`, `PROGRESS.md`, `stats/*`) together.
