@@ -1,5 +1,5 @@
 param(
-  [string]$RepoRoot = "E:\world view\BC250-windowsDriverTest"
+  [string]$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 )
 
 $testMatrix = Join-Path $RepoRoot 'TEST_MATRIX.md'
