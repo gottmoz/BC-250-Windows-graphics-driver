@@ -554,3 +554,33 @@ Next immediate focus: L2/L3 comparison against known-good minimal display sample
 - Device no longer fails with `CM_PROB_FAILED_ADD/0xC0000017`; new consistent state is `ProblemCode=43` (`ProblemStatus=0`).
 - Strong conclusion: `0xC0000017` root cause is in `BASIC_DISPLAY_DRIVER` constructor/sample allocation path, not base AddDevice memory availability.
 - Next branch should keep dummy context as known-good bringup and incrementally reintroduce constructor/runtime pieces to localize what triggers post-start Code 43.
+
+## 2026-05-14 09:06 P6 child contract regression
+
+Script/log:
+- `P6-ChildContract-Run.ps1`
+- `p0_n9c_pnp_bind_hashed_20260514_090034.log`
+
+Result: FAIL - BSOD / regression.
+
+Observed:
+- Bugcheck: `0x0000007E`
+- Exception: `0xC0000005`
+- Dump: `C:\Windows\MEMORY.DMP`
+
+After reboot, the P6 package remained active:
+- Driver: `oem10.inf`
+- ProblemCode: `31`
+- ProblemStatus: `0xC0000182`
+
+Recovery performed:
+- Removed `oem10.inf`, `oem9.inf`, and `oem2.inf`.
+- Recovered to `display.inf` / Microsoft Basic Display Adapter.
+
+Post-recovery status before final reboot:
+- BasicDisplay ProblemCode: `43`
+- ProblemStatus: `0`
+
+Conclusion:
+- P6 is parked as `REGRESSION / BSOD`.
+- Do not continue from P6. Next branch should return to P5 and add only `QueryChildStatus`, without descriptor changes in the same test.
