@@ -97,6 +97,49 @@ function Find-Tool([string[]]$patterns) {
     return ""
 }
 
+function Invoke-ExeWithTimeout([string]$FilePath, [string[]]$Arguments, [int]$TimeoutSec = 90) {
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $FilePath
+    foreach ($arg in $Arguments) { [void]$psi.ArgumentList.Add($arg) }
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError = $true
+    $psi.UseShellExecute = $false
+    $psi.CreateNoWindow = $true
+
+    $proc = New-Object System.Diagnostics.Process
+    $proc.StartInfo = $psi
+    [void]$proc.Start()
+
+    if (-not $proc.WaitForExit($TimeoutSec * 1000)) {
+        try { $proc.Kill() } catch {}
+        $out = $proc.StandardOutput.ReadToEnd()
+        $err = $proc.StandardError.ReadToEnd()
+        return @{
+            TimedOut = $true
+            ExitCode = -1
+            StdOut   = $out
+            StdErr   = $err
+        }
+    }
+
+    $stdOut = $proc.StandardOutput.ReadToEnd()
+    $stdErr = $proc.StandardError.ReadToEnd()
+    return @{
+        TimedOut = $false
+        ExitCode = $proc.ExitCode
+        StdOut   = $stdOut
+        StdErr   = $stdErr
+    }
+}
+
+function Remove-TestDriverPackage([string]$PublishedInf) {
+    if ([string]::IsNullOrWhiteSpace($PublishedInf)) { return }
+    if ($PublishedInf -notmatch '^oem\d+\.inf$') { return }
+    L ("RECOVERY_DELETE_BEGIN={0}" -f $PublishedInf)
+    pnputil /delete-driver $PublishedInf /uninstall /force *>> $log
+    L ("RECOVERY_DELETE_EXIT={0}" -f $LASTEXITCODE)
+}
+
 L "LOG=$log"
 L "NO_REBOOT=1"
 
@@ -249,8 +292,20 @@ else {
 }
 
 L "RUN_PHASE=PNPUTIL_ADD_BEGIN"
-pnputil /add-driver "$infDst" /install *>> $log
-$pnpexit = $LASTEXITCODE
+$publishedInf = ""
+$addRes = Invoke-ExeWithTimeout -FilePath "pnputil.exe" -Arguments @("/add-driver", $infDst, "/install") -TimeoutSec 120
+if (-not [string]::IsNullOrWhiteSpace($addRes.StdOut)) { $addRes.StdOut | Add-Content $log }
+if (-not [string]::IsNullOrWhiteSpace($addRes.StdErr)) { $addRes.StdErr | Add-Content $log }
+if ($addRes.StdOut -match 'Published Name:\s+(oem\d+\.inf)') {
+    $publishedInf = $Matches[1]
+    L ("TEST_PUBLISHED_INF={0}" -f $publishedInf)
+}
+if ($addRes.TimedOut) {
+    L "ERR_PNPUTIL_ADD_TIMEOUT=1"
+    Remove-TestDriverPackage -PublishedInf $publishedInf
+    exit 12
+}
+$pnpexit = $addRes.ExitCode
 L ("PNPUTIL_EXIT={0}" -f $pnpexit)
 L "RUN_PHASE=PNPUTIL_ADD_END"
 
@@ -258,7 +313,14 @@ Start-Sleep -Seconds 4
 
 if ($instance) {
     L "RUN_PHASE=ENUM_DRIVERS_BEGIN"
-    pnputil /enum-devices /instanceid "$($instance.InstanceId)" /drivers *>> $log
+    $enumRes = Invoke-ExeWithTimeout -FilePath "pnputil.exe" -Arguments @("/enum-devices", "/instanceid", $instance.InstanceId, "/drivers") -TimeoutSec 90
+    if (-not [string]::IsNullOrWhiteSpace($enumRes.StdOut)) { $enumRes.StdOut | Add-Content $log }
+    if (-not [string]::IsNullOrWhiteSpace($enumRes.StdErr)) { $enumRes.StdErr | Add-Content $log }
+    if ($enumRes.TimedOut) {
+        L "ERR_ENUM_DRIVERS_TIMEOUT=1"
+        Remove-TestDriverPackage -PublishedInf $publishedInf
+        exit 13
+    }
     $problemCode = Get-PnpDeviceProperty -InstanceId $instance.InstanceId -KeyName 'DEVPKEY_Device_ProblemCode' -ErrorAction SilentlyContinue
     $problemStatus = Get-PnpDeviceProperty -InstanceId $instance.InstanceId -KeyName 'DEVPKEY_Device_ProblemStatus' -ErrorAction SilentlyContinue
     $service = Get-PnpDeviceProperty -InstanceId $instance.InstanceId -KeyName 'DEVPKEY_Device_Service' -ErrorAction SilentlyContinue

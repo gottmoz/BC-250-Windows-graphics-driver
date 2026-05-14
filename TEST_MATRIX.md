@@ -1532,3 +1532,26 @@ Classification:
 - Controlled post-start Code 43.
 - No BSOD.
 - No regression to ProblemCode 31 / 0xC0000182.
+
+## 2026-05-14 19:09 P0 timeout-hardening validation via P7B
+
+Profile:
+- P7B-DescriptorOnly-Run.ps1 (descriptor/publication-focused split)
+- Hardened P0-N9C-PnpBind-Hashed-NoReboot.ps1
+
+Observed:
+- RUN_PHASE=PNPUTIL_ADD_BEGIN
+- ERR_PNPUTIL_ADD_TIMEOUT=1
+- Script exits safely without hanging controller session.
+
+Safety outcome:
+- No BSOD.
+- Host remained reachable on SSH.
+- Final state after timeout path:
+  - Driver Name: display.inf
+  - Status: Started
+  - no mdbc250 package listed in DriverStore.
+
+Classification:
+- Harness-protection PASS.
+- P7B runtime signal still inconclusive due add/install timeout path.

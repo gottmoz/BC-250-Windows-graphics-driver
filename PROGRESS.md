@@ -659,3 +659,15 @@ Conclusion:
   - BasicDisplay\\Parameters still present (SingleDeviceInstall=0x1), i.e. no harness corruption.
   - Device remains display.inf + Code 43 after recovery.
 - Conclusion: harness safety fix validated; remaining blocker is still post-start runtime contract (Code 43).
+
+## 2026-05-14 19:09 P0 timeout-hardening validation (P7B)
+- Ran P7B-DescriptorOnly-Run.ps1 with hardened P0-N9C-PnpBind-Hashed-NoReboot.ps1.
+- Observed deterministic timeout handling:
+  - RUN_PHASE=PNPUTIL_ADD_BEGIN
+  - ERR_PNPUTIL_ADD_TIMEOUT=1 at ~120s
+- No BSOD, SSH remained reachable.
+- Post-timeout recovery status:
+  - BC-250 back on display.inf
+  - Status: Started
+  - no remaining mdbc250 package in pnputil /enum-drivers.
+- Conclusion: timeout guard prevents stuck runs from leaving test package active; baseline now recovers cleanly.

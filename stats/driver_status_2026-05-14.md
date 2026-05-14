@@ -1,6 +1,6 @@
 ﻿# BC-250 Driver Stats (2026-05-14)
 
-Generated: 2026-05-14 17:24:44 +02:00
+Generated: 2026-05-14 19:09:11 +02:00
 
 ## Totals
 - Test entries (T-###): 20
