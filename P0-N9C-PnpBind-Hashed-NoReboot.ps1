@@ -50,6 +50,35 @@ function Read-BcParams([string]$serviceName) {
     }
 }
 
+function Clear-BcParams([string]$serviceName) {
+    if ([string]::IsNullOrWhiteSpace($serviceName)) { return }
+    $paramsPath = "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName\Parameters"
+    if (-not (Test-Path $paramsPath)) {
+        L ("PARAM_PATH_MISSING={0}" -f $paramsPath)
+        return
+    }
+    try {
+        $p = Get-ItemProperty -Path $paramsPath -ErrorAction Stop
+        $props = $p.PSObject.Properties |
+            Where-Object {
+                $_.Name -notmatch '^PS(Path|ParentPath|ChildName|Drive|Provider)$' -and
+                ($_.Name -like 'Bc250*' -or $_.Name -like 'Abi*' -or $_.Name -like 'Sample*')
+            }
+        foreach ($prop in $props) {
+            try {
+                Remove-ItemProperty -Path $paramsPath -Name $prop.Name -ErrorAction Stop
+                L ("PARAM_VALUE_CLEARED={0}\\{1}" -f $paramsPath, $prop.Name)
+            }
+            catch {
+                L ("PARAM_VALUE_CLEAR_ERR={0}\\{1}|{2}" -f $paramsPath, $prop.Name, $_.Exception.Message)
+            }
+        }
+    }
+    catch {
+        L ("PARAM_CLEAR_ERR={0}" -f $_.Exception.Message)
+    }
+}
+
 function Find-LatestDir([string]$base, [string]$pattern) {
     $d = Get-ChildItem -Path $base -Directory -Filter $pattern -ErrorAction SilentlyContinue |
         Sort-Object LastWriteTime -Descending |
@@ -159,6 +188,7 @@ L ("B_PRE_PATH={0}" -f $sysDst)
 L ("B_PRE_HASH={0}" -f $hashBPre)
 L ("A_EQ_B_PRE={0}" -f ($hashA -eq $hashBPre))
 
+L "RUN_PHASE=INF2CAT_BEGIN"
 & $inf2cat /driver:$work /os:10_RS5_X64,10_19H1_X64,10_20H1_X64 *>> $log
 L ("INF2CAT_EXIT={0}" -f $LASTEXITCODE)
 if ($LASTEXITCODE -ne 0) {
@@ -169,6 +199,7 @@ if ($LASTEXITCODE -ne 0) {
         exit 8
     }
 }
+L "RUN_PHASE=INF2CAT_END"
 
 $cat = Join-Path $work "amdbc250.cat"
 if (-not (Test-Path $cat)) {
@@ -179,6 +210,7 @@ if (-not $cat) {
     exit 9
 }
 
+L "RUN_PHASE=SIGN_BEGIN"
 & $signtool sign /fd sha256 /f $certPfx /p $certPass $sysDst *>> $log
 L ("SIGN_SYS_EXIT={0}" -f $LASTEXITCODE)
 if ($LASTEXITCODE -ne 0) { exit 10 }
@@ -186,6 +218,7 @@ if ($LASTEXITCODE -ne 0) { exit 10 }
 & $signtool sign /fd sha256 /f $certPfx /p $certPass $cat *>> $log
 L ("SIGN_CAT_EXIT={0}" -f $LASTEXITCODE)
 if ($LASTEXITCODE -ne 0) { exit 11 }
+L "RUN_PHASE=SIGN_END"
 
 $hashB = HashSafe $sysDst
 L ("B_POST_HASH={0}" -f $hashB)
@@ -206,25 +239,25 @@ else {
     L "INSTANCE_NOT_FOUND_PRE=1"
 }
 
-# Remove stale breadcrumbs so each run reads fresh DriverEntry writes.
-$paramsPath = "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName\Parameters"
-try {
-    if (Test-Path $paramsPath) {
-        Remove-Item -Path $paramsPath -Recurse -Force -ErrorAction Stop
-        L ("PARAM_PATH_CLEARED={0}" -f $paramsPath)
-    }
+# Remove stale breadcrumbs only from BC250 service keys. Never delete full Parameters key.
+Clear-BcParams -serviceName "amdbc250kmd"
+if ($serviceName -match '^amdbc') {
+    Clear-BcParams -serviceName $serviceName
 }
-catch {
-    L ("PARAM_CLEAR_ERR={0}" -f $_.Exception.Message)
+else {
+    L ("PARAM_CLEAR_SKIPPED_NON_BC250_SERVICE={0}" -f $serviceName)
 }
 
+L "RUN_PHASE=PNPUTIL_ADD_BEGIN"
 pnputil /add-driver "$infDst" /install *>> $log
 $pnpexit = $LASTEXITCODE
 L ("PNPUTIL_EXIT={0}" -f $pnpexit)
+L "RUN_PHASE=PNPUTIL_ADD_END"
 
 Start-Sleep -Seconds 4
 
 if ($instance) {
+    L "RUN_PHASE=ENUM_DRIVERS_BEGIN"
     pnputil /enum-devices /instanceid "$($instance.InstanceId)" /drivers *>> $log
     $problemCode = Get-PnpDeviceProperty -InstanceId $instance.InstanceId -KeyName 'DEVPKEY_Device_ProblemCode' -ErrorAction SilentlyContinue
     $problemStatus = Get-PnpDeviceProperty -InstanceId $instance.InstanceId -KeyName 'DEVPKEY_Device_ProblemStatus' -ErrorAction SilentlyContinue
@@ -235,9 +268,12 @@ if ($instance) {
         $serviceName = [string]$service.Data
         L ("SERVICE={0}" -f $serviceName)
     }
+    L "RUN_PHASE=ENUM_DRIVERS_END"
 }
 
+L "RUN_PHASE=READ_PARAMS_BEGIN"
 Read-BcParams -serviceName $serviceName
+L "RUN_PHASE=READ_PARAMS_END"
 
 $fr = Get-ChildItem -Path "$env:windir\System32\DriverStore\FileRepository" -Directory -Filter "amdbc250.inf_*" -ErrorAction SilentlyContinue |
     Sort-Object LastWriteTime -Descending |
