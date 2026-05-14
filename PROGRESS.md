@@ -584,3 +584,39 @@ Post-recovery status before final reboot:
 Conclusion:
 - P6 is parked as `REGRESSION / BSOD`.
 - Do not continue from P6. Next branch should return to P5 and add only `QueryChildStatus`, without descriptor changes in the same test.
+
+
+## 2026-05-14 09:34 P7A QueryChildStatus-only split
+
+Script:
+- `P7A-QueryChildStatusOnly-Run.ps1`
+
+Design:
+- Returned to the P4/P5 dummy-context child-safe baseline.
+- Kept `QueryChildRelations` and `QueryDeviceDescriptor` behavior unchanged from the child-safe baseline.
+- Only changed `QueryChildStatus` to validate `ChildUid == 0` and return connected for `StatusConnection`.
+
+Result:
+- No BSOD.
+- `DxgkInitializeDisplayOnlyDriver` returned `STATUS_SUCCESS`.
+- `AddDevice` returned `STATUS_SUCCESS`.
+- `StartDevice` was not reached.
+- Device ended as `ProblemCode=14` / `CM_PROB_NEED_RESTART`, `ProblemStatus=0`.
+
+Key breadcrumbs:
+- `SampleCallbackCount=0xF`
+- `SampleDxgkStatus=0x0`
+- `SampleO_AddEnter=1`
+- `SampleO_AddStatus=0x0`
+- `SampleR_LastCb=0x0A`
+- `SampleR_LastStatus=0x0`
+- `B_EQ_C=True`
+
+Recovery:
+- Removed active test package `oem2.inf`.
+- Verified recovery to `display.inf` / Microsoft Basic Display Adapter, status `Started`.
+
+Conclusion:
+- `QueryChildStatus` alone did not reproduce the P6 BSOD.
+- P7A did not reach the post-start Code 43 path because Windows requested reboot before `StartDevice`.
+- Next split should avoid descriptor changes and investigate why this install path now lands in `CM_PROB_NEED_RESTART`, or run the same P7A payload through a controlled reboot only after confirming the driver is safe to leave active.

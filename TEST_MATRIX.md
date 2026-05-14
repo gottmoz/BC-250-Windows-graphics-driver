@@ -1421,3 +1421,43 @@ Post-recovery status before final reboot:
 Conclusion:
 - P6 is parked as `REGRESSION / BSOD`.
 - Do not continue from P6. Next branch should return to P5 and add only `QueryChildStatus`, without descriptor changes in the same test.
+
+
+## 2026-05-14 09:34 P7A QueryChildStatus-only split
+
+Script:
+- `P7A-QueryChildStatusOnly-Run.ps1`
+
+Result: PARTIAL / NEED_RESTART, no BSOD.
+
+Design:
+- Baseline: P4/P5 dummy-context child-safe path.
+- Only behavior change: `QueryChildStatus` validates `ChildUid == 0` and reports connected for `StatusConnection`.
+- No descriptor/publication change beyond the existing child-safe baseline.
+
+Observed:
+- `PNPUTIL_EXIT=3010`
+- `ProblemCode=14` (`CM_PROB_NEED_RESTART`)
+- `ProblemStatus=0x00000000`
+- `Service=amdbc250kmd`
+- `SampleDxgkStatus=0x00000000`
+- `SampleO_AddEnter=1`
+- `SampleO_AddStatus=0x00000000`
+- `SampleR_LastCb=0x0000000A`
+- `SampleR_LastStatus=0x00000000`
+- `B_EQ_C=True`
+
+Not observed:
+- No BSOD.
+- No `StartDevice` breadcrumb.
+- No `QueryChildStatus` breadcrumb, because the run stopped at `NEED_RESTART` before that path.
+
+Recovery:
+- Active package was `oem2.inf`.
+- Removed `oem2.inf` with `/uninstall /force`.
+- Verified BC-250 recovered to `display.inf` / Microsoft Basic Display Adapter, status `Started`.
+
+Interpretation:
+- `QueryChildStatus` alone did not reproduce the P6 BSOD.
+- This run is not comparable to P5 post-start Code 43 because it did not reach `StartDevice`.
+- Next useful split is either a controlled-reboot P7A pass or fixing the no-reboot install path so P7A reaches StartDevice like P5.

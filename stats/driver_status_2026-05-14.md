@@ -1,6 +1,6 @@
 ﻿# BC-250 Driver Stats (2026-05-14)
 
-Generated: 2026-05-14 11:16:55 +02:00
+Generated: 2026-05-14 11:36:20 +02:00
 
 ## Totals
 - Test entries (T-###): 20
@@ -13,7 +13,7 @@ Generated: 2026-05-14 11:16:55 +02:00
 - status_0xC0000059: TEST_MATRIX=102, PROGRESS=22
 - status_0xC00000E5: TEST_MATRIX=21, PROGRESS=14
 - problem_0x15_status_0x0: TEST_MATRIX=19, PROGRESS=8
-- code_43: TEST_MATRIX=45, PROGRESS=5
+- code_43: TEST_MATRIX=46, PROGRESS=6
 - cm_prob_failed_driver_entry: TEST_MATRIX=71, PROGRESS=9
 - cm_prob_failed_add: TEST_MATRIX=6, PROGRESS=5
 
