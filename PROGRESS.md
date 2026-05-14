@@ -620,3 +620,42 @@ Conclusion:
 - `QueryChildStatus` alone did not reproduce the P6 BSOD.
 - P7A did not reach the post-start Code 43 path because Windows requested reboot before `StartDevice`.
 - Next split should avoid descriptor changes and investigate why this install path now lands in `CM_PROB_NEED_RESTART`, or run the same P7A payload through a controlled reboot only after confirming the driver is safe to leave active.
+
+## 2026-05-14 16:56 P7A controlled single-run (phase-marked)
+- Preflight gate: PASS (display.inf, Started, no ProblemCode).
+- Single run executed with updated phase markers in P0-N9C-PnpBind-Hashed-NoReboot.ps1.
+- Key results:
+  - RUN_PHASE=INF2CAT_BEGIN/END, SIGN_BEGIN/END, PNPUTIL_ADD_BEGIN/END, ENUM_DRIVERS_BEGIN/END, READ_PARAMS_BEGIN/END all present.
+  - PNPUTIL_EXIT=0
+  - PROBLEM_CODE=43, PROBLEM_STATUS=0x00000000
+  - PARAM_SampleDxgkStatus=0x00000000
+  - PARAM_SampleO_AddStatus=0x00000000
+  - PARAM_SampleO_StartStatus=0x00000000
+  - PARAM_SampleR_LastCb=0x00000065
+  - B_EQ_C=True
+- Classification: Code 43 with StartDevice breadcrumbs (post-start class, no NEED_RESTART, no init regression).
+- Recovery:
+  - Removed oem2.inf (/uninstall /force).
+  - Baseline remained dirty: display.inf + Code 43.
+  - Controlled reboot performed; baseline still display.inf + Code 43.
+- Action: stop further runtime tests until baseline-clean path is restored.
+
+## 2026-05-14 17:24 P7A verification run with safe P0 cleanup
+- Goal: verify P0 no longer clears BasicDisplay\\Parameters and classify post-start behavior.
+- Preflight: display.inf, Started, no problem code.
+- Key run signals:
+  - PARAM_CLEAR_SKIPPED_NON_BC250_SERVICE=BasicDisplay
+  - RUN_PHASE markers complete through READ_PARAMS_END
+  - PNPUTIL_EXIT=0
+  - PROBLEM_CODE=43, PROBLEM_STATUS=0x00000000
+  - PARAM_SampleDxgkStatus=0x00000000
+  - PARAM_SampleO_AddStatus=0x00000000
+  - PARAM_SampleO_StartStatus=0x00000000
+  - PARAM_SampleR_LastCb=0x00000065
+  - B_EQ_C=True
+  - P0_DONE=1
+- Recovery:
+  - Removed oem2.inf (/uninstall /force).
+  - BasicDisplay\\Parameters still present (SingleDeviceInstall=0x1), i.e. no harness corruption.
+  - Device remains display.inf + Code 43 after recovery.
+- Conclusion: harness safety fix validated; remaining blocker is still post-start runtime contract (Code 43).

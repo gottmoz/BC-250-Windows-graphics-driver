@@ -1461,3 +1461,74 @@ Interpretation:
 - `QueryChildStatus` alone did not reproduce the P6 BSOD.
 - This run is not comparable to P5 post-start Code 43 because it did not reach `StartDevice`.
 - Next useful split is either a controlled-reboot P7A pass or fixing the no-reboot install path so P7A reaches StartDevice like P5.
+
+## 2026-05-14 16:56 P7A controlled single-run (phase-marked)
+
+Script:
+- P7A-QueryChildStatusOnly-Run.ps1
+
+Harness update:
+- Added explicit phase markers in P0-N9C-PnpBind-Hashed-NoReboot.ps1:
+  - RUN_PHASE=INF2CAT_BEGIN/END
+  - RUN_PHASE=SIGN_BEGIN/END
+  - RUN_PHASE=PNPUTIL_ADD_BEGIN/END
+  - RUN_PHASE=ENUM_DRIVERS_BEGIN/END
+  - RUN_PHASE=READ_PARAMS_BEGIN/END
+
+Preflight:
+- PASS (display.inf, Started, no ProblemCode).
+
+Observed:
+- PNPUTIL_EXIT=0
+- PROBLEM_CODE=43
+- PROBLEM_STATUS=0x00000000
+- PARAM_SampleDxgkStatus=0x00000000
+- PARAM_SampleO_AddStatus=0x00000000
+- PARAM_SampleO_StartStatus=0x00000000
+- PARAM_SampleR_LastCb=0x00000065
+- B_EQ_C=True
+- P0_DONE=1
+
+Classification:
+- Code 43 with StartDevice breadcrumbs.
+
+Post-run recovery:
+- Removed oem2.inf via /uninstall /force.
+- Baseline remained dirty (display.inf + Code 43).
+- Controlled reboot performed.
+- Baseline still dirty (display.inf + Code 43).
+
+Decision:
+- Stop additional runtime iterations until baseline-clean path is restored.
+
+## 2026-05-14 17:24 P7A verification run with safe P0 cleanup
+
+Scripts:
+- P7A-QueryChildStatusOnly-Run.ps1
+- P0-N9C-PnpBind-Hashed-NoReboot.ps1 (patched cleanup)
+
+Preflight:
+- display.inf, Started, no ProblemCode.
+
+Observed:
+- PARAM_CLEAR_SKIPPED_NON_BC250_SERVICE=BasicDisplay
+- Full phase sequence observed (INF2CAT, SIGN, PNPUTIL_ADD, ENUM_DRIVERS, READ_PARAMS)
+- PNPUTIL_EXIT=0
+- PROBLEM_CODE=43
+- PROBLEM_STATUS=0x00000000
+- PARAM_SampleDxgkStatus=0x00000000
+- PARAM_SampleO_AddStatus=0x00000000
+- PARAM_SampleO_StartStatus=0x00000000
+- PARAM_SampleR_LastCb=0x00000065
+- B_EQ_C=True
+- P0_DONE=1
+
+Recovery:
+- Deleted test package oem2.inf via /uninstall /force.
+- HKLM\\SYSTEM\\CurrentControlSet\\Services\\BasicDisplay\\Parameters still exists (SingleDeviceInstall=0x1).
+- Device returns to display.inf but remains Code 43.
+
+Classification:
+- Controlled post-start Code 43.
+- No BSOD.
+- No regression to ProblemCode 31 / 0xC0000182.
